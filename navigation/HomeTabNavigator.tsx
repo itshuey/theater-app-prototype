@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
@@ -9,47 +9,39 @@ import HomeScreen from '../screens/HomeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import MeScreen from '../screens/MeScreen';
-import HomeTabNavigator from './HomeTabNavigator.tsx';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { HomeTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const HomeTab = createMaterialTopTabNavigator<HomeTabParamList>();
 
-export default function BottomTabNavigator() {
+export default function HomeTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="Home"
+    <HomeTab.Navigator
+      initialRouteName="Follow"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-      <BottomTab.Screen
-        name="Home"
+      <HomeTab.Screen
+        name="Follow"
         component={TabOneNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="home-sharp" color={color} />,
         }}
       />
-      <BottomTab.Screen
-        name="Favorites"
+      <HomeTab.Screen
+        name="Explore"
         component={TabTwoNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-star-outline" color={color} />,
         }}
       />
-      <BottomTab.Screen
-        name="Messages"
+      <HomeTab.Screen
+        name="Nearby"
         component={TabThreeNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
         }}
       />
-      <BottomTab.Screen
-        name="Me"
-        component={TabFourNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="person-circle" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
+    </HomeTab.Navigator>
   );
 }
 
@@ -67,9 +59,9 @@ function TabOneNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="Nav"
-        component={HomeTabNavigator}
-        options={{ headerTitle: 'Search' }}
+        name="Follow"
+        component={HomeScreen}
+        options={{ headerTitle: 'Follow' }}
       />
     </TabOneStack.Navigator>
   );
@@ -81,9 +73,9 @@ function TabTwoNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="Favorites"
+        name="Explore"
         component={FavoritesScreen}
-        options={{ headerTitle: 'Favorites' }}
+        options={{ headerTitle: 'Explore' }}
       />
     </TabTwoStack.Navigator>
   );
@@ -95,24 +87,11 @@ function TabThreeNavigator() {
   return (
     <TabThreeStack.Navigator>
       <TabThreeStack.Screen
-        name="Messages"
+        name="Nearby"
         component={MessagesScreen}
-        options={{ headerTitle: 'Messages' }}
+        options={{ headerTitle: 'Nearby' }}
       />
     </TabThreeStack.Navigator>
   );
 }
 
-const TabFourStack = createStackNavigator<TabFourParamList>();
-
-function TabFourNavigator() {
-  return (
-    <TabFourStack.Navigator>
-      <TabFourStack.Screen
-        name="Me"
-        component={MeScreen}
-        options={{ headerTitle: 'Me' }}
-      />
-    </TabFourStack.Navigator>
-  );
-}
