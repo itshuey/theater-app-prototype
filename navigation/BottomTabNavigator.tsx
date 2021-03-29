@@ -69,7 +69,7 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="Nav"
         component={HomeTabNavigator}
-        options={{ headerTitle: 'Search' }}
+        options={{ headerTitle: '' }}
       />
     </TabOneStack.Navigator>
   );

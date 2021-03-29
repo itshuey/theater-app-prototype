@@ -5,10 +5,10 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import HomeScreen from '../screens/HomeScreen';
+import FollowScreen from '../screens/FollowScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
-import MeScreen from '../screens/MeScreen';
+import NearbyScreen from '../screens/NearbyScreen';
 import { HomeTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const HomeTab = createMaterialTopTabNavigator<HomeTabParamList>();
@@ -60,8 +60,8 @@ function TabOneNavigator() {
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="Follow"
-        component={HomeScreen}
-        options={{ headerTitle: 'Follow' }}
+        component={FollowScreen}
+        options={{ headerShown: false }}
       />
     </TabOneStack.Navigator>
   );
@@ -75,7 +75,7 @@ function TabTwoNavigator() {
       <TabTwoStack.Screen
         name="Explore"
         component={FavoritesScreen}
-        options={{ headerTitle: 'Explore' }}
+        options={{ headerShown: false }}
       />
     </TabTwoStack.Navigator>
   );
@@ -88,8 +88,8 @@ function TabThreeNavigator() {
     <TabThreeStack.Navigator>
       <TabThreeStack.Screen
         name="Nearby"
-        component={MessagesScreen}
-        options={{ headerTitle: 'Nearby' }}
+        component={NearbyScreen}
+        options={{ headerShown: false }}
       />
     </TabThreeStack.Navigator>
   );
