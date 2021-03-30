@@ -8,6 +8,15 @@ import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 
+import * as firebase from 'firebase';
+import apiKeys from '../config/keys';
+import WelcomeScreen from '../screens/WelcomeScreen';
+import SignUp from '../screens/SignUp';
+import SignIn from '../screens/SignIn';
+import LoadingScreen from '../screens/LoadingScreen';
+import Dashboard from '../screens/Dashboard';
+import Main from '../screens/Main';
+
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -25,8 +34,18 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+
+  if (!firebase.apps.length) {
+    console.log('Connected with Firebase')
+    firebase.initializeApp(apiKeys.firebaseConfig);
+  }
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Home" component={WelcomeScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Sign Up" component={SignUp} options={{ headerShown: true }}/>
+      <Stack.Screen name="Sign In" component={SignIn} options={{ headerShown: true }}/>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
