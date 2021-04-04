@@ -3,16 +3,20 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function WelcomeScreen ({navigation}) {
+
+  const glitch = require('../assets/images/glitch.gif')
+
   return (
      <ImageBackground
       style={styles.background}
-      source={require('../assets/images/home.png')}>
+      source={glitch}>
+      <Text style={styles.titleText}>Brava</Text>
       <View style={styles.buttonHolder}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Sign Up')} >
-          <Text style={styles.buttonText}>Sign Up</Text>
+        <TouchableOpacity style={[styles.mainButton, styles.button]} onPress={() => navigation.navigate('Sign Up')} >
+          <Text style={styles.mainButtonText}>sign up</Text>
          </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Sign In')}>
-          <Text style={styles.buttonText}>Sign In</Text>
+        <TouchableOpacity style={[styles.altButtonn, styles.button]} onPress={() => navigation.navigate('Sign In')}>
+          <Text style={styles.buttonText}>sign in</Text>
         </TouchableOpacity>
       </View>
      </ImageBackground>
@@ -24,9 +28,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    resizeMode: 'cover',
+  },
+  titleText: {
+    fontSize: 80,
+    color: 'white',
+    fontFamily: 'wired',
+    marginBottom: 40,
+    marginTop: -50,
   },
   buttonHolder: {
-    marginTop: 35,
+    marginTop: 45,
   },
   button: {
     marginBottom: 2,
@@ -37,6 +49,13 @@ const styles = StyleSheet.create({
     paddingRight: 50,
     paddingTop: 2,
     paddingBottom: 2,
+  },
+  mainButton: {
+    backgroundColor: 'white',
+  },
+  mainButtonText: {
+    color: 'black',
+    fontSize: 16,
   },
   buttonText: {
     color: 'white',
