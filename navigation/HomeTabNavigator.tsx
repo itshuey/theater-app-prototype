@@ -19,26 +19,35 @@ export default function HomeTabNavigator() {
   return (
     <HomeTab.Navigator
       initialRouteName="Follow"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{
+        style: {
+          backgroundColor: Colors[colorScheme].backgroundColor,
+          marginTop: -10,
+        },
+        tabStyle:{
+
+        },
+        activeTintColor: Colors[colorScheme].tint,
+        indicatorStyle: {
+          backgroundColor: Colors[colorScheme].tint,
+        }
+      }}>
       <HomeTab.Screen
         name="Follow"
         component={TabOneNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="home-sharp" color={color} />,
-        }}
       />
       <HomeTab.Screen
         name="Explore"
         component={TabTwoNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-star-outline" color={color} />,
+
         }}
       />
       <HomeTab.Screen
         name="Nearby"
         component={TabThreeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
+
         }}
       />
     </HomeTab.Navigator>

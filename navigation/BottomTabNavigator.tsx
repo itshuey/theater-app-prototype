@@ -9,6 +9,7 @@ import HomeScreen from '../screens/HomeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import MeScreen from '../screens/MeScreen';
+import LogoTitle from '../components/LogoTitle';
 import HomeTabNavigator from './HomeTabNavigator.tsx';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
@@ -20,7 +21,13 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{
+        style: {
+          backgroundColor: Colors[colorScheme].backgroundColor,
+        },
+        activeTintColor: Colors[colorScheme].tint,
+        showLabel: false,
+      }}>
       <BottomTab.Screen
         name="Home"
         component={TabOneNavigator}
@@ -56,7 +63,7 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={25} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -69,7 +76,13 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="Nav"
         component={HomeTabNavigator}
-        options={{ headerTitle: '' }}
+        options={{
+          headerTitle: props => <LogoTitle {...props} />,
+          headerStyle: {
+            backgroundColor: Colors['light'].backgroundColor,
+            shadowColor: 'transparent',
+          },
+        }}
       />
     </TabOneStack.Navigator>
   );
