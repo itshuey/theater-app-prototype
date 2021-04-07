@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as firebase from 'firebase';
-import {loggingOut} from '../api/firebaseMethods';
+import { loggingOut } from '../api/firebaseMethods';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { MonoText } from '../components/StyledText';
@@ -32,7 +32,6 @@ export default function MeScreen({ navigation }) {
 
   const handlePress = () => {
     loggingOut();
-    navigation.replace('Home');
   };
 
   return (
