@@ -6,9 +6,7 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import FollowScreen from '../screens/FollowScreen';
-import FavoritesScreen from '../screens/FavoritesScreen';
-import MessagesScreen from '../screens/MessagesScreen';
-import NearbyScreen from '../screens/NearbyScreen';
+import ExploreScreen from '../screens/ExploreScreen';
 import { HomeTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const HomeTab = createMaterialTopTabNavigator<HomeTabParamList>();
@@ -19,36 +17,42 @@ export default function HomeTabNavigator() {
   return (
     <HomeTab.Navigator
       initialRouteName="Follow"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      style={{ backgroundColor: "white",}}
+      tabBarOptions={{
+        activeTintColor: '#000',
+        labelStyle: {
+          textTransform: 'none',
+          fontSize: 16,
+          marginLeft: 0,
+          marginRight: 0,
+          paddingLeft: 8,
+          paddingRight: 8,
+        },
+        style: {
+          width: '40%',
+          alignSelf: 'center',
+        },
+        indicatorStyle: {
+          backgroundColor: Colors[colorScheme].tint,
+          width: '22%',
+          left: '16%',
+        },
+        tabStyle: {
+          borderColor: 'black',
+          paddingLeft: 0,
+          paddingRight: 0,
+        }
+      }}>
       <HomeTab.Screen
         name="Follow"
         component={TabOneNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="home-sharp" color={color} />,
-        }}
       />
       <HomeTab.Screen
         name="Explore"
         component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-star-outline" color={color} />,
-        }}
-      />
-      <HomeTab.Screen
-        name="Nearby"
-        component={TabThreeNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
-        }}
       />
     </HomeTab.Navigator>
   );
-}
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -74,24 +78,10 @@ function TabTwoNavigator() {
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="Explore"
-        component={FavoritesScreen}
+        component={ExploreScreen}
         options={{ headerShown: false }}
       />
     </TabTwoStack.Navigator>
-  );
-}
-
-const TabThreeStack = createStackNavigator<TabThreeParamList>();
-
-function TabThreeNavigator() {
-  return (
-    <TabThreeStack.Navigator>
-      <TabThreeStack.Screen
-        name="Nearby"
-        component={NearbyScreen}
-        options={{ headerShown: false }}
-      />
-    </TabThreeStack.Navigator>
   );
 }
 
