@@ -27,7 +27,7 @@ export default function FeedPost(
   )
 
   return (
-    <View style={styles.feedPost}>
+    <View style={styles.container}>
       <View style={styles.postContainer}>
         <View style={styles.profileInfoContainer}>
           <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
@@ -35,7 +35,7 @@ export default function FeedPost(
             <Text style={styles.profileNameText}>
               {username}
             </Text>
-            <Text style={styles.postTimeText}>
+            <Text style={styles.postTimestampText}>
               {timeStamp}
             </Text>
           </View>
@@ -83,7 +83,7 @@ export default function FeedPost(
 }
 
 const styles = StyleSheet.create({
-  feedPost: {
+  container: {
     marginVertical: 4,
     marginHorizontal: 8,
     borderRadius: 8,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   profileNameText: {
     fontSize: 16,
   },
-  postTimeText: {
+  postTimestampText: {
     fontSize: 12,
     color: 'gray',
     marginTop: 3

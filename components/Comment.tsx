@@ -16,7 +16,7 @@ export default function Comment({
       <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
       <View style={styles.mainCommentContainer}>
         <View style={styles.infoContainer}>
-          <Text style={styles.commentTimeText}>
+          <Text style={styles.commentTimestampText}>
             {timeStamp}
           </Text>
           <View style={styles.likeContainer}>
@@ -66,13 +66,13 @@ const styles = StyleSheet.create({
     paddingTop: 1,
     color: 'gray',
   },
-  commentText: {
-    paddingTop: 4,
-    fontSize: 15,
-  },
-  commentTimeText: {
+  commentTimestampText: {
     fontSize: 9,
     paddingTop: 4,
     color: 'gray',
+  },
+  commentText: {
+    paddingTop: 4,
+    fontSize: 15,
   },
 });

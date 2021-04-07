@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MapView from 'react-native-maps'
 
 import ExplorePost from '../components/ExplorePost.tsx';

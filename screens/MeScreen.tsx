@@ -7,7 +7,6 @@ import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { MonoText } from '../components/StyledText';
 
-
 export default function MeScreen({ navigation }) {
   let currentUserUID = firebase.auth().currentUser.uid;
   const [firstName, setFirstName] = useState('');
@@ -51,7 +50,6 @@ export default function MeScreen({ navigation }) {
           darkColor="rgba(255,255,255,0.8)">
           Currently still in development.
         </Text>
-
         <View style={styles.helpContainer}>
           <TouchableOpacity onPress={handlePress} style={styles.helpLink}>
             <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
