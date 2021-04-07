@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 
-export default function ExplorePost({ props }: { props: string }) {
+export default function EmbeddedPost({ props }: { props: string }) {
   return (
     <View style={styles.explorePost}>
       <View style={styles.postContainer}>
@@ -90,30 +90,31 @@ export default function ExplorePost({ props }: { props: string }) {
   );
 }
 
+function handleHelpPress() {
+  WebBrowser.openBrowserAsync(
+    'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
+  );
+}
+
 const styles = StyleSheet.create({
   explorePost: {
-    marginTop: 4,
-    marginRight: 8,
-    marginLeft: 8,
-    marginBottom: 4,
     borderRadius: 8,
+    borderColor: 'black',
+    borderWidth: 1,
   },
   postContainer: {
     marginLeft: 20,
     marginTop: 20,
     marginBottom: 20,
     marginRight: 20,
-    width: 315,
   },
   mainInfoContainer: {
     flexDirection: 'row',
-    height: 140,
     marginBottom: 10,
-    width: 100,
   },
   imageContainer: {
-    height: 140,
-    width: 110,
+    height: 120,
+    width: 90,
   },
   tagContainer: {
     flexDirection: 'row',
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     marginLeft: 10,
-    width: 200,
+    width: 175,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -147,16 +148,16 @@ const styles = StyleSheet.create({
     color: '#5e5e5e',
   },
   nameText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   infoText: {
     marginTop: 3,
-    fontSize: 12,
+    fontSize: 11,
   },
   descriptionText: {
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 12,
+    lineHeight: 18,
     textAlign: 'left',
     color: '#4a4a4a',
   },

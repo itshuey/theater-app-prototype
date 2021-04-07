@@ -1,0 +1,119 @@
+import { Ionicons } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
+import React from 'react';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+
+import Colors from '../constants/Colors';
+import { MonoText } from './StyledText';
+import { Text, View } from './Themed';
+import EmbeddedPost from './EmbeddedPost'
+import Comment from './Comment'
+
+export default function FeedPost({ props }: { props: string }) {
+  return (
+    <View style={styles.feedPost}>
+      <View style={styles.postContainer}>
+        <View style={styles.profileInfoContainer}>
+          <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
+          <View style={styles.profileInfoTextContainer}>
+            <Text style={styles.profileNameText}>
+              People you follow
+            </Text>
+            <Text style={styles.postTimeText}>
+              Just now
+            </Text>
+          </View>
+        </View>
+        <Text
+          style={styles.descriptionText}
+          lightColor="rgba(0,0,0,0.8)"
+          darkColor="rgba(255,255,255,0.8)">
+          Short Review: Lorem ipsum dolor sit amet, est consectetur adipiscing elit...
+        </Text>
+        <EmbeddedPost props="z" />
+        <View style={styles.interactionsContainer}>
+          <View style={styles.reactionContainer}>
+            <Ionicons size={20} name='ios-heart-outline' color={'gray'} />
+            <Text
+              style={styles.reactionText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              211
+            </Text>
+          </View>
+          <View style={styles.reactionContainer}>
+            <Ionicons size={19} name='ios-chatbox-outline' color={'gray'} />
+            <Text
+              style={styles.reactionText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              21
+            </Text>
+          </View>
+        </View>
+        <Comment props="z" />
+        <Comment props="z" />
+        <Comment props="z" />
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  feedPost: {
+    marginVertical: 4,
+    marginHorizontal: 8,
+    borderRadius: 8,
+  },
+  postContainer: {
+    marginHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 12,
+    width: 315,
+  },
+  profileInfoContainer: {
+    flexDirection: 'row'
+  },
+  profileInfoTextContainer: {
+    marginLeft: 10,
+    marginTop: 2,
+  },
+  profileImageContainer: {
+    height: 45,
+    width: 45,
+  },
+  profileNameText: {
+    fontSize: 16,
+  },
+  postTimeText: {
+    fontSize: 12,
+    color: 'gray',
+    marginTop: 3
+  },
+  descriptionText: {
+    marginTop: 15,
+    marginBottom: 10,
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'left',
+    color: '#4a4a4a',
+  },
+
+  interactionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: 310,
+    marginVertical: 10,
+  },
+  reactionContainer: {
+    flexDirection: 'row',
+  },
+  reactionText: {
+    fontSize: 13,
+    paddingTop: 3,
+    paddingLeft: 8,
+    color:'gray',
+  },
+
+
+});

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 
-import ExplorePost from '../components/FeedPost.tsx';
+import ExplorePost from '../components/ExplorePost.tsx';
 import { Text, View } from '../components/Themed';
 
-export default function FollowScreen() {
+export default function ExploreScreen() {
   return (
     <FlatList style={styles.container}
       data={[ {d: "a"}, {d: "a"}, {d: "a"}]}
