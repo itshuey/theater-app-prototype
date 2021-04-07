@@ -6,93 +6,85 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
+import { EventPost } from '../data/eventpostdata'
 
-export default function EmbeddedPost({ props }: { props: string }) {
+export default function EmbeddedPost({
+    name, numStars, price, tags, venue, dates, creatives, description
+  }: EventPost){
+
+  const tagList = tags.map((tag) =>
+    <View key={tag} style={styles.tag}>
+      <Text
+        style={styles.tagText}
+        lightColor="rgba(0,0,0,0.8)"
+        darkColor="rgba(255,255,255,0.8)">
+        {tag}
+      </Text>
+    </View>
+  );
+
   return (
     <View style={styles.explorePost}>
       <View style={styles.postContainer}>
-      <View style={styles.mainInfoContainer}>
-        <Image source={require('../assets/images/default.png')} style={styles.imageContainer} />
-        <View style={styles.infoContainer}>
-          <View style={styles.titleContainer}>
-            <Text
-              style={styles.nameText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              Name
-            </Text>
-            <View style={styles.starContainer}>
-            <Ionicons size={14} color={'#5e5e5e'} name='ios-star-outline' />
-            <Text
-              style={styles.starText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              50
-            </Text>
-            </View>
-          </View>
-
-          <Text
-            style={styles.priceText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Starting from $0.00
-          </Text>
-          <View style={styles.tagContainer}>
-            <View style={styles.tag}>
+        <View style={styles.mainInfoContainer}>
+          <Image source={require('../assets/images/default.png')} style={styles.imageContainer} />
+          <View style={styles.infoContainer}>
+            <View style={styles.titleContainer}>
+              <View style={styles.nameContainer}>
+                <Text
+                  style={styles.nameText}
+                  lightColor="rgba(0,0,0,0.8)"
+                  darkColor="rgba(255,255,255,0.8)">
+                  {name}
+                </Text>
+              </View>
+              <View style={styles.starContainer}>
+              <Ionicons size={14} color={'#5e5e5e'} name='ios-star-outline' />
               <Text
-                style={styles.tagText}
+                style={styles.starText}
                 lightColor="rgba(0,0,0,0.8)"
                 darkColor="rgba(255,255,255,0.8)">
-                Tag 1
+                {numStars}
               </Text>
+              </View>
             </View>
-            <View style={styles.tag}>
-              <Text
-                style={styles.tagText}
-                lightColor="rgba(0,0,0,0.8)"
-                darkColor="rgba(255,255,255,0.8)">
-                Tag 2
+            <Text
+              style={styles.priceText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              Starting from {price}
+            </Text>
+            <View style={styles.tagContainer}>
+              {tagList}
+            </View>
+            <Text
+              style={styles.infoText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              {venue}
+            </Text>
+            <Text
+              style={styles.infoText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              {dates}
+            </Text>
+            <Text
+              style={styles.infoText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              Creatives include: {creatives.join(', ')}
             </Text>
           </View>
-          </View>
-
-          <Text
-            style={styles.infoText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Venue Name here
-          </Text>
-
-          <Text
-            style={styles.infoText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Dates
-          </Text>
-
-          <Text
-            style={styles.infoText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Creatives include:
-          </Text>
         </View>
-      </View>
-      <Text
-        style={styles.descriptionText}
-        lightColor="rgba(0,0,0,0.8)"
-        darkColor="rgba(255,255,255,0.8)">
-        Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in eleifend est.
-      </Text>
+        <Text
+          style={styles.descriptionText}
+          lightColor="rgba(0,0,0,0.8)"
+          darkColor="rgba(255,255,255,0.8)">
+          Description: {description}
+        </Text>
       </View>
     </View>
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
   );
 }
 
@@ -138,10 +130,13 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+  },
+  nameContainer: {
+    width: "80%",
   },
   starContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   starText: {
     fontSize: 14,

@@ -8,8 +8,24 @@ import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import EmbeddedPost from './EmbeddedPost'
 import Comment from './Comment'
+import { ReviewPost } from '../data/reviewpostdata'
 
-export default function FeedPost({ props }: { props: string }) {
+export default function FeedPost(
+  { username, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
+) {
+
+  const commentList = comments.map((comment) =>
+    <Comment
+      id={comment.id}
+      key={comment.id}
+      name={comment.name}
+      pictureUrl={comment.pictureUrl}
+      timeStamp={comment.timeStamp}
+      comment={comment.comment}
+      numLikes={comment.numLikes}
+    />
+  )
+
   return (
     <View style={styles.feedPost}>
       <View style={styles.postContainer}>
@@ -17,10 +33,10 @@ export default function FeedPost({ props }: { props: string }) {
           <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
           <View style={styles.profileInfoTextContainer}>
             <Text style={styles.profileNameText}>
-              People you follow
+              {username}
             </Text>
             <Text style={styles.postTimeText}>
-              Just now
+              {timeStamp}
             </Text>
           </View>
         </View>
@@ -28,9 +44,18 @@ export default function FeedPost({ props }: { props: string }) {
           style={styles.descriptionText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Short Review: Lorem ipsum dolor sit amet, est consectetur adipiscing elit...
+          {review}
         </Text>
-        <EmbeddedPost props="z" />
+        <EmbeddedPost
+          name={event.name}
+          numStars={event.numStars}
+          price={event.price}
+          tags={event.tags}
+          venue={event.venue}
+          dates={event.dates}
+          creatives={event.creatives}
+          description={event.description}
+        />
         <View style={styles.interactionsContainer}>
           <View style={styles.reactionContainer}>
             <Ionicons size={20} name='ios-heart-outline' color={'gray'} />
@@ -38,7 +63,7 @@ export default function FeedPost({ props }: { props: string }) {
               style={styles.reactionText}
               lightColor="rgba(0,0,0,0.8)"
               darkColor="rgba(255,255,255,0.8)">
-              211
+              {numLikes}
             </Text>
           </View>
           <View style={styles.reactionContainer}>
@@ -47,13 +72,11 @@ export default function FeedPost({ props }: { props: string }) {
               style={styles.reactionText}
               lightColor="rgba(0,0,0,0.8)"
               darkColor="rgba(255,255,255,0.8)">
-              21
+              {numComments}
             </Text>
           </View>
         </View>
-        <Comment props="z" />
-        <Comment props="z" />
-        <Comment props="z" />
+        {commentList}
       </View>
     </View>
   );
@@ -98,7 +121,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#4a4a4a',
   },
-
   interactionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -114,6 +136,4 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     color:'gray',
   },
-
-
 });

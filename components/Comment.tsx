@@ -6,27 +6,29 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
-import EmbeddedPost from './EmbeddedPost'
+import { CommentSchema } from '../data/reviewpostdata'
 
-export default function Comment({ props }: { props: string }) {
+export default function Comment({
+  name, pictureUrl, timeStamp, comment, numLikes
+}: CommentSchema) {
   return (
     <View style={styles.container}>
-      <View style={styles.mainContainer}>
-        <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
-        <View style={styles.mainCommentContainer}>
+      <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
+      <View style={styles.mainCommentContainer}>
+        <View style={styles.infoContainer}>
           <Text style={styles.commentTimeText}>
-            6 hours ago
+            {timeStamp}
           </Text>
-          <Text style={styles.commentText}>
-            Lorem ipsum dolores est
-          </Text>
+          <View style={styles.likeContainer}>
+            <Text style={styles.likeText}>
+              {numLikes}
+            </Text>
+            <Ionicons size={14} color={'gray'} name='ios-thumbs-up-sharp' />
+          </View>
         </View>
-      </View>
-      <View style={styles.likeContainer}>
-        <Text style={styles.likeText}>
-          50
+        <Text style={styles.commentText}>
+          {comment}
         </Text>
-        <Ionicons size={14} color={'gray'} name='ios-thumbs-up-sharp' />
       </View>
     </View>
   );
@@ -36,23 +38,27 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 11,
+    paddingTop: 8,
     paddingBottom: 11,
     borderTopColor: '#e3e3e3',
     borderTopWidth: 1,
   },
-  mainContainer: {
-    flexDirection: 'row',
-  },
   mainCommentContainer: {
-    marginLeft: 10
+    marginLeft: 10,
+    width: "85%",
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   profileImageContainer: {
+    marginTop: 5,
     height: 32,
     width: 32,
   },
   likeContainer: {
     flexDirection: 'row',
+    paddingTop: -5,
   },
   likeText: {
     marginRight: 2,
@@ -66,6 +72,7 @@ const styles = StyleSheet.create({
   },
   commentTimeText: {
     fontSize: 9,
+    paddingTop: 4,
     color: 'gray',
   },
 });
