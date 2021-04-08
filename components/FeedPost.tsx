@@ -85,7 +85,7 @@ export default function FeedPost(
 const styles = StyleSheet.create({
   container: {
     marginVertical: 4,
-    marginHorizontal: 8,
+    marginHorizontal: 5,
     borderRadius: 8,
   },
   postContainer: {

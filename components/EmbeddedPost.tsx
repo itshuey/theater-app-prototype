@@ -48,12 +48,6 @@ export default function EmbeddedPost({
               </Text>
               </View>
             </View>
-            <Text
-              style={styles.priceText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              Starting from {price}
-            </Text>
             <View style={styles.tagContainer}>
               {tagList}
             </View>
@@ -62,12 +56,6 @@ export default function EmbeddedPost({
               lightColor="rgba(0,0,0,0.8)"
               darkColor="rgba(255,255,255,0.8)">
               {venue}
-            </Text>
-            <Text
-              style={styles.infoText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              {dates}
             </Text>
             <Text
               style={styles.infoText}

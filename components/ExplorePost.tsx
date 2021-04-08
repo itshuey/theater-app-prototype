@@ -90,17 +90,12 @@ export default function ExplorePost({
 
 const styles = StyleSheet.create({
   explorePost: {
-    marginTop: 4,
-    marginRight: 8,
-    marginLeft: 8,
-    marginBottom: 4,
+    marginVertical: 3,
+    marginHorizontal: 5,
     borderRadius: 8,
   },
   postContainer: {
-    marginLeft: 20,
-    marginTop: 20,
-    marginBottom: 20,
-    marginRight: 20,
+    margin: 20,
     width: 315,
   },
   mainInfoContainer: {
@@ -121,8 +116,7 @@ const styles = StyleSheet.create({
     borderColor: '#a9a9a9',
     borderWidth: 1,
     borderRadius: 10,
-    marginLeft: 2,
-    marginRight: 2,
+    marginHorizontal: 2,
     paddingLeft: 7,
     paddingRight: 7,
     paddingTop: 3,
