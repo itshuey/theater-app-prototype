@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import HomeScreen from '../screens/HomeScreen';
+import LogoHeader from '../components/LogoHeader';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import MeScreen from '../screens/MeScreen';
@@ -69,7 +69,13 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="Nav"
         component={HomeTabNavigator}
-        options={{ headerTitle: '' }}
+        options={{
+          headerTitle: props => <LogoHeader {...props} />,
+          headerStyle: {
+            backgroundColor: Colors['light'].backgroundColor,
+            shadowColor: 'transparent',
+          },
+        }}
       />
     </TabOneStack.Navigator>
   );
