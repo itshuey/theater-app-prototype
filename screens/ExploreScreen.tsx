@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, Image } from 'react-native';
 
 import ExplorePost from '../components/ExplorePost.tsx';
 import { Text, View } from '../components/Themed';
@@ -7,6 +7,7 @@ import { EventPost, EventPostData } from '../data/eventpostdata'
 
 export default function ExploreScreen() {
   return (
+    <>
     <FlatList style={styles.container}
       data={EventPostData}
       renderItem={({ item, index }) => (
@@ -23,6 +24,11 @@ export default function ExploreScreen() {
         />
       )}
     />
+    <Image
+      source={require('../assets/images/createpost.png')}
+      style={styles.createImage}
+    />
+    </>
   );
 }
 
@@ -32,4 +38,11 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     backgroundColor: 'lightgray'
   },
+  createImage: {
+    height: 40,
+    width: 40,
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+  }
 });
