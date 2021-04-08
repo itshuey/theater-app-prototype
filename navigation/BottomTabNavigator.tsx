@@ -20,12 +20,15 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{
+        activeTintColor: Colors[colorScheme].tint,
+        showLabel: false,
+      }}>
       <BottomTab.Screen
         name="Home"
         component={TabOneNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="home-sharp" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-home-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -39,14 +42,14 @@ export default function BottomTabNavigator() {
         name="Messages"
         component={TabThreeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="mail-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Me"
         component={TabFourNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="person-circle" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="person-circle-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
