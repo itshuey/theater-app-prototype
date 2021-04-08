@@ -65,12 +65,6 @@ export default function EmbeddedPost({
             </Text>
           </View>
         </View>
-        <Text
-          style={styles.descriptionText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Description: {description}
-        </Text>
       </View>
     </View>
   );
@@ -90,7 +84,6 @@ const styles = StyleSheet.create({
   },
   mainInfoContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
   },
   imageContainer: {
     height: 120,
@@ -114,7 +107,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     marginLeft: 10,
-    width: 175,
+    width: 195,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -127,7 +120,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   starText: {
-    fontSize: 14,
+    paddingTop: 1,
+    fontSize: 12,
     color: '#5e5e5e',
   },
   nameText: {

@@ -21,6 +21,7 @@ export default function ExploreScreen() {
           dates={item.dates}
           creatives={item.creatives}
           description={item.description}
+          emoji={item.emoji}
         />
       )}
     />
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 2,
-    backgroundColor: 'lightgray'
+    backgroundColor: '#f2f6fc'
   },
   createImage: {
     height: 40,

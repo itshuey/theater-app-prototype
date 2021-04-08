@@ -9,7 +9,7 @@ import { Text, View } from './Themed';
 import { EventPost } from '../data/eventpostdata'
 
 export default function ExplorePost({
-   name, numStars, price, tags, venue, dates, creatives, description
+   name, numStars, price, tags, venue, dates, creatives, description, emoji
   }: EventPost){
 
   const tagList = tags.map((tag) =>
@@ -26,63 +26,76 @@ export default function ExplorePost({
   return (
     <View style={styles.explorePost}>
       <View style={styles.postContainer}>
+
+          <View style={styles.nameContainer}>
+          <View style={styles.headlineContainer}>
+            <View style={styles.logisticsContainer}>
+              <Text
+                style={styles.infoText}
+                lightColor="rgba(0,0,0,0.8)"
+                darkColor="rgba(255,255,255,0.8)">
+                {venue}, {dates}
+              </Text>
+            </View>
+            <View style={styles.starContainer}>
+              <Ionicons size={14} color={'#5e5e5e'} name='ios-star-outline' />
+              <Text
+                style={styles.starText}
+                lightColor="rgba(0,0,0,0.8)"
+                darkColor="rgba(255,255,255,0.8)">
+                {numStars}
+              </Text>
+            </View>
+            </View>
+            <Text
+              style={styles.nameText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              {name}
+            </Text>
+
+        </View>
         <View style={styles.mainInfoContainer}>
           <Image source={require('../assets/images/default.png')} style={styles.imageContainer} />
           <View style={styles.infoContainer}>
-            <View style={styles.titleContainer}>
-              <View style={styles.nameContainer}>
-                <Text
-                  style={styles.nameText}
-                  lightColor="rgba(0,0,0,0.8)"
-                  darkColor="rgba(255,255,255,0.8)">
-                  {name}
-                </Text>
-              </View>
-              <View style={styles.starContainer}>
-                <Ionicons size={14} color={'#5e5e5e'} name='ios-star-outline' />
-                <Text
-                  style={styles.starText}
-                  lightColor="rgba(0,0,0,0.8)"
-                  darkColor="rgba(255,255,255,0.8)">
-                  {numStars}
-                </Text>
-              </View>
+            <Text
+              style={styles.descriptionText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              {description}
+            </Text>
+            <View style={styles.tagContainer}>
+              {tagList}
             </View>
+          </View>
+        </View>
+        <View style={styles.detailContainer}>
+          <View>
             <Text
               style={styles.priceText}
               lightColor="rgba(0,0,0,0.8)"
               darkColor="rgba(255,255,255,0.8)">
               Starting from {price}
             </Text>
-            <View style={styles.tagContainer}>
-              {tagList}
-            </View>
             <Text
               style={styles.infoText}
               lightColor="rgba(0,0,0,0.8)"
               darkColor="rgba(255,255,255,0.8)">
-              {venue}
+              Creatives include:&nbsp;
+                <Text style={styles.creativesText}>
+                  {creatives.join(', ')}
+                </Text>
             </Text>
+          </View>
+          <View style={styles.emojiContainer}>
             <Text
-              style={styles.infoText}
+              style={styles.emoji}
               lightColor="rgba(0,0,0,0.8)"
               darkColor="rgba(255,255,255,0.8)">
-              Dates: {dates}
-            </Text>
-            <Text
-              style={styles.infoText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              Creatives include: {creatives.join(', ')}
+              {emoji}
             </Text>
           </View>
         </View>
-        <Text
-          style={styles.descriptionText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Description: {description}
-        </Text>
       </View>
     </View>
   );
@@ -91,16 +104,20 @@ export default function ExplorePost({
 const styles = StyleSheet.create({
   explorePost: {
     marginVertical: 3,
-    marginHorizontal: 5,
-    borderRadius: 8,
+    marginHorizontal: 0,
+    borderRadius: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderTopColor: 'white',
+    borderWidth: 0.5,
   },
   postContainer: {
     margin: 20,
-    width: 315,
   },
   mainInfoContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 5,
+    marginTop: 5,
     width: 100,
   },
   imageContainer: {
@@ -125,25 +142,31 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginLeft: 10,
     width: 200,
+    marginTop: -4,
   },
-  titleContainer: {
+  headlineContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    maxWidth: 200,
+  },
+  logisticsContainer: {
+    paddingTop: 6,
   },
   starContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginBottom: 5,
   },
   nameContainer: {
-    width: "80%",
+    marginBottom: 10,
   },
   starText: {
-    fontSize: 14,
+    paddingTop: 1,
+    fontSize: 12,
     color: '#5e5e5e',
   },
   nameText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#454545',
   },
   infoText: {
     marginTop: 3,
@@ -159,8 +182,28 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#a9a9a9',
   },
+  creativesText: {
+
+  },
   priceText: {
     marginTop: 4,
     fontSize: 11,
+  },
+  emoji: {
+    fontSize: 26
+  },
+  emojiContainer: {
+    marginTop: 5,
+    paddingLeft: 2,
+    height: 30,
+    width: 30,
+    justifyContent: 'center',
+    borderRadius: 25,
+    borderWidth: 0,
+    borderColor: 'gray',
+  },
+  detailContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

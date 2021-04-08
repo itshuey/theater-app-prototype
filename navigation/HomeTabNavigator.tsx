@@ -19,28 +19,14 @@ export default function HomeTabNavigator() {
       initialRouteName="Follow"
       style={{ backgroundColor: "white",}}
       tabBarOptions={{
+        showLabel: false,
         activeTintColor: '#000',
-        labelStyle: {
-          textTransform: 'none',
-          fontSize: 16,
-          marginLeft: 0,
-          marginRight: 0,
-          paddingLeft: 8,
-          paddingRight: 8,
-        },
-        style: {
-          width: '40%',
-          alignSelf: 'center',
-        },
         indicatorStyle: {
           backgroundColor: Colors[colorScheme].tint,
-          width: '22%',
-          left: '16%',
         },
         tabStyle: {
-          borderColor: 'black',
-          paddingLeft: 0,
-          paddingRight: 0,
+          paddingTop: 0,
+          height: 0,
         }
       }}>
       <HomeTab.Screen

@@ -85,14 +85,17 @@ export default function FeedPost(
 const styles = StyleSheet.create({
   container: {
     marginVertical: 4,
-    marginHorizontal: 5,
-    borderRadius: 8,
+    marginHorizontal: 0,
+    borderRadius: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderTopColor: 'white',
+    borderWidth: 0.5,
   },
   postContainer: {
     marginHorizontal: 20,
     marginTop: 20,
     marginBottom: 12,
-    width: 315,
   },
   profileInfoContainer: {
     flexDirection: 'row'

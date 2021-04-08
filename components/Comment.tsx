@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
   },
   commentText: {
     paddingTop: 4,
-    fontSize: 15,
+    fontSize: 14,
   },
 });

@@ -7,14 +7,19 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { Text, View } from './Themed';
 
-export default function LogoHeader() {
+export default function LogoHeader(props) {
   const colorScheme = useColorScheme();
 
   return (
     <View style={styles.titleContainer}>
-      <Text style={styles.titleText}>
+      <View>
+        <Text style={styles.titleText}>
         Brava
-      </Text>
+        </Text>
+        <Text style={styles.screenText}>
+        explore.
+        </Text>
+        </View>
       <Ionicons style={styles.searchIcon} size={20} name='search' color='gray'/>
     </View>
   );
@@ -35,6 +40,11 @@ const styles = StyleSheet.create({
     fontFamily: 'wired',
     fontSize: 24,
     color: 'black',
+    marginBottom: -5,
+  },
+  screenText: {
+    fontSize: 14,
+    color: 'gray',
   },
   searchIcon: {
     paddingTop: 2,
