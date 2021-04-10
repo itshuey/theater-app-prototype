@@ -14,7 +14,7 @@ export default function FeedPost(
   { navigation, username, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
 ) {
 
-  const commentList = comments.map((comment) =>
+  const commentList = comments.slice(0,1).map((comment) =>
     <Comment
       id={comment.id}
       key={comment.id}
@@ -29,59 +29,61 @@ export default function FeedPost(
   return (
     <View style={styles.container}>
       <View style={styles.postContainer}>
-        <View style={styles.profileInfoContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-            <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
-          </TouchableOpacity>
-          <View style={styles.profileInfoTextContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Reflection')}>
+          <View style={styles.profileInfoContainer}>
             <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-            <Text style={styles.profileNameText}>
-              {username}
-            </Text>
+              <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
             </TouchableOpacity>
-            <Text style={styles.postTimestampText}>
-              {timeStamp}
-            </Text>
+            <View style={styles.profileInfoTextContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                <Text style={styles.profileNameText}>
+                  {username}
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.postTimestampText}>
+                {timeStamp}
+              </Text>
+            </View>
           </View>
-        </View>
-        <Text
-          style={styles.descriptionText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          {review}
-        </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Show')}>
-          <EmbeddedPost
-            name={event.name}
-            numStars={event.numStars}
-            price={event.price}
-            tags={event.tags}
-            venue={event.venue}
-            dates={event.dates}
-            creatives={event.creatives}
-            description={event.description}
-          />
+          <Text
+            style={styles.descriptionText}
+            lightColor="rgba(0,0,0,0.8)"
+            darkColor="rgba(255,255,255,0.8)">
+            {review}
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+            <EmbeddedPost
+              name={event.name}
+              numStars={event.numStars}
+              price={event.price}
+              tags={event.tags}
+              venue={event.venue}
+              dates={event.dates}
+              creatives={event.creatives}
+              description={event.description}
+            />
+          </TouchableOpacity>
+          <View style={styles.interactionsContainer}>
+            <View style={styles.reactionContainer}>
+              <Ionicons size={20} name='ios-heart-outline' color={'gray'} />
+              <Text
+                style={styles.reactionText}
+                lightColor="rgba(0,0,0,0.8)"
+                darkColor="rgba(255,255,255,0.8)">
+                {numLikes}
+              </Text>
+            </View>
+            <View style={styles.reactionContainer}>
+              <Ionicons size={19} name='ios-chatbox-outline' color={'gray'} />
+              <Text
+                style={styles.reactionText}
+                lightColor="rgba(0,0,0,0.8)"
+                darkColor="rgba(255,255,255,0.8)">
+                {numComments}
+              </Text>
+            </View>
+          </View>
         </TouchableOpacity>
-        <View style={styles.interactionsContainer}>
-          <View style={styles.reactionContainer}>
-            <Ionicons size={20} name='ios-heart-outline' color={'gray'} />
-            <Text
-              style={styles.reactionText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              {numLikes}
-            </Text>
-          </View>
-          <View style={styles.reactionContainer}>
-            <Ionicons size={19} name='ios-chatbox-outline' color={'gray'} />
-            <Text
-              style={styles.reactionText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              {numComments}
-            </Text>
-          </View>
-        </View>
         {commentList}
       </View>
     </View>

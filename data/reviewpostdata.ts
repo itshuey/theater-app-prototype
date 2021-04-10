@@ -28,9 +28,9 @@ const ReviewPostData: ReviewPost[] = [
     pictureUrl: "../assets/images/defaultprofile.png",
     timeStamp: "7 hours ago",
     type: "review",
-    review: "Short Review: From the start, Harris makes clear that she wrote the play for black people, and the audience participation is guaranteed to make some viewers uncomfortable. So be. It: this is theatre as art, exorcism, balm, and battle cry...",
+    review: "From the start, Harris makes clear that she wrote the play for black people, and the audience participation is guaranteed to make some viewers uncomfortable. So be. It: this is theatre as art, exorcism, balm, and battle cry...",
     event: {
-      name: "What to Send Up when It Goes Down",
+      name: "What to Send Up When It Goes Down",
       numStars: 88,
       price: "$25.00",
       tags: [ "Play", "Outdoor","Social Ju..."],

@@ -37,23 +37,25 @@ export default function FollowScreen({ navigation }) {
   if (loading) return <LoadingScreen />
 
   return (
-    <FlatList style={styles.container}
-      data={feed}
-      renderItem={({ item, index }) => (
-        <FeedPost
-          id={item.id}
-          navigation={navigation}
-          username={item.username}
-          pictureUrl={item.pictureUrl}
-          timeStamp={item.timeStamp}
-          review={item.review}
-          event={item.event}
-          numLikes={item.numLikes}
-          numComments={item.numComments}
-          comments={item.comments}
-        />
-      )}
-    />
+    <View style={styles.container}>
+      <FlatList 
+        data={feed}
+        renderItem={({ item, index }) => (
+          <FeedPost
+            id={item.id}
+            navigation={navigation}
+            username={item.username}
+            pictureUrl={item.pictureUrl}
+            timeStamp={item.timeStamp}
+            review={item.review}
+            event={item.event}
+            numLikes={item.numLikes}
+            numComments={item.numComments}
+            comments={item.comments}
+          />
+        )}
+      />
+    </View>
   );
 }
 

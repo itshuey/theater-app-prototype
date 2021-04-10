@@ -10,7 +10,7 @@ import { Text, View } from './Themed';
 
 export default function LogoHeader( props ) {
   const colorScheme = useColorScheme();
-  
+
   return (
     <View style={styles.titleContainer}>
       <View style={styles.titleTextContainer}>
@@ -21,7 +21,7 @@ export default function LogoHeader( props ) {
         explore.
         </Text>
       </View>
-      <Ionicons style={styles.searchIcon} size={20} name='search' color='gray'/>
+      <Ionicons style={styles.searchIcon} size={20} name='notifications-outline' color='gray'/>
     </View>
   );
 }
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   searchIcon: {
-    paddingTop: 5,
+    paddingTop: 8,
   }
 });

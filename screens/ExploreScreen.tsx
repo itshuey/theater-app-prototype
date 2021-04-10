@@ -27,11 +27,12 @@ export default function ExploreScreen({ navigation }) {
         </TouchableOpacity>
       )}
     />
-
-    <Image
-      source={require('../assets/images/createpost.png')}
-      style={styles.createImage}
-    />
+    <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
+      <Image
+        source={require('../assets/images/createpost.png')}
+        style={styles.createImage}
+      />
+    </TouchableOpacity>
     </>
   );
 }

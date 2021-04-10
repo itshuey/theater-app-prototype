@@ -11,7 +11,9 @@ import MessagesScreen from '../screens/MessagesScreen';
 import MeScreen from '../screens/MeScreen';
 import ShowScreen from '../screens/ShowScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import HomeTabNavigator from './HomeTabNavigator.tsx';
+import ReflectionScreen from '../screens/ReflectionScreen';
+import HomeTabNavigator from './HomeTabNavigator';
+import CreateEventScreen from '../screens/CreateEventScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -34,17 +36,17 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Favorites"
+        name="Search"
         component={TabTwoNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-star-outline" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="Messages"
+        name="Favorites"
         component={TabThreeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="mail-outline" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-star-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -90,6 +92,16 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="Profile"
         component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <TabOneStack.Screen
+        name="Reflection"
+        component={ReflectionScreen}
+        options={{ headerShown: false }}
+      />
+      <TabOneStack.Screen
+        name="Create Event"
+        component={CreateEventScreen}
         options={{ headerShown: false }}
       />
     </TabOneStack.Navigator>
