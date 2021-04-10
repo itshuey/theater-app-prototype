@@ -18,6 +18,7 @@ interface ReviewPost {
   numLikes: number,
   numComments: number,
   comments: Comment[],
+  type: string,
 }
 
 const ReviewPostData: ReviewPost[] = [
@@ -26,6 +27,7 @@ const ReviewPostData: ReviewPost[] = [
     username: "Elisabeth Vincentelli",
     pictureUrl: "../assets/images/defaultprofile.png",
     timeStamp: "7 hours ago",
+    type: "review",
     review: "Short Review: From the start, Harris makes clear that she wrote the play for black people, and the audience participation is guaranteed to make some viewers uncomfortable. So be. It: this is theatre as art, exorcism, balm, and battle cry...",
     event: {
       name: "What to Send Up when It Goes Down",

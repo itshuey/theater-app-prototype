@@ -3,12 +3,42 @@ import { StyleSheet, FlatList } from 'react-native';
 
 import FeedPost from '../components/FeedPost.tsx';
 import { Text, View } from '../components/Themed';
-import { ReviewPost, ReviewPostData } from '../data/reviewpostdata'
+import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
+import LoadingScreen from './LoadingScreen.js';
+import * as firebase from 'firebase';
 
 export default function FollowScreen({ navigation }) {
+  const [loading, setLoading] = React.useState(true)
+  const [feed, setFeed] = React.useState(null)
+  const currentUserUID = firebase.auth().currentUser.uid;
+
+  const data = { "posts": ReviewPostData };
+
+  React.useEffect(() => {
+
+    async function getUserFeed(){
+      let doc = await firebase
+      .firestore()
+      .collection('feeds-test-0')
+      .doc(currentUserUID)
+      .get();
+
+      if (!doc.exists){
+        console.log('No user data found!');
+      } else {
+        let dataObj = doc.data();
+        setFeed(dataObj.posts)
+      }
+      if (loading) setLoading(false);
+    }
+    getUserFeed();
+  }, [])
+
+  if (loading) return <LoadingScreen />
+
   return (
     <FlatList style={styles.container}
-      data={ReviewPostData}
+      data={feed}
       renderItem={({ item, index }) => (
         <FeedPost
           id={item.id}
