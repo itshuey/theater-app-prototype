@@ -11,7 +11,7 @@ import Comment from './Comment'
 import { ReviewPost } from '../data/reviewpostdata'
 
 export default function FeedPost(
-  { username, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
+  { navigation, username, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
 ) {
 
   const commentList = comments.map((comment) =>
@@ -46,16 +46,18 @@ export default function FeedPost(
           darkColor="rgba(255,255,255,0.8)">
           {review}
         </Text>
-        <EmbeddedPost
-          name={event.name}
-          numStars={event.numStars}
-          price={event.price}
-          tags={event.tags}
-          venue={event.venue}
-          dates={event.dates}
-          creatives={event.creatives}
-          description={event.description}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+          <EmbeddedPost
+            name={event.name}
+            numStars={event.numStars}
+            price={event.price}
+            tags={event.tags}
+            venue={event.venue}
+            dates={event.dates}
+            creatives={event.creatives}
+            description={event.description}
+          />
+        </TouchableOpacity>
         <View style={styles.interactionsContainer}>
           <View style={styles.reactionContainer}>
             <Ionicons size={20} name='ios-heart-outline' color={'gray'} />

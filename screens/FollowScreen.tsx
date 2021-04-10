@@ -5,13 +5,14 @@ import FeedPost from '../components/FeedPost.tsx';
 import { Text, View } from '../components/Themed';
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata'
 
-export default function FollowScreen() {
+export default function FollowScreen({ navigation }) {
   return (
     <FlatList style={styles.container}
       data={ReviewPostData}
       renderItem={({ item, index }) => (
         <FeedPost
           id={item.id}
+          navigation={navigation}
           username={item.username}
           pictureUrl={item.pictureUrl}
           timeStamp={item.timeStamp}

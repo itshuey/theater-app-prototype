@@ -12,7 +12,7 @@ export default function LogoHeader(props) {
 
   return (
     <View style={styles.titleContainer}>
-      <View>
+      <View style={styles.titleTextContainer}>
         <Text style={styles.titleText}>
         Brava
         </Text>
@@ -33,8 +33,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingLeft: 35,
     paddingRight: 35,
-    backgroundColor: Colors[colorScheme].backgroundColor,
+    backgroundColor: Colors[colorScheme].header,
     width: Layout.window.width,
+  },
+  titleTextContainer:{
+    backgroundColor: Colors[colorScheme].header,
   },
   titleText: {
     fontFamily: 'wired',
@@ -47,6 +50,6 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   searchIcon: {
-    paddingTop: 2,
+    paddingTop: 5,
   }
 });

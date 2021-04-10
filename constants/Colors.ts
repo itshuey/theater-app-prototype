@@ -5,6 +5,7 @@ export default {
     tint: '#c23f39',
     tabIconDefault: '#ccc',
     tabIconSelected: '#c23f39',
+    header: '#fff',
   },
   dark: {
     text: '#fff',
@@ -12,5 +13,6 @@ export default {
     tint: '#fff',
     tabIconDefault: '#ccc',
     tabIconSelected: '#fff',
+    header: '#000',
   },
 };

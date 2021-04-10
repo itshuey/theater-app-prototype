@@ -9,6 +9,7 @@ import LogoHeader from '../components/LogoHeader';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import MeScreen from '../screens/MeScreen';
+import ShowScreen from '../screens/ShowScreen';
 import HomeTabNavigator from './HomeTabNavigator.tsx';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
@@ -70,15 +71,20 @@ function TabOneNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="Nav"
+        name="Feed"
         component={HomeTabNavigator}
         options={{
           headerTitle: props => <LogoHeader {...props} />,
           headerStyle: {
-            backgroundColor: Colors['light'].backgroundColor,
+            backgroundColor: Colors['light'].header,
             shadowColor: 'transparent',
           },
         }}
+      />
+      <TabOneStack.Screen
+        name="Show"
+        component={ShowScreen}
+        options={{ headerShown: false }}
       />
     </TabOneStack.Navigator>
   );

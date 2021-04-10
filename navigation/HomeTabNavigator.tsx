@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
@@ -17,7 +16,7 @@ export default function HomeTabNavigator() {
   return (
     <HomeTab.Navigator
       initialRouteName="Follow"
-      style={{ backgroundColor: "white",}}
+      style={{ backgroundColor: Colors[colorScheme].background,}}
       tabBarOptions={{
         showLabel: false,
         activeTintColor: '#000',
