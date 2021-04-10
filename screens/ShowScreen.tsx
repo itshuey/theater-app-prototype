@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, Image, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { EventPostData } from '../data/eventpostdata';
 import { Text, View } from '../components/Themed';
@@ -16,7 +16,9 @@ export default function ShowScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.navContainer}>
-        <Ionicons name="chevron-back" size={24} color="black" />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="black" />
+        </TouchableOpacity>
         <View style={styles.navContainerActions}>
           <Ionicons name="paper-plane-outline" size={24} color="black" style={{marginHorizontal: 10}}/>
           <Ionicons name="star-outline" size={24} color="black" />
@@ -115,8 +117,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: 'transparent',
     marginHorizontal: 30,
-    borderColor: 'black',
-    borderWidth: 0,
   },
   titleInfoContainer: {
     flex: 3,

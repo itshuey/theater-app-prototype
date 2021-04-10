@@ -1,10 +1,15 @@
+const red = '#c23f39';
+const blue = '#3445c7';
+const plum = '#9C176D';
+let accent = red;
+
 export default {
   light: {
     text: '#000',
     background: '#fff',
-    tint: '#c23f39',
+    tint: accent,
     tabIconDefault: '#ccc',
-    tabIconSelected: '#c23f39',
+    tabIconSelected: accent,
     header: '#fff',
   },
   dark: {

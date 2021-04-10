@@ -1,15 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useRoute } from '@react-navigation/native'
 
 import Layout from '../constants/Layout';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { Text, View } from './Themed';
 
-export default function LogoHeader(props) {
+export default function LogoHeader( props ) {
   const colorScheme = useColorScheme();
-
+  
   return (
     <View style={styles.titleContainer}>
       <View style={styles.titleTextContainer}>
@@ -19,7 +20,7 @@ export default function LogoHeader(props) {
         <Text style={styles.screenText}>
         explore.
         </Text>
-        </View>
+      </View>
       <Ionicons style={styles.searchIcon} size={20} name='search' color='gray'/>
     </View>
   );

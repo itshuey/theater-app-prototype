@@ -10,6 +10,7 @@ import FavoritesScreen from '../screens/FavoritesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import MeScreen from '../screens/MeScreen';
 import ShowScreen from '../screens/ShowScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import HomeTabNavigator from './HomeTabNavigator.tsx';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
@@ -84,6 +85,11 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="Show"
         component={ShowScreen}
+        options={{ headerShown: false }}
+      />
+      <TabOneStack.Screen
+        name="Profile"
+        component={ProfileScreen}
         options={{ headerShown: false }}
       />
     </TabOneStack.Navigator>

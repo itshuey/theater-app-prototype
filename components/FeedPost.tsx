@@ -30,11 +30,15 @@ export default function FeedPost(
     <View style={styles.container}>
       <View style={styles.postContainer}>
         <View style={styles.profileInfoContainer}>
-          <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+            <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
+          </TouchableOpacity>
           <View style={styles.profileInfoTextContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
             <Text style={styles.profileNameText}>
               {username}
             </Text>
+            </TouchableOpacity>
             <Text style={styles.postTimestampText}>
               {timeStamp}
             </Text>
