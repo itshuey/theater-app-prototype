@@ -59,7 +59,14 @@ export default function CreateEventScreen({ navigation }) {
             <View style={styles.formBlockContainer}>
               <Text style={styles.formHeaderText}>Show Name</Text>
               <View style={styles.formResponseContainer}>
-                <Text style={styles.formResponseText}>A brief name here</Text>
+                <TextInput
+                style={styles.formResponseText}
+                placeholder="A Brief Name Here"
+                placeholderTextColor={"black"}
+                value={firstName}
+                textAlign={'left'}
+                onChangeText={(name) => setFirstName(name)}
+                />
               </View>
             </View>
             <View style={styles.formBlockContainer}>

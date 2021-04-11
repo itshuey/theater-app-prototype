@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import LogoHeader from '../components/LogoHeader';
 import FavoritesScreen from '../screens/FavoritesScreen';
-import MessagesScreen from '../screens/MessagesScreen';
+import SearchScreen from '../screens/SearchScreen';
 import MeScreen from '../screens/MeScreen';
 import ShowScreen from '../screens/ShowScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -114,9 +114,9 @@ function TabTwoNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={{ headerTitle: 'Favorites' }}
+        name="Search"
+        component={SearchScreen}
+        options={{ headerTitle: 'Search' }}
       />
     </TabTwoStack.Navigator>
   );
@@ -128,9 +128,9 @@ function TabThreeNavigator() {
   return (
     <TabThreeStack.Navigator>
       <TabThreeStack.Screen
-        name="Messages"
-        component={MessagesScreen}
-        options={{ headerTitle: 'Messages' }}
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{ headerTitle: 'Favorites' }}
       />
     </TabThreeStack.Navigator>
   );

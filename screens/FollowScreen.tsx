@@ -17,8 +17,7 @@ export default function FollowScreen({ navigation }) {
   React.useEffect(() => {
 
     async function getUserFeed(){
-      let doc = await firebase
-      .firestore()
+      let doc = await firebase.firestore()
       .collection('feeds-test-0')
       .doc(currentUserUID)
       .get();
@@ -38,7 +37,7 @@ export default function FollowScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <FlatList 
+      <FlatList
         data={feed}
         renderItem={({ item, index }) => (
           <FeedPost
