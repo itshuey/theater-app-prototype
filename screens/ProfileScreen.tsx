@@ -1,17 +1,61 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
+import * as firebase from 'firebase';
 
-export default function ProfileScreen({ navigation: { goBack } }) {
+export default function ProfileScreen({ route, navigation }) {
 
-  const about = "But the only way to get it remotely circular on Android is to add the, but I need this to be transparent so the design behind is visible. The property transparent does not work."
+  const { userID } = route.params;
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [handle, setHandle] = useState('');
+  const [bio, setBio] = useState('');
+  const [numFollowers, setNumFollowers] = useState(0);
+  const [numFollowing, setNumFollowing] = useState(0);
+  const [profileImageURL, setProfileImageURL] = useState('');
+
+  useEffect(() => {
+    async function getUserInfo(){
+      let doc = await firebase
+      .firestore()
+      .collection('users')
+      .doc(userID)
+      .get();
+
+      if (!doc.exists){
+        Alert.alert('No user data found!')
+      } else {
+        let dataObj = doc.data();
+        setFirstName(dataObj.firstName)
+        setLastName(dataObj.lastName)
+        setHandle(dataObj.handle)
+        setBio(dataObj.bio)
+        setNumFollowers(dataObj.numFollowers)
+        setNumFollowing(dataObj.numFollowing)
+      }
+    }
+    async function getProfileImage(){
+      await firebase
+      .storage()
+      .ref('/' + currentUserUID + '.jpg')
+      .getDownloadURL()
+      .then((url) => {
+        setProfileImageURL(url);
+      })
+      .catch((e) => console.log('getting downloadURL of image error => ', e));
+    }
+    getUserInfo();
+    getProfileImage();
+  })
+
+  const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png')
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.navContainer}>
-        <TouchableOpacity onPress={() => goBack()}>
-        <Ionicons name="chevron-back" size={24} color="black" />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
         <View style={styles.navContainerActions}>
           <Ionicons name="md-person-add-outline" size={24} color="black" />
@@ -19,17 +63,17 @@ export default function ProfileScreen({ navigation: { goBack } }) {
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.titleContainer}>
-          <Image source={require('../assets/images/default.png')} style={styles.imageContainer} />
+          <Image source={profile} style={styles.imageContainer} />
           <View style={styles.titleInfoContainer}>
-            <Text style={styles.titleText}>Eva Wang</Text>
-            <Text style={styles.handleText}>@evawang0426</Text>
+            <Text style={styles.titleText}>{firstName} {lastName}</Text>
+            <Text style={styles.handleText}>@{handle}</Text>
             <View style={styles.followInfoContainer}>
               <View style={styles.followContainer}>
-                <Text style={styles.followNumberText}>200 </Text>
+                <Text style={styles.followNumberText}>{numFollowers} </Text>
                 <Text style={styles.followText}>followers</Text>
               </View>
               <View style={styles.followContainer}>
-                <Text style={styles.followNumberText}>200 </Text>
+                <Text style={styles.followNumberText}>{numFollowing} </Text>
                 <Text style={styles.followText}>following</Text>
               </View>
             </View>
@@ -37,7 +81,7 @@ export default function ProfileScreen({ navigation: { goBack } }) {
         </View>
         <View style={styles.aboutContainer}>
           <Text style={styles.aboutText}>
-            {about}
+            {bio}
           </Text>
         </View>
 

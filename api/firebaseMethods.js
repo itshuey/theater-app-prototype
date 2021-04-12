@@ -2,7 +2,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import {Alert} from "react-native";
 
-export async function registration(email, password, lastName, firstName) {
+export async function registration(email, password, handle, lastName, firstName) {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
     const currentUser = firebase.auth().currentUser;
@@ -14,6 +14,10 @@ export async function registration(email, password, lastName, firstName) {
         email: currentUser.email,
         lastName: lastName,
         firstName: firstName,
+        handle: handle,
+        numFollowers: 0,
+        numFollowing: 0,
+        bio: "",
       });
   } catch (err) {
     Alert.alert("There is something wrong!!!!", err.message);

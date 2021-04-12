@@ -11,7 +11,7 @@ import Comment from './Comment'
 import { ReviewPost } from '../data/reviewpostdata'
 
 export default function FeedPost(
-  { navigation, username, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
+  { navigation, username, userID, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
 ) {
 
   const commentList = comments.slice(0,1).map((comment) =>
@@ -31,11 +31,11 @@ export default function FeedPost(
       <View style={styles.postContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Reflection')}>
           <View style={styles.profileInfoContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Profile', {userID: userID})}>
               <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
             </TouchableOpacity>
             <View style={styles.profileInfoTextContainer}>
-              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Profile', {userID: userID})}>
                 <Text style={styles.profileNameText}>
                   {username}
                 </Text>

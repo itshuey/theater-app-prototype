@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput, FlatList } from 'react-native';
+import { StyleSheet, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
 
-export default function MessagesScreen() {
+export default function MessagesScreen({ navigation }) {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = (search) => {
@@ -24,10 +24,10 @@ export default function MessagesScreen() {
   const getUserProfile = (user) => {
     return (
       <View style={styles.userItemContainer}>
-        <View>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
           <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
           <Text style={styles.userHandle}>@{user.handle}</Text>
-        </View>
+        </TouchableOpacity>
         <Ionicons name="ios-add-circle-outline" size={24} color="black" />
       </View>
     )

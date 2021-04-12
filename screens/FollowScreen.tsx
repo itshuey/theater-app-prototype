@@ -44,6 +44,7 @@ export default function FollowScreen({ navigation }) {
             id={item.id}
             navigation={navigation}
             username={item.username}
+            userID={item.userID}
             pictureUrl={item.pictureUrl}
             timeStamp={item.timeStamp}
             review={item.review}

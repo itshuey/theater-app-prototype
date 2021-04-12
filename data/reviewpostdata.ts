@@ -25,6 +25,7 @@ const ReviewPostData: ReviewPost[] = [
   {
     id: "r1",
     username: "Elisabeth Vincentelli",
+    userID: "8XM7SNegIJbRbly9M0ZE2gLA65X2",
     pictureUrl: "../assets/images/defaultprofile.png",
     timeStamp: "7 hours ago",
     type: "review",
@@ -71,6 +72,7 @@ const ReviewPostData: ReviewPost[] = [
   {
     id: "r2",
     username: "Anna Diva",
+    userID: "8XM7SNegIJbRbly9M0ZE2gLA65X2",
     pictureUrl: "../assets/images/defaultprofile.png",
     timeStamp: "Just now",
     review: "Anna Diva is in the Show The Grand Reopening",

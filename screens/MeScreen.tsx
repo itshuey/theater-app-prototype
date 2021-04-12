@@ -58,10 +58,10 @@ export default function MeScreen({ navigation }) {
   };
 
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png')
-    console.log(profile)
 
   return (
     <ScrollView style={styles.container}>
+    <Ionicons name="flower-outline" style={styles.edit} size={24} color="black" />
       <View style={styles.contentContainer}>
         <View style={styles.titleContainer}>
           <Image source={profile} style={styles.imageContainer} />
@@ -109,6 +109,9 @@ export default function MeScreen({ navigation }) {
             Watched Shows
           </Text>
         </View>
+        <TouchableOpacity onPress={() => handlePress()}>
+          <Text> Log Out </Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -200,4 +203,10 @@ const styles = StyleSheet.create({
     width: 80,
     marginRight: 12,
   },
+  edit: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    zIndex: 2,
+  }
 });

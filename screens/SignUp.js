@@ -7,6 +7,7 @@ export default function SignUp({ navigation }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [handle, setHandle] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -14,6 +15,7 @@ export default function SignUp({ navigation }) {
     setFirstName('');
     setLastName('');
     setEmail('');
+    setHandle('');
     setPassword('');
     setConfirmPassword('');
   };
@@ -34,6 +36,7 @@ export default function SignUp({ navigation }) {
       registration(
         email,
         password,
+        handle,
         lastName,
         firstName,
       );
@@ -47,9 +50,27 @@ export default function SignUp({ navigation }) {
   return (
     <SafeAreaView style={styles.safeContainer}>
      <View style={styles.container}>
-       <Text style={styles.titleText}>sign up:</Text>
+       <Text style={styles.titleText}></Text>
 
        <ScrollView onBlur={Keyboard.dismiss}>
+         <TextInput
+          style={[styles.textInput, styles.color3]}
+          placeholder="email"
+          placeholderTextColor={"#b8e0ff"}
+          value={email}
+          textAlign={'left'}
+          onChangeText={(email) => setEmail(email)}
+          keyboardType="email-address"
+          autoCapitalize="none"
+         />
+         <TextInput
+         style={[styles.textInput, styles.color1]}
+         placeholder="handle"
+         placeholderTextColor={"#edfbff"}
+         value={handle}
+         textAlign={'left'}
+         onChangeText={(handle) => setHandle(handle)}
+         />
           <TextInput
           style={[styles.textInput, styles.color1]}
           placeholder="first name"
@@ -65,17 +86,6 @@ export default function SignUp({ navigation }) {
           value={lastName}
           textAlign={'left'}
           onChangeText={(name) => setLastName(name)}
-         />
-
-         <TextInput
-          style={[styles.textInput, styles.color3]}
-          placeholder="email"
-          placeholderTextColor={"#b8e0ff"}
-          value={email}
-          textAlign={'left'}
-          onChangeText={(email) => setEmail(email)}
-          keyboardType="email-address"
-          autoCapitalize="none"
          />
 
           <TextInput
@@ -119,11 +129,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   titleText: {
-    fontSize: 70,
+    fontSize: 25,
     color: 'white',
     fontWeight: '100',
     fontStyle: 'italic',
-    marginBottom: 140,
+    marginBottom: 0,
   },
   textInput: {
     color: 'white',
