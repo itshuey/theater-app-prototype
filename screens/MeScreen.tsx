@@ -7,9 +7,11 @@ import { loggingOut } from '../api/firebaseMethods';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { MonoText } from '../components/StyledText';
+import { useUser } from '../hooks/UserContext';
 
 export default function MeScreen({ navigation }) {
-  let currentUserUID = firebase.auth().currentUser.uid;
+  const currentUser = useUser();
+  let currentUserUID = currentUser.id;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [handle, setHandle] = useState('');

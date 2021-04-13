@@ -4,11 +4,12 @@ import * as firebase from 'firebase';
 import { follow, unfollow } from '../api/firebaseMethods'
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
-import { useUser } from '../hooks/UserContext'
+import { useUser, useUserUpdate } from '../hooks/UserContext';
 
 export default function MessagesScreen({ navigation }) {
   const [users, setUsers] = useState([]);
   const currentUserInfo = useUser();
+  const updateUserInfo = useUserUpdate();
   const currentUserFollowing = currentUserInfo.following;
   const currentUserID = currentUserInfo.id;
 
@@ -26,6 +27,11 @@ export default function MessagesScreen({ navigation }) {
     })
   }
 
+  function handleFollow(user, userToFollow) {
+    updateUserInfo({ following: userToFollow });
+    follow(user, userToFollow);
+  }
+
   const getUserProfile = (user) => {
     return (
       <View style={styles.userItemContainer}>
@@ -34,7 +40,7 @@ export default function MessagesScreen({ navigation }) {
           <Text style={styles.userHandle}>@{user.handle}</Text>
         </TouchableOpacity>
         { (!currentUserFollowing.includes(user.id) && user.id !== currentUserID) &&
-          <TouchableOpacity onPress={() => follow(currentUserID, user.id)}>
+          <TouchableOpacity onPress={() => handleFollow(currentUserID, user.id)}>
             <Ionicons name="ios-add-circle-outline" size={24} color="black" />
           </TouchableOpacity>
         }

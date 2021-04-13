@@ -26,8 +26,8 @@ export function UserProvider({ children }) {
     const updatedID = params.id ? params.id : userInfo.id;
     const updatedFollowing = !params.following ? userInfo.following :
       (Array.isArray(params.following) ? params.following : [...userInfo.following, params.following]);
-      const updatedLikedEvents = !params.likedEvents ? userInfo.likedEvents :
-        (Array.isArray(params.likedEvents) ? params.likedEvents : [...userInfo.likedEvents, params.likedEvents]);
+    const updatedLikedEvents = !params.likedEvents ? userInfo.likedEvents :
+      (Array.isArray(params.likedEvents) ? params.likedEvents : [...userInfo.likedEvents, params.likedEvents]);
 
     setUserInfo({
       id: updatedID,

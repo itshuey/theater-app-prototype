@@ -3,10 +3,18 @@ import { Image, StyleSheet, FlatList, ScrollView, TouchableOpacity } from 'react
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
 import * as firebase from 'firebase';
+import { useUser, useUserUpdate } from '../hooks/UserContext';
+import { follow, unfollow } from '../api/firebaseMethods';
 
 export default function ProfileScreen({ route, navigation }) {
 
   const { userID } = route.params;
+  const updateUserInfo = useUserUpdate();
+  const currentUser = useUser();
+  const currentUserID = currentUser.id;
+  const currentUserFollowing = currentUser.following;
+  const isCurrentUserFollowing = currentUserFollowing.includes(userID);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [handle, setHandle] = useState('');
@@ -38,7 +46,7 @@ export default function ProfileScreen({ route, navigation }) {
     async function getProfileImage(){
       await firebase
       .storage()
-      .ref('/' + currentUserUID + '.jpg')
+      .ref('/' + userID + '.jpg')
       .getDownloadURL()
       .then((url) => {
         setProfileImageURL(url);
@@ -49,6 +57,17 @@ export default function ProfileScreen({ route, navigation }) {
     getProfileImage();
   })
 
+  function handleFollow() {
+    updateUserInfo({ following: userID });
+    follow(currentUserID, userID);
+  }
+
+  function handleUnfollow() {
+    console.log("hi");
+    updateUserInfo({ following: currentUserFollowing.filter((id) => id !== userID) });
+    unfollow(currentUserID, userID);
+  }
+
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png')
 
   return (
@@ -57,9 +76,14 @@ export default function ProfileScreen({ route, navigation }) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
-        <View style={styles.navContainerActions}>
-          <Ionicons name="md-person-add-outline" size={24} color="black" />
-        </View>
+        <TouchableOpacity onPress={() => isCurrentUserFollowing ? handleUnfollow() : handleFollow()}>
+          <View style={styles.navContainerActions}>
+            <Ionicons
+              name={isCurrentUserFollowing ? "md-person-remove-outline" : "md-person-add-outline"}
+              size={24}
+              color="black" />
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.titleContainer}>

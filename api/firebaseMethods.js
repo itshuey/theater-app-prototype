@@ -114,7 +114,7 @@ export async function unfollow(user, userToUnfollow) {
       });
     }
 
-    await Promise.all([decrementNumFollowing(user), decrementNumFollowers(userToFollow), updateFollowing(user, userToFollow)]);
+    await Promise.all([decrementNumFollowing(user), decrementNumFollowers(userToUnfollow), updateFollowing(user, userToUnfollow)]);
 
   } catch (err) {
     Alert.alert('There is something wrong!', err.message);
