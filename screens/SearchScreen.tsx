@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
+import { follow, unfollow } from '../api/firebaseMethods'
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
+import { useUser } from '../hooks/UserContext'
 
 export default function MessagesScreen({ navigation }) {
   const [users, setUsers] = useState([]);
+  const currentUserInfo = useUser();
+  const currentUserFollowing = currentUserInfo.following;
+  const currentUserID = currentUserInfo.id;
 
   const fetchUsers = (search) => {
     firebase.firestore().collection('users')
@@ -28,7 +33,11 @@ export default function MessagesScreen({ navigation }) {
           <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
           <Text style={styles.userHandle}>@{user.handle}</Text>
         </TouchableOpacity>
-        <Ionicons name="ios-add-circle-outline" size={24} color="black" />
+        { (!currentUserFollowing.includes(user.id) && user.id !== currentUserID) &&
+          <TouchableOpacity onPress={() => follow(currentUserID, user.id)}>
+            <Ionicons name="ios-add-circle-outline" size={24} color="black" />
+          </TouchableOpacity>
+        }
       </View>
     )
   }

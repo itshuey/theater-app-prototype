@@ -17,6 +17,9 @@ import LoadingScreen from '../screens/LoadingScreen';
 import Dashboard from '../screens/Dashboard';
 import Main from '../screens/Main';
 
+import { useUserUpdate } from '../hooks/UserContext';
+import { getInitialUserContextParams } from '../api/firebaseMethods';
+
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
@@ -30,8 +33,10 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const [initializing, setInitializing] = React.useState(true)
+  const [loading, setLoading] = React.useState(true)
   const [user, setUser] = React.useState(null)
+  const initializeUserContext = useUserUpdate();
+
   if (!firebase.apps.length) {
     console.log('Connected with Firebase')
     firebase.initializeApp(apiKeys.firebaseConfig);
@@ -41,13 +46,16 @@ function RootNavigator() {
     const authSubscriber = firebase.auth().onAuthStateChanged(
       (user) => {
         setUser(user);
-        if (initializing) setInitializing(false);
+        if (loading) setLoading(false);
+        getInitialUserContextParams(user).then((params) => {
+          initializeUserContext(params);
+        });
       }
     )
     return authSubscriber
   }, [])
 
-  if (initializing) return <LoadingScreen />
+  if (loading) return <LoadingScreen />
 
   return user ? (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
