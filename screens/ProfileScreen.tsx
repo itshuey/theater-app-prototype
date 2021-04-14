@@ -79,12 +79,13 @@ export default function ProfileScreen({ route, navigation }) {
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => isCurrentUserFollowing ? handleUnfollow() : handleFollow()}>
+          {currentUserID !== userID &&
           <View style={styles.navContainerActions}>
             <Ionicons
               name={isCurrentUserFollowing ? "md-person-remove-outline" : "md-person-add-outline"}
               size={24}
               color="black" />
-          </View>
+          </View>}
         </TouchableOpacity>
       </View>
       <View style={styles.contentContainer}>

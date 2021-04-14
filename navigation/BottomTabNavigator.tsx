@@ -14,6 +14,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ReflectionScreen from '../screens/ReflectionScreen';
 import HomeTabNavigator from './HomeTabNavigator';
 import CreateEventScreen from '../screens/CreateEventScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -144,7 +145,12 @@ function TabFourNavigator() {
       <TabFourStack.Screen
         name="Me"
         component={MeScreen}
-        options={{ headerTitle: 'Me' }}
+        options={{ headerTitle: 'Profile' }}
+      />
+      <TabFourStack.Screen
+        name="Edit Profile"
+        component={EditProfileScreen}
+        options={{ headerTitle: 'Edit Profile' }}
       />
     </TabFourStack.Navigator>
   );

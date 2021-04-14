@@ -2,43 +2,37 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, ScrollView, Keyboard ,StyleSheet, SafeAreaView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { registration } from '../api/firebaseMethods';
+import { createEvent } from '../api/firebaseMethods';
 
 export default function CreateEventScreen({ navigation }) {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showName, setShowName] = useState('');
+  const [description, setDescription] = useState('');
+
+  const [venueName, setVenueName] = useState('');
+  const [venueAddress, setVenueAddress] = useState('');
 
   const emptyState = () => {
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+    setShowName('');
+    setDescription('');
+    setVenueName('');
+    setVenueAddress('');
   };
 
   const handlePress = () => {
-    if (!firstName) {
-      Alert.alert('First name is required');
-    } else if (!email) {
-      Alert.alert('Email field is required.');
-    } else if (!password) {
-      Alert.alert('Password field is required.');
-    } else if (!confirmPassword) {
-      setPassword('');
-      Alert.alert('Confirm password field is required.');
-    } else if (password !== confirmPassword) {
-      Alert.alert('Password does not match!');
+    if (!showName) {
+      Alert.alert('Show name is required!');
+    } else if (!venueName) {
+      Alert.alert('Venue name is required!');
+    } else if (!venueAddress) {
+      Alert.alert('Venue Address is required.');
     } else {
-      registration(
-        email,
-        password,
-        lastName,
-        firstName,
+      createEvent(
+        showName,
+        description,
+        venueName,
+        venueAddress,
       );
-      navigation.navigate('Loading');
+      navigation.navigate('Explore');
       emptyState();
     }
   };
@@ -61,18 +55,25 @@ export default function CreateEventScreen({ navigation }) {
               <View style={styles.formResponseContainer}>
                 <TextInput
                 style={styles.formResponseText}
-                placeholder="A Brief Name Here"
+                placeholder="Show name here"
                 placeholderTextColor={"black"}
-                value={firstName}
+                value={showName}
                 textAlign={'left'}
-                onChangeText={(name) => setFirstName(name)}
+                onChangeText={(name) => setShowName(name)}
                 />
               </View>
             </View>
             <View style={styles.formBlockContainer}>
               <Text style={styles.formHeaderText}>Description</Text>
               <View style={styles.formResponseContainer}>
-                <Text style={styles.formResponseText}>A brief name here</Text>
+                <TextInput
+                style={styles.formResponseText}
+                placeholder="A brief description"
+                placeholderTextColor={"black"}
+                value={description}
+                textAlign={'left'}
+                onChangeText={(text) => setDescription(text)}
+                />
               </View>
             </View>
           </View>
@@ -96,19 +97,62 @@ export default function CreateEventScreen({ navigation }) {
             <View style={styles.formBlockContainer}>
               <Text style={styles.formHeaderText}>Venue Name</Text>
               <View style={styles.formResponseContainer}>
-                <Text style={styles.formResponseText}>A brief name here</Text>
+                <TextInput
+                style={styles.formResponseText}
+                placeholder="Venue name here"
+                placeholderTextColor={"black"}
+                value={venueName}
+                textAlign={'left'}
+                onChangeText={(text) => setVenueName(text)}
+                />
               </View>
             </View>
             <View style={styles.formBlockContainer}>
               <Text style={styles.formHeaderText}>Venue Address</Text>
               <View style={styles.formResponseContainer}>
-                <Text style={styles.formResponseText}>A brief name here</Text>
+                <TextInput
+                style={styles.formResponseText}
+                placeholder="Venue address here"
+                placeholderTextColor={"black"}
+                value={venueAddress}
+                textAlign={'left'}
+                onChangeText={(text) => setVenueAddress(text)}
+                />
               </View>
             </View>
           </View>
-            <TouchableOpacity style={styles.button} onPress={() => console.log("Submit")} >
-              <Text style={styles.buttonText}>Create</Text>
-             </TouchableOpacity>
+          <View style={styles.formSectionContainer}>
+            <Text style={styles.formSectionText}>Logistical Information</Text>
+            <View style={styles.formBlockContainer}>
+              <Text style={styles.formHeaderText}>Minimum Ticket Price</Text>
+              <View style={styles.formResponseContainer}>
+                <TextInput
+                style={styles.formResponseText}
+                placeholder="e.g. $25.00"
+                placeholderTextColor={"black"}
+                value={venueName}
+                textAlign={'left'}
+                onChangeText={(text) => setVenueName(text)}
+                />
+              </View>
+            </View>
+            <View style={styles.formBlockContainer}>
+              <Text style={styles.formHeaderText}>Ticket Link</Text>
+              <View style={styles.formResponseContainer}>
+                <TextInput
+                style={styles.formResponseText}
+                placeholder="e.g. https://example.com"
+                placeholderTextColor={"black"}
+                value={venueAddress}
+                textAlign={'left'}
+                onChangeText={(text) => setVenueAddress(text)}
+                />
+              </View>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={() => console.log("Submit")} >
+            <Text style={styles.buttonText}>Create</Text>
+           </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -134,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   contentContainer: {
-    marginTop: 40,
+    marginTop: 50,
     backgroundColor: 'transparent',
     marginHorizontal: 30,
   },
@@ -168,7 +212,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'purple',
   },
   button: {
-    marginTop: 50,
+    marginTop: 20,
     borderColor: 'purple',
     borderWidth: 1,
     borderRadius: 15,

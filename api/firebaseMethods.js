@@ -25,6 +25,36 @@ export async function registration(email, password, handle, lastName, firstName)
   }
 }
 
+export async function createEvent(showName, description, venueName, venueAddress) {
+  try {
+    const db = firebase.firestore();
+    await db.collection("events")
+      .add({
+        showName: showName,
+        description: description,
+        venueName: venueName,
+        venueAddress: venueAddress,
+      });
+  } catch (err) {
+    Alert.alert("Issue creating event!", err.message);
+  }
+}
+
+export async function editProfile(userID, bio) {
+  try {
+    const update = {
+      bio: bio,
+    }
+
+    const db = firebase.firestore();
+    await db.collection("users")
+      .doc(userID)
+      .update(update);
+  } catch (err) {
+    Alert.alert("Issue editing profile!", err.message);
+  }
+}
+
 export async function getInitialUserContextParams(user) {
   let doc = await firebase
   .firestore()
@@ -40,6 +70,7 @@ export async function getInitialUserContextParams(user) {
     const params = {
       id: user.uid,
       following: following,
+      bio: user.bio,
     }
     return params;
   }

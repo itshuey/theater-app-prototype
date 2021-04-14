@@ -5,6 +5,7 @@ const UserUpdateContext = React.createContext();
 
 const user = {
   id: "",
+  bio: "",
   following: [],
   likedEvents: [],
 }
@@ -24,6 +25,7 @@ export function UserProvider({ children }) {
   function updateUserInfo(params) {
 
     const updatedID = params.id ? params.id : userInfo.id;
+    const updatedBio = params.bio ? params.bio : userInfo.bio;
     const updatedFollowing = !params.following ? userInfo.following :
       (Array.isArray(params.following) ? params.following : [...userInfo.following, params.following]);
     const updatedLikedEvents = !params.likedEvents ? userInfo.likedEvents :
@@ -31,6 +33,7 @@ export function UserProvider({ children }) {
 
     setUserInfo({
       id: updatedID,
+      bio: updatedBio,
       following: updatedFollowing,
       likedEvents: updatedLikedEvents,
     });

@@ -3,6 +3,7 @@ import { StyleSheet, FlatList, Image, ScrollView, TouchableOpacity } from 'react
 import { Ionicons } from '@expo/vector-icons';
 import { EventPostData } from '../data/eventpostdata';
 import { Text, View } from '../components/Themed';
+import Comment from '../components/Comment';
 
 export default function ShowScreen({ navigation }) {
 
@@ -12,6 +13,18 @@ export default function ShowScreen({ navigation }) {
   const dates = show.dates;
   const venue = show.venue;
   const description = show.description;
+  const commentList = show.comments.map((comment) =>
+    <Comment
+      id={comment.id}
+      key={comment.id}
+      name={comment.name}
+      pictureUrl={comment.pictureUrl}
+      timeStamp={comment.timeStamp}
+      comment={comment.comment}
+      numLikes={comment.numLikes}
+      review={true}
+    />
+  )
 
   return (
     <ScrollView style={styles.container}>
@@ -74,16 +87,16 @@ export default function ShowScreen({ navigation }) {
             <Text style={{color:'gray'}}>Director</Text>
           </View>
           <View style={styles.castBlock}>
-            <Text>Eva Wang </Text>
-            <Text style={{color:'gray'}}>Director</Text>
+            <Text>Huey Sun </Text>
+            <Text style={{color:'gray'}}>Playwright</Text>
           </View>
           <View style={styles.castBlock}>
-            <Text>Eva Wang </Text>
-            <Text style={{color:'gray'}}>Director</Text>
+            <Text>Rachel Yang </Text>
+            <Text style={{color:'gray'}}>Actor</Text>
           </View>
           <View style={styles.castBlock}>
-            <Text>Eva Wang </Text>
-            <Text style={{color:'gray'}}>Director</Text>
+            <Text>Jaden Kim </Text>
+            <Text style={{color:'gray'}}>Actor</Text>
           </View>
         </View>
 
@@ -94,6 +107,12 @@ export default function ShowScreen({ navigation }) {
             <Ionicons name="checkmark-circle-outline" size={16} color="green" />
           </View>
         </View>
+
+        <View style={styles.infoBlockContainer}>
+          <Text style={styles.infoBlockHeaderText}>Reflections</Text>
+          {commentList}
+        </View>
+
       </View>
     </ScrollView>
   );

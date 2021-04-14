@@ -34,7 +34,25 @@ const EventPostData: EventPost[] = [
     dates: "4/2-9/5",
     creatives: ["Simon Stephens","Walter M."],
     description: "A new adaptation of Nobel Prize-winner José Saramago’s 1995 dystopian novel by Tony Award winning playwright Simon Stephens, is a socially distanced sound narrative.",
-    emoji: "⚡"
+    emoji: "⚡",
+    comments: [
+      {
+        id: "c1",
+        name: "Ginger",
+        pictureUrl: "../assets/images/defaultprofile.png",
+        timeStamp: "6 hours ago",
+        comment: "Brilliance from beginning to end.",
+        numLikes: 5,
+      },
+      {
+        id: "c2",
+        name: "Bobby",
+        pictureUrl: "../assets/images/defaultprofile.png",
+        timeStamp: "5 hours ago",
+        comment: "Daring! Jaden is unforgettable in this. A tour de force of an actor at his prime.",
+        numLikes: 1,
+      },
+    ],
   },
   {
     id: "e3",

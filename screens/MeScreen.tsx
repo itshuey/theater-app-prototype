@@ -10,8 +10,9 @@ import { MonoText } from '../components/StyledText';
 import { useUser } from '../hooks/UserContext';
 
 export default function MeScreen({ navigation }) {
+
   const currentUser = useUser();
-  let currentUserUID = currentUser.id;
+  const currentUserUID = currentUser.id;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [handle, setHandle] = useState('');
@@ -54,7 +55,6 @@ export default function MeScreen({ navigation }) {
     getProfileImage();
   })
 
-
   const handlePress = () => {
     loggingOut();
   };
@@ -63,8 +63,13 @@ export default function MeScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-    <Ionicons name="flower-outline" style={styles.edit} size={24} color="black" />
       <View style={styles.contentContainer}>
+        <TouchableOpacity
+          style={styles.editContainer}
+          onPress={() => navigation.navigate("Edit Profile",
+            { id: currentUserUID, oldBio: bio })}>
+          <Ionicons name="flower-outline" size={24} color="black" />
+        </TouchableOpacity>
         <View style={styles.titleContainer}>
           <Image source={profile} style={styles.imageContainer} />
           <View style={styles.titleInfoContainer}>
@@ -122,7 +127,7 @@ export default function MeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   navContainer: {
     marginTop: 50,
@@ -134,12 +139,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   contentContainer: {
-    paddingTop: 10,
     backgroundColor: 'transparent',
     marginHorizontal: 30,
   },
   titleContainer: {
-    marginTop: 30,
     marginBottom: 5,
     marginLeft: 10,
     flexDirection: 'row',
@@ -205,10 +208,9 @@ const styles = StyleSheet.create({
     width: 80,
     marginRight: 12,
   },
-  edit: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    zIndex: 2,
+  editContainer: {
+    alignSelf: 'flex-end',
+    marginTop: 5,
+    marginTop: 15,
   }
 });

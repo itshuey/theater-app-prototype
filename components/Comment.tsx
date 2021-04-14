@@ -9,10 +9,10 @@ import { Text, View } from './Themed';
 import { CommentSchema } from '../data/reviewpostdata'
 
 export default function Comment({
-  name, pictureUrl, timeStamp, comment, numLikes
+  name, pictureUrl, timeStamp, comment, numLikes, review=false
 }: CommentSchema) {
   return (
-    <View style={styles.container}>
+    <View style={review ? styles.reviewContainer : styles.container}>
       <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />
       <View style={styles.mainCommentContainer}>
         <View style={styles.infoContainer}>
@@ -42,6 +42,14 @@ const styles = StyleSheet.create({
     paddingBottom: 11,
     borderTopColor: '#e3e3e3',
     borderTopWidth: 1,
+  },
+  reviewContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 8,
+    paddingBottom: 11,
+    borderBottomColor: '#e3e3e3',
+    borderBottomWidth: 1,
   },
   mainCommentContainer: {
     marginLeft: 10,
