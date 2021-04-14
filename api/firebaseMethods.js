@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 import "firebase/firestore";
-import {Alert} from "react-native";
+import { Alert } from "react-native";
 import { useUserUpdate } from "../hooks/UserContext.js";
 
 export async function registration(email, password, handle, lastName, firstName) {
@@ -51,7 +51,7 @@ export async function signIn(email, password) {
       .auth()
       .signInWithEmailAndPassword(email, password);
   } catch (err) {
-    Alert.alert("There is something wrong!", err.message);
+    Alert.alert("Sign in error!", err.message);
   }
 }
 
@@ -59,64 +59,50 @@ export async function loggingOut() {
   try {
     await firebase.auth().signOut();
   } catch (err) {
-    Alert.alert('There is something wrong!', err.message);
+    Alert.alert('Sign out error!', err.message);
   }
 }
 
 export async function follow(user, userToFollow) {
   try {
     const db = firebase.firestore();
-    function incrementNumFollowing(userID) {
-      const userRef = db.collection("users").doc(userID);
-      userRef.update({
-          numFollowing: firebase.firestore.FieldValue.increment(1)
-      });
-    }
-    function incrementNumFollowers(userID) {
-      const userRef = db.collection("users").doc(userID);
-      userRef.update({
-          numFollowers: firebase.firestore.FieldValue.increment(1)
-      });
-    }
-    function updateFollowing(userID, userIDToFollow) {
-      const followingRef = db.collection("following").doc(userID);
-      followingRef.update({
-          following: firebase.firestore.FieldValue.arrayUnion(userIDToFollow)
-      });
-    }
+    const increment = firebase.firestore.FieldValue.increment(1);
+    const updateFollowing = firebase.firestore.FieldValue.arrayUnion(userToFollow);
 
-    await Promise.all([incrementNumFollowing(user), incrementNumFollowers(userToFollow), updateFollowing(user, userToFollow)]);
+    const userRef = db.collection("users").doc(user);
+    const userToFollowRef = db.collection("users").doc(userToFollow);
+    const followingRef = db.collection("following").doc(user);
+
+    const batch = db.batch();
+    batch.set(followingRef, { following: updateFollowing }, { merge: true });
+    batch.set(userRef, { numFollowing: increment }, { merge: true });
+    batch.set(userToFollowRef, { numFollowers: increment }, { merge: true });
+
+    await batch.commit();
 
   } catch (err) {
-    Alert.alert('There is something wrong!', err.message);
+    Alert.alert('Error following!', err.message);
   }
 }
 
 export async function unfollow(user, userToUnfollow) {
   try {
     const db = firebase.firestore();
-    function decrementNumFollowing(userID) {
-      const userRef = db.collection("users").doc(userID);
-      userRef.update({
-          numFollowing: firebase.firestore.FieldValue.increment(-1)
-      });
-    }
-    function decrementNumFollowers(userID) {
-      const userRef = db.collection("users").doc(userID);
-      userRef.update({
-          numFollowers: firebase.firestore.FieldValue.increment(-1)
-      });
-    }
-    function updateFollowing(userID, userIDToFollow) {
-      const followingRef = db.collection("following").doc(userID);
-      followingRef.update({
-          following: firebase.firestore.FieldValue.arrayRemove(userIDToFollow)
-      });
-    }
+    const decrement = firebase.firestore.FieldValue.increment(-1);
+    const removeFromFollowing = firebase.firestore.FieldValue.arrayRemove(userToUnfollow);
 
-    await Promise.all([decrementNumFollowing(user), decrementNumFollowers(userToUnfollow), updateFollowing(user, userToUnfollow)]);
+    const userRef = db.collection("users").doc(user);
+    const userToUnfollowRef = db.collection("users").doc(userToUnfollow);
+    const followingRef = db.collection("following").doc(user);
+
+    const batch = db.batch();
+    batch.set(followingRef, { following: removeFromFollowing }, { merge: true });
+    batch.set(userRef, { numFollowing: decrement }, { merge: true });
+    batch.set(userToUnfollowRef, { numFollowers: decrement }, { merge: true });
+
+    await batch.commit();
 
   } catch (err) {
-    Alert.alert('There is something wrong!', err.message);
+    Alert.alert('Error unfollowing!', err.message);
   }
 }

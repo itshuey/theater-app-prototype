@@ -34,17 +34,19 @@ export default function MessagesScreen({ navigation }) {
 
   const getUserProfile = (user) => {
     return (
-      <View style={styles.userItemContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
-          <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
-          <Text style={styles.userHandle}>@{user.handle}</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
+        <View style={styles.userItemContainer}>
+          <View>
+            <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
+            <Text style={styles.userHandle}>@{user.handle}</Text>
+          </View>
         { (!currentUserFollowing.includes(user.id) && user.id !== currentUserID) &&
           <TouchableOpacity onPress={() => handleFollow(currentUserID, user.id)}>
             <Ionicons name="ios-add-circle-outline" size={24} color="black" />
           </TouchableOpacity>
         }
-      </View>
+        </View>
+      </TouchableOpacity>
     )
   }
 

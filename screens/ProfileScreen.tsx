@@ -43,6 +43,10 @@ export default function ProfileScreen({ route, navigation }) {
         setNumFollowing(dataObj.numFollowing)
       }
     }
+    getUserInfo();
+  })
+
+  useEffect(() => {
     async function getProfileImage(){
       await firebase
       .storage()
@@ -53,7 +57,6 @@ export default function ProfileScreen({ route, navigation }) {
       })
       .catch((e) => console.log('getting downloadURL of image error => ', e));
     }
-    getUserInfo();
     getProfileImage();
   })
 
@@ -63,7 +66,6 @@ export default function ProfileScreen({ route, navigation }) {
   }
 
   function handleUnfollow() {
-    console.log("hi");
     updateUserInfo({ following: currentUserFollowing.filter((id) => id !== userID) });
     unfollow(currentUserID, userID);
   }
