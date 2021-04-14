@@ -119,6 +119,11 @@ function TabTwoNavigator() {
         component={SearchScreen}
         options={{ headerTitle: 'Search' }}
       />
+      <TabOneStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
     </TabTwoStack.Navigator>
   );
 }

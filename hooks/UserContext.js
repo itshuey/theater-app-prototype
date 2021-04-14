@@ -8,12 +8,12 @@ const user = {
   bio: "",
   following: [],
   likedEvents: [],
+  lastUpdate: "",
 }
 
 export function useUser() {
   return useContext(UserContext);
 }
-
 
 export function useUserUpdate() {
   return useContext(UserUpdateContext);
@@ -24,6 +24,7 @@ export function UserProvider({ children }) {
 
   function updateUserInfo(params) {
 
+    const updatedTimestamp = Date.now();
     const updatedID = params.id ? params.id : userInfo.id;
     const updatedBio = params.bio ? params.bio : userInfo.bio;
     const updatedFollowing = !params.following ? userInfo.following :
@@ -31,11 +32,14 @@ export function UserProvider({ children }) {
     const updatedLikedEvents = !params.likedEvents ? userInfo.likedEvents :
       (Array.isArray(params.likedEvents) ? params.likedEvents : [...userInfo.likedEvents, params.likedEvents]);
 
+    console.log("Updated at " + updatedTimestamp);
+
     setUserInfo({
       id: updatedID,
       bio: updatedBio,
       following: updatedFollowing,
       likedEvents: updatedLikedEvents,
+      lastUpdate: updatedTimestamp,
     });
   }
 

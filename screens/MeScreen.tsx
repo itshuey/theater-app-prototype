@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Alert, ScrollView, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import * as firebase from 'firebase';
 import { loggingOut } from '../api/firebaseMethods';
 import { Text, View } from '../components/Themed';
@@ -41,6 +42,10 @@ export default function MeScreen({ navigation }) {
         setNumFollowing(dataObj.numFollowing)
       }
     }
+    getUserInfo();
+  });
+
+  useEffect(() => {
     async function getProfileImage(){
       await firebase
       .storage()
@@ -51,15 +56,10 @@ export default function MeScreen({ navigation }) {
       })
       .catch((e) => console.log('getting downloadURL of image error => ', e));
     }
-    getUserInfo();
     getProfileImage();
-  })
+  }, [currentUser]);
 
-  const handlePress = () => {
-    loggingOut();
-  };
-
-  const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png')
+  const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
   return (
     <ScrollView style={styles.container}>
@@ -67,7 +67,7 @@ export default function MeScreen({ navigation }) {
         <TouchableOpacity
           style={styles.editContainer}
           onPress={() => navigation.navigate("Edit Profile",
-            { id: currentUserUID, oldBio: bio })}>
+            { id: currentUserUID, currentProfileURI: profileImageURL, currentName: firstName, currentBio: bio })}>
           <Ionicons name="flower-outline" size={24} color="black" />
         </TouchableOpacity>
         <View style={styles.titleContainer}>
@@ -116,7 +116,7 @@ export default function MeScreen({ navigation }) {
             Watched Shows
           </Text>
         </View>
-        <TouchableOpacity onPress={() => handlePress()}>
+        <TouchableOpacity onPress={() => loggingOut()}>
           <Text> Log Out </Text>
         </TouchableOpacity>
       </View>

@@ -55,6 +55,25 @@ export async function editProfile(userID, bio) {
   }
 }
 
+export async function uploadPicture(uri, id, folder) {
+  try {
+
+    const imageName = folder ? folder + "/" + id : id;
+    const metadata = { contentType: 'image/jpeg', };
+
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    var ref = firebase.storage().ref().child(imageName + ".jpg");
+    await ref.put(blob, metadata).then((snapshot) => {
+      //You can check the image is now uploaded in the storage bucket
+      console.log(`${imageName} has been successfully uploaded.`);
+    })
+    .catch((e) => console.log('uploading image error => ', e));
+  } catch (err) {
+    Alert.alert("Issue uploading picture!", err.message);
+  }
+}
+
 export async function getInitialUserContextParams(user) {
   let doc = await firebase
   .firestore()
