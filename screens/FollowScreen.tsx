@@ -1,11 +1,12 @@
 import * as React from 'react';
+import * as firebase from 'firebase';
 import { StyleSheet, FlatList } from 'react-native';
 
-import FeedPost from '../components/FeedPost.tsx';
 import { Text, View } from '../components/Themed';
-import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
+import FeedPost from '../components/FeedPost.tsx';
 import LoadingScreen from './LoadingScreen.js';
-import * as firebase from 'firebase';
+
+import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
 export default function FollowScreen({ navigation }) {
   const [loading, setLoading] = React.useState(true)
