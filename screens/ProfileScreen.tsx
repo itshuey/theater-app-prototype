@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Alert, ScrollView, Image } from 'react-native';
+import { Image, StyleSheet, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
-import * as firebase from 'firebase';
-import { loggingOut } from '../api/firebaseMethods';
 import { Text, View } from '../components/Themed';
-import Colors from '../constants/Colors';
-import { MonoText } from '../components/StyledText';
-import { useUser } from '../hooks/UserContext';
+import * as firebase from 'firebase';
+import { useUser, useUserUpdate } from '../hooks/UserContext';
+import { follow, unfollow } from '../api/firebaseMethods';
 
-export default function MeScreen({ navigation }) {
+export default function ProfileScreen({ route, navigation }) {
 
+  const { userID } = route.params;
+  const updateUserInfo = useUserUpdate();
   const currentUser = useUser();
-  const currentUserUID = currentUser.id;
+  const currentUserID = currentUser.id;
+  const currentUserFollowing = currentUser.following;
+  const isCurrentUserFollowing = currentUserFollowing.includes(userID);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [handle, setHandle] = useState('');
@@ -27,7 +28,7 @@ export default function MeScreen({ navigation }) {
       let doc = await firebase
       .firestore()
       .collection('users')
-      .doc(currentUserUID)
+      .doc(userID)
       .get();
 
       if (!doc.exists){
@@ -43,13 +44,13 @@ export default function MeScreen({ navigation }) {
       }
     }
     getUserInfo();
-  });
+  })
 
   useEffect(() => {
     async function getProfileImage(){
       await firebase
       .storage()
-      .ref('/' + currentUserUID + '.jpg')
+      .ref('/' + userID + '.jpg')
       .getDownloadURL()
       .then((url) => {
         setProfileImageURL(url);
@@ -57,19 +58,37 @@ export default function MeScreen({ navigation }) {
       .catch((e) => console.log('getting downloadURL of image error => ', e));
     }
     getProfileImage();
-  }, [currentUser]);
+  })
 
-  const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
+  function handleFollow() {
+    updateUserInfo({ following: userID });
+    follow(currentUserID, userID);
+  }
+
+  function handleUnfollow() {
+    updateUserInfo({ following: currentUserFollowing.filter((id) => id !== userID) });
+    unfollow(currentUserID, userID);
+  }
+
+  const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png')
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.contentContainer}>
-        <TouchableOpacity
-          style={styles.editContainer}
-          onPress={() => navigation.navigate("Edit Profile",
-            { id: currentUserUID, currentProfileURI: profileImageURL, currentName: firstName, currentBio: bio })}>
-          <Ionicons name="flower-outline" size={24} color="black" />
+      <View style={styles.navContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => isCurrentUserFollowing ? handleUnfollow() : handleFollow()}>
+          {currentUserID !== userID &&
+          <View style={styles.navContainerActions}>
+            <Ionicons
+              name={isCurrentUserFollowing ? "md-person-remove-outline" : "md-person-add-outline"}
+              size={24}
+              color="black" />
+          </View>}
+        </TouchableOpacity>
+      </View>
+      <View style={styles.contentContainer}>
         <View style={styles.titleContainer}>
           <Image source={profile} style={styles.imageContainer} />
           <View style={styles.titleInfoContainer}>
@@ -116,9 +135,6 @@ export default function MeScreen({ navigation }) {
             Watched Shows
           </Text>
         </View>
-        <TouchableOpacity onPress={() => loggingOut()}>
-          <Text> Log Out </Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -127,7 +143,7 @@ export default function MeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   navContainer: {
     marginTop: 50,
@@ -139,10 +155,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   contentContainer: {
+    paddingTop: 10,
     backgroundColor: 'transparent',
     marginHorizontal: 30,
   },
   titleContainer: {
+    marginTop: 30,
     marginBottom: 5,
     marginLeft: 10,
     flexDirection: 'row',
@@ -208,9 +226,5 @@ const styles = StyleSheet.create({
     width: 80,
     marginRight: 12,
   },
-  editContainer: {
-    alignSelf: 'flex-end',
-    marginTop: 5,
-    marginTop: 15,
-  }
+
 });

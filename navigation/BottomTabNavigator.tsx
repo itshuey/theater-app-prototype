@@ -5,11 +5,16 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import HomeScreen from '../screens/HomeScreen';
+import LogoHeader from '../components/LogoHeader';
 import FavoritesScreen from '../screens/FavoritesScreen';
-import MessagesScreen from '../screens/MessagesScreen';
+import SearchScreen from '../screens/SearchScreen';
 import MeScreen from '../screens/MeScreen';
-import HomeTabNavigator from './HomeTabNavigator.tsx';
+import ShowScreen from '../screens/ShowScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import ReflectionScreen from '../screens/ReflectionScreen';
+import HomeTabNavigator from './HomeTabNavigator';
+import CreateEventScreen from '../screens/CreateEventScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -20,33 +25,36 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{
+        activeTintColor: Colors[colorScheme].tint,
+        showLabel: false,
+      }}>
       <BottomTab.Screen
         name="Home"
         component={TabOneNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="home-sharp" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-home-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Search"
+        component={TabTwoNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Favorites"
-        component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-star-outline" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Messages"
         component={TabThreeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="mail" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-star-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Me"
         component={TabFourNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="person-circle" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="person-circle-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -56,7 +64,7 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={22} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -67,9 +75,35 @@ function TabOneNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="Nav"
+        name="Feed"
         component={HomeTabNavigator}
-        options={{ headerTitle: '' }}
+        options={{
+          headerTitle: props => <LogoHeader {...props} />,
+          headerStyle: {
+            backgroundColor: Colors['light'].header,
+            shadowColor: 'transparent',
+          },
+        }}
+      />
+      <TabOneStack.Screen
+        name="Show"
+        component={ShowScreen}
+        options={{ headerShown: false }}
+      />
+      <TabOneStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <TabOneStack.Screen
+        name="Reflection"
+        component={ReflectionScreen}
+        options={{ headerShown: false }}
+      />
+      <TabOneStack.Screen
+        name="Create Event"
+        component={CreateEventScreen}
+        options={{ headerShown: false }}
       />
     </TabOneStack.Navigator>
   );
@@ -81,9 +115,14 @@ function TabTwoNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={{ headerTitle: 'Favorites' }}
+        name="Search"
+        component={SearchScreen}
+        options={{ headerTitle: 'Search' }}
+      />
+      <TabOneStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
       />
     </TabTwoStack.Navigator>
   );
@@ -95,9 +134,9 @@ function TabThreeNavigator() {
   return (
     <TabThreeStack.Navigator>
       <TabThreeStack.Screen
-        name="Messages"
-        component={MessagesScreen}
-        options={{ headerTitle: 'Messages' }}
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{ headerTitle: 'Favorites' }}
       />
     </TabThreeStack.Navigator>
   );
@@ -111,7 +150,12 @@ function TabFourNavigator() {
       <TabFourStack.Screen
         name="Me"
         component={MeScreen}
-        options={{ headerTitle: 'Me' }}
+        options={{ headerTitle: 'Profile' }}
+      />
+      <TabFourStack.Screen
+        name="Edit Profile"
+        component={EditProfileScreen}
+        options={{ headerTitle: 'Edit Profile' }}
       />
     </TabFourStack.Navigator>
   );

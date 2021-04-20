@@ -15,7 +15,7 @@ export default function WelcomeScreen ({navigation}) {
         <TouchableOpacity style={[styles.mainButton, styles.button]} onPress={() => navigation.navigate('Sign Up')} >
           <Text style={styles.mainButtonText}>sign up</Text>
          </TouchableOpacity>
-        <TouchableOpacity style={[styles.altButtonn, styles.button]} onPress={() => navigation.navigate('Sign In')}>
+        <TouchableOpacity style={[styles.altButton, styles.button]} onPress={() => navigation.navigate('Sign In')}>
           <Text style={styles.buttonText}>sign in</Text>
         </TouchableOpacity>
       </View>

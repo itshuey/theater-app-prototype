@@ -1,263 +1,209 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
+import { EventPost } from '../data/eventpostdata'
 
-export default function ExplorePath({ path }: { path: string }) {
+export default function ExplorePost({
+   name, numStars, price, tags, venue, dates, creatives, description, emoji
+  }: EventPost){
+
+  const tagList = tags.map((tag) =>
+    <View key={tag} style={styles.tag}>
+      <Text
+        style={styles.tagText}
+        lightColor="rgba(0,0,0,0.8)"
+        darkColor="rgba(255,255,255,0.8)">
+        {tag}
+      </Text>
+    </View>
+  )
+
   return (
     <View style={styles.explorePost}>
       <View style={styles.postContainer}>
-      <View style={styles.mainInfoContainer}>
-        <View style={styles.imageContainer}>
-        </View>
-        <View style={styles.infoContainer}>
-          <Text
-            style={styles.nameText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Name
-          </Text>
-          <View style={styles.ratingsContainer}>
-            <View style={styles.starContainer}>
-              <Ionicons size={18} name='star' color='gold'/>
-              <Ionicons size={18} name='star' color='gold'/>
-              <Ionicons size={18} name='star' color='gold'/>
-              <Ionicons size={18} name='star' color='gold'/>
-              <Ionicons size={18} name='star' color='gold'/>
-            </View>
-            <Text
-              style={styles.ratingsText}
-              lightColor="rgba(0,0,0,0.8)"
-              darkColor="rgba(255,255,255,0.8)">
-              9.7
-            </Text>
-          </View>
-          <View style={styles.tagContainer}>
-            <View style={styles.tag}>
+
+          <View style={styles.nameContainer}>
+          <View style={styles.headlineContainer}>
+            <View style={styles.logisticsContainer}>
               <Text
-                style={styles.tagText}
+                style={styles.infoText}
                 lightColor="rgba(0,0,0,0.8)"
                 darkColor="rgba(255,255,255,0.8)">
-                Tag 1
+                {venue}, {dates}
               </Text>
             </View>
-            <View style={styles.tag}>
+            <View style={styles.starContainer}>
+              <Ionicons size={14} color={'#5e5e5e'} name='ios-star-outline' />
               <Text
-                style={styles.tagText}
+                style={styles.starText}
                 lightColor="rgba(0,0,0,0.8)"
                 darkColor="rgba(255,255,255,0.8)">
-                Tag 2
+                {numStars}
+              </Text>
+            </View>
+            </View>
+            <Text
+              style={styles.nameText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              {name}
+            </Text>
+
+        </View>
+        <View style={styles.mainInfoContainer}>
+          <Image source={require('../assets/images/default.png')} style={styles.imageContainer} />
+          <View style={styles.infoContainer}>
+            <Text
+              style={styles.descriptionText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              {description}
+            </Text>
+            <View style={styles.tagContainer}>
+              {tagList}
+            </View>
+          </View>
+        </View>
+        <View style={styles.detailContainer}>
+          <View>
+            <Text
+              style={styles.priceText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              Starting from {price}
+            </Text>
+            <Text
+              style={styles.infoText}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              Creatives include:&nbsp;
+                <Text style={styles.creativesText}>
+                  {creatives.join(', ')}
+                </Text>
             </Text>
           </View>
+          <View style={styles.emojiContainer}>
+            <Text
+              style={styles.emoji}
+              lightColor="rgba(0,0,0,0.8)"
+              darkColor="rgba(255,255,255,0.8)">
+              {emoji}
+            </Text>
           </View>
-
-          <Text
-            style={styles.infoText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Theater:
-          </Text>
-
-          <Text
-            style={styles.infoText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Date:
-          </Text>
-
-          <Text
-            style={styles.infoText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Cast & Creative:
-          </Text>
         </View>
       </View>
-      <Text
-        style={styles.descriptionText}
-        lightColor="rgba(0,0,0,0.8)"
-        darkColor="rgba(255,255,255,0.8)">
-        Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in eleifend est.
-      </Text>
-      <View style={styles.interactionsContainer}>
-        <View style={styles.reactionContainer}>
-          <Ionicons size={22} name='ios-heart-outline' color={'gray'} />
-          <Text
-            style={styles.reactionText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            211
-          </Text>
-        </View>
-        <View style={styles.reactionContainer}>
-          <Ionicons size={22} name='ios-chatbox-outline' />
-          <Text
-            style={styles.reactionText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            21
-          </Text>
-        </View>
-        <View style={styles.reactionContainer}>
-          <Ionicons size={22} name='ios-star-outline' />
-          <Text
-            style={styles.reactionText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            50
-          </Text>
-        </View>
-      </View>
-      </View>
-
     </View>
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
   );
 }
 
 const styles = StyleSheet.create({
   explorePost: {
-    marginTop: 5,
-    marginRight: 10,
-    marginLeft: 10,
-    marginBottom: 5,
+    marginVertical: 3,
+    marginHorizontal: 0,
     borderRadius: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderTopColor: 'white',
+    borderWidth: 0.5,
   },
   postContainer: {
-    marginLeft: 20,
-    marginTop: 20,
-    marginRight: 20,
-    width: 315,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    margin: 20,
   },
   mainInfoContainer: {
     flexDirection: 'row',
-    height: 140,
-    marginBottom: 10,
+    marginBottom: 5,
+    marginTop: 5,
     width: 100,
-  },
-  tagContainer: {
-    flexDirection: 'row',
-    marginTop: 2,
-    marginBottom: 3,
   },
   imageContainer: {
     height: 140,
     width: 110,
-    backgroundColor: 'black',
   },
-  infoContainer: {
-    marginLeft: 10,
-    width: 200,
-  },
-  ratingsContainer: {
+  tagContainer: {
     flexDirection: 'row',
-    marginBottom: 5,
-  },
-  starContainer: {
-    flexDirection: 'row',
-  },
-  interactionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: 310,
-    marginTop: 5,
-    marginBottom: 10,
-  },
-  reactionContainer: {
-    flexDirection: 'row',
-  },
-  reactionText: {
-    fontSize: 16,
-    paddingTop: 2,
-    paddingLeft: 8,
-  },
-  nameText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  infoText: {
-    marginTop: 3,
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  descriptionText: {
-    fontSize: 15,
-    lineHeight: 24,
-    textAlign: 'left',
-  },
-  helpContainer: {
-    marginTop: 15,
-    marginHorizontal: 20,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    textAlign: 'center',
-  },
-  tagText: {
-    fontSize: 11,
-  },
-  ratingsText: {
-    marginLeft: 5,
-    paddingTop: 2,
+    marginTop: 4,
+    marginBottom: 3,
   },
   tag: {
-    borderColor: 'black',
+    borderColor: '#a9a9a9',
     borderWidth: 1,
     borderRadius: 10,
-    marginLeft: 2,
-    marginRight: 2,
+    marginHorizontal: 2,
     paddingLeft: 7,
     paddingRight: 7,
     paddingTop: 3,
     paddingBottom: 3,
-  }
+  },
+  infoContainer: {
+    marginLeft: 10,
+    width: 200,
+    marginTop: -4,
+  },
+  headlineContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  logisticsContainer: {
+    paddingTop: 6,
+  },
+  starContainer: {
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
+  nameContainer: {
+    marginBottom: 10,
+  },
+  starText: {
+    paddingTop: 1,
+    fontSize: 12,
+    color: '#5e5e5e',
+  },
+  nameText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#454545',
+  },
+  infoText: {
+    marginTop: 3,
+    fontSize: 12,
+  },
+  descriptionText: {
+    fontSize: 13,
+    lineHeight: 20,
+    textAlign: 'left',
+    color: '#4a4a4a',
+  },
+  tagText: {
+    fontSize: 11,
+    color: '#a9a9a9',
+  },
+  creativesText: {
+
+  },
+  priceText: {
+    marginTop: 4,
+    fontSize: 11,
+  },
+  emoji: {
+    fontSize: 26
+  },
+  emojiContainer: {
+    marginTop: 5,
+    paddingLeft: 2,
+    height: 30,
+    width: 30,
+    justifyContent: 'center',
+    borderRadius: 25,
+    borderWidth: 0,
+    borderColor: 'gray',
+  },
+  detailContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });

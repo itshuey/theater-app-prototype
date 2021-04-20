@@ -17,8 +17,9 @@ import LoadingScreen from '../screens/LoadingScreen';
 import Dashboard from '../screens/Dashboard';
 import Main from '../screens/Main';
 
-// If you are not familiar with React Navigation, we recommend going through the
-// "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
+import { useUserUpdate } from '../hooks/UserContext';
+import { getInitialUserContextParams } from '../api/firebaseMethods';
+
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
@@ -29,25 +30,43 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
-// A root stack navigator is often used for displaying modals on top of all other content
-// Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const [loading, setLoading] = React.useState(true)
+  const [user, setUser] = React.useState(null)
+  const initializeUserContext = useUserUpdate();
 
   if (!firebase.apps.length) {
     console.log('Connected with Firebase')
     firebase.initializeApp(apiKeys.firebaseConfig);
   }
 
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="Home" component={WelcomeScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="Sign Up" component={SignUp} options={{ headerShown: false }}/>
-      <Stack.Screen name="Sign In" component={SignIn} options={{ headerShown: false }}/>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-    </Stack.Navigator>
+  React.useEffect(() => {
+    const authSubscriber = firebase.auth().onAuthStateChanged(
+      (user) => {
+        setUser(user);
+        if (loading) setLoading(false);
+        getInitialUserContextParams(user).then((params) => {
+          initializeUserContext(params);
+        });
+      }
+    )
+    return authSubscriber
+  }, [])
+
+  if (loading) return <LoadingScreen />
+
+  return user ? (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Root" component={BottomTabNavigator} />
+        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      </Stack.Navigator>
+    ) : (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={WelcomeScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Sign Up" component={SignUp} options={{ headerShown: false }}/>
+        <Stack.Screen name="Sign In" component={SignIn} options={{ headerShown: false }}/>
+      </Stack.Navigator>
   );
 }
