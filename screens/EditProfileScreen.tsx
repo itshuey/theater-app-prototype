@@ -9,6 +9,8 @@ import { useUserUpdate } from '../hooks/UserContext';
 
 export default function EditProfileScreen({ route, navigation }) {
 
+  const [chars, setChars] = useState(0)
+
   const { id, currentProfileURI, currentName, currentBio } = route.params;
   const [bio, setBio] = useState(currentBio);
   const [image, setImage] = useState(currentProfileURI);
@@ -71,8 +73,8 @@ export default function EditProfileScreen({ route, navigation }) {
       <ScrollView style={styles.container}>
         <View style={styles.formSectionContainer}>
           <TouchableOpacity onPress={pickImage} >
-          <Image source={profile} style={styles.imageContainer} />
-            </TouchableOpacity>
+            <Image source={profile} style={styles.imageContainer} />
+          </TouchableOpacity>
         </View>
         <View style={styles.formSectionContainer}>
           <Text style={styles.formSectionText}>Display name</Text>
@@ -98,10 +100,12 @@ export default function EditProfileScreen({ route, navigation }) {
               multiline={true}
               value={bio}
               textAlign={'left'}
-              onChangeText={(text) => setBio(text)}
-              />
-            </View>
-            <Text style={styles.formHeaderText}>250 word max! Keep it snappy.</Text>
+              onChangeText={(text) => (text.split(" ").length <= 250) ?
+                (setChars(text.split(" ").length), setBio(text)) :
+                setChars(text.split(" ").length)}
+                />
+              </View>
+              <Text style={styles.formHeaderText}>{250 - chars} Words Remaining</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => handlePress(id, bio)} >
