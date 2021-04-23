@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { View, Picker, Switch, Text, TextInput, Alert, ScrollView, Keyboard ,StyleSheet, SafeAreaView} from 'react-native';
+import { View, Picker, FlatList, Switch, Text, TextInput, Alert, ScrollView, Keyboard ,StyleSheet, SafeAreaView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createEvent } from '../api/firebaseMethods';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
-import { editProfile, uploadPicture } from '../api/firebaseMethods';
 import DefaultImg from '../assets/images/defaultprofile.png'
+import * as firebase from 'firebase';
+import { editProfile, uploadPicture } from '../api/firebaseMethods';
+import { follow, unfollow } from '../api/firebaseMethods'
+import { useUser, useUserUpdate } from '../hooks/UserContext';
 
 export default function CreateEventScreen({ navigation }) {
   const [wordCount, setWordCount] = useState(0)
@@ -29,10 +32,14 @@ export default function CreateEventScreen({ navigation }) {
   const [hearingAssistance, setHearingAssistance] = useState(false);
   const toggleHearingAssistance = () => setHearingAssistance(previousState => !previousState);
 
-  const [castRole, setCastRole] = useState('');
-  const [castName, setCastName] = useState('');
-  const [cast, setCast] = useState([]);
-  window.castId = 0
+  const [cast, setCast] = useState([{name:'name', role:'role'}]);
+  var castId = 0;
+
+  const [users, setUsers] = useState([]);
+  const currentUserInfo = useUser();
+  const updateUserInfo = useUserUpdate();
+  const currentUserFollowing = currentUserInfo.following;
+  const currentUserID = currentUserInfo.id;
 
   const emptyState = () => {
     setShowName('');
@@ -60,22 +67,48 @@ export default function CreateEventScreen({ navigation }) {
       );
       navigation.navigate('Explore');
       emptyState();
-      window.$castId = 0;
+      castId = 0;
     }
   };
 
-  const handleAdd = () => {
-    let temp = cast;
-    setCast(temp += {
-      id: window.$castId,
-      name: castName,
-      role: castRole,
-    });
-    setCastRole('');
-    setCastName('');
-    window.$castId++;
-    console.log(cast[-1])
+  const onChange = (t, e) => {
+    // (e === 'role') ? (cast.length === castId ? setCast([...cast, {...(cast[castId]), role:t}]) : setCast(cast.slice(0,-1), {...(cast[-1]), role:t})) :
+    // (cast.length === castId ? setCast([...cast, {...(cast[castId]), name:t}]) : setCast(cast.slice(0,-1), {...(cast[-1]), name:t}));
+    // console.log();
+    (e === 'role') ? (cast.length === castId ? setCast([...cast, {...(cast[castId]), role:t}]) : setCast([...(cast.slice(0,-1)), {...(cast[cast.length-1]), role:t}])) :
+    (cast.length === castId ? setCast([...cast, {...(cast[castId]), name:t}]) : setCast([...(cast.slice(0,-1)), {...(cast[cast.length-1]), name:t}]));
   };
+
+  const handleAdd = () => {
+    castId++;
+    console.log(cast[-1])
+    // add new cast component
+  };
+
+  const fetchUsers = (search) => {
+    firebase.firestore().collection('users')
+    .where('firstName','>=',search)
+    .get()
+    .then((querySnapshot) => {
+      let users = querySnapshot.docs.map(doc => {
+        const id = doc.id;
+        const data = doc.data();
+      })
+      setUsers(users);
+    })
+  }
+
+  const addUserProfile = (user) => {
+    return (
+      <TouchableOpacity onPress={() => onChange(user.name, 'name')}>
+        <View style={styles.userItemContainer}>
+          <View>
+            <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    )
+  }
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -245,18 +278,20 @@ export default function CreateEventScreen({ navigation }) {
 
           <View style={styles.formSectionContainer}>
             <Text style={styles.formSectionText}>Cast & Creatives</Text>
-            <View style={styles.formBlockContainer}>
-              <Text style={styles.formHeaderText}>Name</Text>
-                <View style={styles.formResponseContainer}>
-                  <TextInput
-                  style={styles.formResponseText}
-                  placeholder="Name here"
-                  placeholderTextColor={"black"}
-                  value={castName}
-                  textAlign={'left'}
-                  onChangeText={(text) => setCastName(text)}
-                  />
-                </View>
+            <View style={styles.container}>
+            <View style={styles.formResponseContainer}>
+              <TextInput
+                placeholder="Name here"
+                style={styles.formResponseText}
+                textAlign={'left'}
+                value={typeof cast[castId].name === 'undefined' ? '' : cast[castId].name}
+                onChangeText={(text)=>fetchUsers(text) ? fetchUsers(text) : onChange(text, 'name')} />
+              <FlatList
+                style={styles.userList}
+                data={users}
+                renderItem={({ item, index }) => addUserProfile(item)}
+              />
+            </View>
             </View>
             <View style={styles.formBlockContainer}>
               <Text style={styles.formHeaderText}>Role</Text>
@@ -265,14 +300,14 @@ export default function CreateEventScreen({ navigation }) {
                 style={styles.formResponseText}
                 placeholder="Role here"
                 placeholderTextColor={"black"}
-                value={castRole}
+                value={typeof cast[castId].role === 'undefined' ? '' : cast[castId].role}
                 textAlign={'left'}
-                onChangeText={(text) => setCastRole(text)}
+                onChangeText={(text) => onChange(text, 'role')}
                 />
               </View>
             </View>
-            <TouchableOpacity style={styles.addButton} onPress={() => handleAdd()} >
-              <Text style={styles.buttonText}>+</Text>
+            <TouchableOpacity onPress={() => handleAdd()} >
+              <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
            </TouchableOpacity>
           </View>
 
