@@ -32,7 +32,7 @@ export default function CreateEventScreen({ navigation }) {
   const [hearingAssistance, setHearingAssistance] = useState(false);
   const toggleHearingAssistance = () => setHearingAssistance(previousState => !previousState);
 
-  const [cast, setCast] = useState([{name:'name', role:'role'}]);
+  const [cast, setCast] = useState([{name:'', role:''}]);
   var castId = 0;
 
   const [users, setUsers] = useState([]);
@@ -72,12 +72,15 @@ export default function CreateEventScreen({ navigation }) {
   };
 
   const onChange = (t, e) => {
-    // (e === 'role') ? (cast.length === castId ? setCast([...cast, {...(cast[castId]), role:t}]) : setCast(cast.slice(0,-1), {...(cast[-1]), role:t})) :
-    // (cast.length === castId ? setCast([...cast, {...(cast[castId]), name:t}]) : setCast(cast.slice(0,-1), {...(cast[-1]), name:t}));
-    // console.log();
     (e === 'role') ? (cast.length === castId ? setCast([...cast, {...(cast[castId]), role:t}]) : setCast([...(cast.slice(0,-1)), {...(cast[cast.length-1]), role:t}])) :
     (cast.length === castId ? setCast([...cast, {...(cast[castId]), name:t}]) : setCast([...(cast.slice(0,-1)), {...(cast[cast.length-1]), name:t}]));
   };
+  // FIX TO HANDLE EDITING PREVIOUS CAST STATES AFTER HANDLEADD() INCREMENTS CASTID PROB BY INCLUDING CASTID IN COMPONENT AND ACCESSING ON CLICK
+
+  // TODO:
+  //        1) ^ that by exporting cast as component
+  //        2) fix fetchUsers()
+  //        3) implement push to firebase
 
   const handleAdd = () => {
     castId++;
@@ -136,7 +139,6 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="Show name here"
-                placeholderTextColor={"black"}
                 value={showName}
                 textAlign={'left'}
                 onChangeText={(name) => setShowName(name)}
@@ -149,7 +151,6 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="A brief description"
-                placeholderTextColor={"black"}
                 multiline={true}
                 value={description}
                 textAlign={'left'}
@@ -170,7 +171,6 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="Tags here (comma separated)"
-                placeholderTextColor={"black"}
                 multiline={true}
                 value={tags}
                 textAlign={'left'}
@@ -188,7 +188,6 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="Venue name here"
-                placeholderTextColor={"black"}
                 value={venueName}
                 textAlign={'left'}
                 onChangeText={(text) => setVenueName(text)}
@@ -201,7 +200,6 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="Venue address here"
-                placeholderTextColor={"black"}
                 value={venueAddress}
                 textAlign={'left'}
                 onChangeText={(text) => setVenueAddress(text)}
@@ -236,7 +234,6 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="e.g. $25.00"
-                placeholderTextColor={"black"}
                 value={ticketPrice}
                 textAlign={'left'}
                 onChangeText={(text) => setTicketPrice(text)}
@@ -249,7 +246,6 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="e.g. https://example.com"
-                placeholderTextColor={"black"}
                 value={ticketLink}
                 textAlign={'left'}
                 onChangeText={(text) => setTicketLink(text)}
@@ -284,7 +280,7 @@ export default function CreateEventScreen({ navigation }) {
                 placeholder="Name here"
                 style={styles.formResponseText}
                 textAlign={'left'}
-                value={typeof cast[castId].name === 'undefined' ? '' : cast[castId].name}
+                value={cast[castId].name}
                 onChangeText={(text)=>fetchUsers(text) ? fetchUsers(text) : onChange(text, 'name')} />
               <FlatList
                 style={styles.userList}
@@ -299,8 +295,7 @@ export default function CreateEventScreen({ navigation }) {
                 <TextInput
                 style={styles.formResponseText}
                 placeholder="Role here"
-                placeholderTextColor={"black"}
-                value={typeof cast[castId].role === 'undefined' ? '' : cast[castId].role}
+                value={cast[castId].role}
                 textAlign={'left'}
                 onChangeText={(text) => onChange(text, 'role')}
                 />
