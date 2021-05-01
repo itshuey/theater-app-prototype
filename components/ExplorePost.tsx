@@ -1,27 +1,18 @@
+import React from 'react';
+import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import { EventPost } from '../data/eventpostdata'
 
+import Tags from './Tags';
+
 export default function ExplorePost({
    name, numStars, price, tags, venue, dates, creatives, description, emoji
   }: EventPost){
-
-  const tagList = tags.map((tag) =>
-    <View key={tag} style={styles.tag}>
-      <Text
-        style={styles.tagText}
-        lightColor="rgba(0,0,0,0.8)"
-        darkColor="rgba(255,255,255,0.8)">
-        {tag}
-      </Text>
-    </View>
-  )
 
   return (
     <View style={styles.explorePost}>
@@ -64,9 +55,7 @@ export default function ExplorePost({
               darkColor="rgba(255,255,255,0.8)">
               {description}
             </Text>
-            <View style={styles.tagContainer}>
-              {tagList}
-            </View>
+            <TagList tags={tags} />
           </View>
         </View>
         <View style={styles.detailContainer}>

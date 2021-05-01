@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
+import styles from '../constants/Styles';
 import { ReviewPostData } from '../data/reviewpostdata';
 import { Text, View } from '../components/Themed';
+
 import Comment from '../components/Comment';
 
 export default function ReflectionScreen({ navigation }) {
@@ -48,50 +51,3 @@ export default function ReflectionScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white'
-  },
-  navContainer: {
-    marginTop: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
-  },
-  navContainerActions: {
-    flexDirection: 'row',
-  },
-  contentContainer: {
-    paddingTop: 10,
-    backgroundColor: 'transparent',
-    marginHorizontal: 30,
-  },
-  reviewHeaderText: {
-    marginTop: 10,
-    marginBottom: 20,
-    fontSize: 16,
-  },
-  imageContainer: {
-    borderRadius: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    height: 160,
-    flex: 2,
-  },
-  titleText: {
-    fontSize: 24,
-  },
-  descriptionText: {
-    color: 'gray',
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 40,
-  },
-  authorInfoContainer: {
-    borderTopColor: 'lightgray',
-    borderTopWidth: 0.5,
-    marginVertical: 20,
-  }
-});

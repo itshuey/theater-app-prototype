@@ -1,14 +1,17 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { FlatList, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import ExplorePost from '../components/ExplorePost.tsx';
+import styles from '../constants/Styles';
 import { Text, View } from '../components/Themed';
 import { EventPost, EventPostData } from '../data/eventpostdata'
+
+import ExplorePost from '../components/ExplorePost.tsx';
 
 export default function ExploreScreen({ navigation }) {
   return (
     <>
-    <FlatList style={styles.container}
+    <FlatList style={styles.card}
       data={EventPostData}
       renderItem={({ item, index }) => (
         <TouchableOpacity onPress={() => navigation.navigate('Show')}>
@@ -36,18 +39,3 @@ export default function ExploreScreen({ navigation }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 2,
-    backgroundColor: '#f2f6fc'
-  },
-  createImage: {
-    height: 40,
-    width: 40,
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-  }
-});

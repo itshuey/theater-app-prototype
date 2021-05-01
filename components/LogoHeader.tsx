@@ -1,7 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons';
 
 import Layout from '../constants/Layout';
 import Colors from '../constants/Colors';

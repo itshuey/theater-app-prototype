@@ -19,10 +19,12 @@
     "@react-navigation/material-top-tabs": "^5.3.14",
     "@react-navigation/native": "~5.8.10",
     "@react-navigation/stack": "~5.12.8",
-    "expo": "~40.0.0",
+    "expo": "^41.0.1",
     "expo-asset": "~8.2.1",
     "expo-constants": "~9.3.3",
     "expo-font": "~8.4.0",
+    "expo-image-manipulator": "~8.4.0",
+    "expo-image-picker": "~9.2.0",
     "expo-linking": "~2.0.1",
     "expo-splash-screen": "~0.8.1",
     "expo-status-bar": "~1.0.3",
@@ -34,12 +36,11 @@
     "react-native-gesture-handler": "~1.8.0",
     "react-native-maps": "^0.27.1",
     "react-native-reanimated": "~1.13.0",
-    "react-native-safe-area-context": "3.1.9",
+    "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~2.15.2",
     "react-native-tab-view": "^2.16.0",
     "react-native-web": "~0.13.12",
-    "expo-image-picker": "~9.2.0",
-    "expo-image-manipulator": "~8.4.0"
+    "unimodules-permissions-interface": "^6.1.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
