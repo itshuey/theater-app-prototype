@@ -50,7 +50,7 @@ export default function EmbeddedPost({
               </Text>
               </View>
             </View>
-            <TagList tags={tags} />
+            <Tags tags={tags} />
             <Text
               style={styles.infoText}
               lightColor="rgba(0,0,0,0.8)"
