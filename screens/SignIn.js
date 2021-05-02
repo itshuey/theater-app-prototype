@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { signIn } from '../api/firebaseMethods';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -29,12 +29,12 @@ export default function SignIn() {
 
   return (
     <ImageBackground
-     style={styles.background}
+     style={styles.bg}
      source={sketch}>
-      <View style={styles.loginContainer}>
-        <Text style={styles.loginText}>sign me in!</Text>
+      <View style={styles.contentView}>
+        <Text style={styles.titleText}>sign me in!</Text>
         <TextInput
-          style={styles.formInput}
+          style={styles.textField}
           placeholder="email:"
           placeholderTextColor="lightgray"
           value={email}
@@ -42,7 +42,7 @@ export default function SignIn() {
           autoCapitalize="none"
         />
         <TextInput
-          style={styles.formInput}
+          style={styles.textField}
           placeholder="password:"
           placeholderTextColor="lightgray"
           value={password}
@@ -50,9 +50,9 @@ export default function SignIn() {
           secureTextEntry={true}
         />
         <View style={styles.enterContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={handlePress}>
-            <Text style={styles.buttonText}> submit </Text>
-            <Ionicons style={styles.arrow} name="arrow-forward-sharp" size={12} color="white" />
+          <TouchableOpacity style={styles.largeButton} onPress={handlePress}>
+            <Text style={styles.bodyText}> submit </Text>
+            <Ionicons style={styles.icon} name="arrow-forward-sharp" size={12} color="white" />
           </TouchableOpacity>
         </View>
       </View>

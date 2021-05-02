@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
 import { follow, unfollow } from '../api/firebaseMethods'
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
 import { useUser, useUserUpdate } from '../hooks/UserContext';
 
@@ -40,10 +40,10 @@ export default function MessagesScreen({ navigation }) {
   const getUserProfile = (user) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
-        <View style={styles.userItemContainer}>
+        <View style={styles.contentView}>
           <View>
-            <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
-            <Text style={styles.userHandle}>@{user.handle}</Text>
+            <Text style={styles.subtitleText}>{user.firstName} {user.lastName}</Text>
+            <Text style={styles.subtitleText}>@{user.handle}</Text>
           </View>
         { (!currentUserFollowing.includes(user.id) && user.id !== currentUserID) &&
           <TouchableOpacity onPress={() => handleFollow(currentUserID, user.id)}>

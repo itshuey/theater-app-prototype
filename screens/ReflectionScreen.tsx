@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { ReviewPostData } from '../data/reviewpostdata';
 import { Text, View } from '../components/Themed';
 
@@ -27,22 +27,22 @@ export default function ReflectionScreen({ navigation }) {
   )
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.navContainer}>
+    <ScrollView style={styles.fullView}>
+      <View style={styles.navView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
-        <View style={styles.navContainerActions}>
+        <View style={styles.icon}>
           <Ionicons name="paper-plane-outline" size={24} color="black" style={{marginHorizontal: 10}}/>
           <Ionicons name="heart-outline" size={24} color="black" />
         </View>
       </View>
-      <View style={styles.contentContainer}>
-        <Text style={styles.reviewHeaderText}>Reflection</Text>
-        <Text style={styles.titleText}>{title}</Text>
-        <Text style={styles.descriptionText}>{review}</Text>
+      <View style={styles.contentView}>
+        <Text style={styles.titleText}>Reflection</Text>
+        <Text style={styles.subtitleText}>{title}</Text>
+        <Text style={styles.bodyText}>{review}</Text>
 
-        <View style={styles.authorInfoContainer}>
+        <View style={styles.bio}>
           <Text>About the author:</Text>
           <Text>{name}</Text>
         </View>

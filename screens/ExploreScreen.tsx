@@ -2,11 +2,11 @@ import * as React from 'react';
 import { FlatList, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
 import { EventPost, EventPostData } from '../data/eventpostdata'
 
-import ExplorePost from '../components/ExplorePost.tsx';
+import ExplorePost from '../components/ExplorePost';
 
 export default function ExploreScreen({ navigation }) {
   return (
@@ -33,7 +33,7 @@ export default function ExploreScreen({ navigation }) {
     <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
       <Image
         source={require('../assets/images/createpost.png')}
-        style={styles.createImage}
+        style={styles.image}
       />
     </TouchableOpacity>
     </>

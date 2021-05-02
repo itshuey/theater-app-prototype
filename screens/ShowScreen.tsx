@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
 import { EventPostData } from '../data/eventpostdata';
 
@@ -27,14 +27,14 @@ export default function ShowScreen({ navigation }) {
   const comments = show.comments;
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.navContainer}>
+    <ScrollView style={styles.fullView}>
+      <View style={styles.navView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
         <ShareIcons />
       </View>
-      <View style={styles.contentContainer}>
+      <View style={styles.contentView}>
         <Tags tags={['Scary', 'Indoor']} />
         <PlayInfo
           title={title}

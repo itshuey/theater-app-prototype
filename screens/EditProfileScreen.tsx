@@ -7,7 +7,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 import { editProfile, uploadPicture } from '../api/firebaseMethods';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { useUserUpdate } from '../hooks/UserContext';
 
 import ChooseImg from '../components/ChooseImg';
@@ -76,15 +76,15 @@ export default function EditProfileScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <ScrollView style={styles.boxContainer}>
+    <SafeAreaView style={styles.fullView}>
+      <ScrollView style={styles.scrollView}>
         <ChooseImg onPress={pickImage} profPic={profile}/>
-        <View style={styles.formSectionContainer}>
+        <View style={styles.contentView}>
           <SingleEntry title={'Edit Name'} placeholder={''} val={name} onValUpdate={setName}/>
           <BlockEntry title={''} placeholder={'Something about you...'} numChars={250} chars={chars} block={bio} onCharsUpdate={setChars} onBlockUpdate={setBio}/>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => handlePress(id, bio)} >
-          <Text style={styles.buttonText}>Save Changes</Text>
+          <Text style={styles.captionText}>Save Changes</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

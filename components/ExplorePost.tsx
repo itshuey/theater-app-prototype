@@ -55,7 +55,7 @@ export default function ExplorePost({
               darkColor="rgba(255,255,255,0.8)">
               {description}
             </Text>
-            <TagList tags={tags} />
+            <Tags tags={tags} />
           </View>
         </View>
         <View style={styles.detailContainer}>

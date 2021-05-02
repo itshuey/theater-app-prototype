@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Alert, ScrollView, Keyboard, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Alert, ScrollView, Keyboard, SafeAreaView, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { registration } from '../api/firebaseMethods';
+
+import styles from '../styles/index';
 
 export default function SignUp({ navigation }) {
   const [firstName, setFirstName] = useState('');
@@ -49,13 +51,13 @@ export default function SignUp({ navigation }) {
   const placeholderTextColor = "#c9d0ff";
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-     <View style={styles.container}>
+    <SafeAreaView style={styles.fullView}>
+     <View style={styles.contentView}>
        <Text style={styles.titleText}></Text>
 
        <ScrollView onBlur={Keyboard.dismiss}>
          <TextInput
-          style={[styles.textInput, styles.color3]}
+          style={styles.textField}
           placeholder="email"
           placeholderTextColor={"#b8e0ff"}
           value={email}
@@ -65,7 +67,7 @@ export default function SignUp({ navigation }) {
           autoCapitalize="none"
          />
          <TextInput
-         style={[styles.textInput, styles.color1]}
+         style={styles.textField}
          placeholder="handle"
          placeholderTextColor={"#edfbff"}
          value={handle}
@@ -73,7 +75,7 @@ export default function SignUp({ navigation }) {
          onChangeText={(handle) => setHandle(handle)}
          />
           <TextInput
-          style={[styles.textInput, styles.color1]}
+          style={styles.textField}
           placeholder="first name"
           placeholderTextColor={"#edfbff"}
           value={firstName}
@@ -81,7 +83,7 @@ export default function SignUp({ navigation }) {
           onChangeText={(name) => setFirstName(name)}
           />
          <TextInput
-          style={[styles.textInput, styles.color2]}
+          style={styles.textField}
           placeholder="last name (opt.)"
           placeholderTextColor={"#d9edff"}
           value={lastName}
@@ -90,7 +92,7 @@ export default function SignUp({ navigation }) {
          />
 
           <TextInput
-          style={[styles.textInput, styles.color4]}
+          style={styles.textField}
           placeholder="password"
           placeholderTextColor={"#c9d0ff"}
           value={password}
@@ -99,7 +101,7 @@ export default function SignUp({ navigation }) {
           secureTextEntry={true}
          />
          <TextInput
-          style={[styles.textInput, styles.color5]}
+          style={styles.textField}
           placeholder="confirm password"
           placeholderTextColor="#d7c9ff"
           value={confirmPassword}
@@ -109,78 +111,12 @@ export default function SignUp({ navigation }) {
           />
        </ScrollView>
        <TouchableOpacity style={styles.button} onPress={handlePress}>
-        <Text style={styles.buttonText}>SIGN UP</Text>
+        <Text style={styles.subtitleText}>SIGN UP</Text>
        </TouchableOpacity>
-       <TouchableOpacity style={styles.altButton} onPress={() => navigation.navigate('Sign In')}>
-         <Text style={styles.signInText}>Already have an account? Sign In</Text>
+       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Sign In')}>
+         <Text style={styles.subtitleText}>Already have an account? Sign In</Text>
        </TouchableOpacity>
      </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  safeContainer: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center'
-  },
-  titleText: {
-    fontSize: 25,
-    color: 'white',
-    fontWeight: '100',
-    fontStyle: 'italic',
-    marginBottom: 0,
-  },
-  textInput: {
-    color: 'white',
-    fontSize: 18,
-    width: 250,
-    marginBottom: 18,
-    borderBottomWidth: 1,
-    fontWeight: '100',
-  },
-  buttonText: {
-    color: '#b1a6ff',
-    fontSize: 20,
-  },
-  button: {
-    marginTop: 40,
-    borderColor: '#b1a6ff',
-    borderWidth: 1,
-    borderRadius: 15,
-    paddingLeft: 85,
-    paddingRight: 85,
-    paddingTop: 2,
-    paddingBottom: 2,
-  },
-  altButton: {
-    textAlign: 'center',
-  },
-  signInText: {
-    marginTop: 20,
-    fontSize: 14,
-    color: 'gray',
-    fontWeight: '300',
-  },
-  color1: {
-    borderBottomColor: '#edfbff',
-  },
-  color2: {
-    borderBottomColor: '#d9edff',
-  },
-  color3: {
-    borderBottomColor: '#b8e0ff',
-  },
-  color4: {
-    borderBottomColor: '#c9d0ff',
-  },
-  color5: {
-    borderBottomColor: '#d7c9ff',
-  },
-
-});

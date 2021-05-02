@@ -3,9 +3,9 @@ import { FlatList } from 'react-native';
 
 import * as firebase from 'firebase';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
-import FeedPost from '../components/FeedPost.tsx';
+import FeedPost from '../components/FeedPost';
 import LoadingScreen from './LoadingScreen.js';
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
@@ -38,7 +38,7 @@ export default function FollowScreen({ navigation }) {
   if (loading) return <LoadingScreen />
 
   return (
-    <View style={styles.longContainer}>
+    <View style={styles.fullView}>
       <FlatList
         data={feed}
         renderItem={({ item, index }) => (

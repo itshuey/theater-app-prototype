@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
 import { createEvent } from '../api/firebaseMethods';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 
 import SingleEntry from '../components/SingleEntry';
 import MultiEntry from '../components/MultiEntry';
@@ -103,9 +103,9 @@ export default function CreateEventScreen({ navigation }) {
   const addUserProfile = (user) => {
     return (
       <TouchableOpacity onPress={() => onChange(user.name, 'name')}>
-        <View style={styles.userItemContainer}>
+        <View style={styles.bodyText}>
           <View>
-            <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
+            <Text style={styles.titleText}>{user.firstName} {user.lastName}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -113,18 +113,18 @@ export default function CreateEventScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <ScrollView style={styles.boxContainer}>
-        <View style={styles.navContainer}>
+    <SafeAreaView style={styles.fullView}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.navView}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back" size={24} color="black" />
           </TouchableOpacity>
           <Text style={styles.headerText}>Create Event</Text>
           <Ionicons name="chevron-back" size={24} color="white" />
         </View>
-        <View style={styles.contentContainer}>
-          <View style={styles.formSectionContainer}>
-            <Text style={styles.formSectionText}>Basic Information</Text>
+        <View style={styles.contentView}>
+          <View style={styles.contentView}>
+            <Text style={styles.subtitleText}>Basic Information</Text>
             <SingleEntry
               title={'Show Name'}
               placeholder={'Show name here'}
@@ -148,7 +148,7 @@ export default function CreateEventScreen({ navigation }) {
             />
           </View>
 
-          <View style={styles.formSectionContainer}>
+          <View style={styles.contentView}>
             <MultiEntry
               title={'Venue Information'}
               subtitles={['Venue Name', 'Venue Address']}
@@ -156,7 +156,7 @@ export default function CreateEventScreen({ navigation }) {
               vals={[venueName, venueAddress]}
               onValUpdates={[setVenueName, setVenueAddress]}
             />
-            <View style={styles.buttonRow}>
+            <View style={styles.itemView}>
               <Flipper
                 title={'Hearing Assistance?'}
                 val={hearingAssistance}
@@ -170,7 +170,7 @@ export default function CreateEventScreen({ navigation }) {
             </View>
           </View>
 
-          <View style={styles.formSectionContainer}>
+          <View style={styles.contentView}>
             <MultiEntry
               title={'Logistical Information'}
               subtitles={['Minimum Ticket Price', 'Ticket Link']}
@@ -178,7 +178,7 @@ export default function CreateEventScreen({ navigation }) {
               vals={[ticketPrice, ticketLink]}
               onValUpdates={[setTicketPrice, setTicketLink]}
             />
-            <View style={styles.buttonRow}>
+            <View style={styles.itemView}>
               <Flipper
                 title={'Intermission'}
                 val={intermission}
@@ -192,14 +192,14 @@ export default function CreateEventScreen({ navigation }) {
             </View>
           </View>
 
-          <View style={styles.formSectionContainer}>
+          <View style={styles.contentView}>
             <CastFieldList title={'Cast & Creatives'} cast={cast} onTextUpdate={onChange}/>
             <TouchableOpacity onPress={() => handleAdd()} >
               <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
            </TouchableOpacity>
           </View>
 
-          <View style={styles.buttonRow}>
+          <View style={styles.itemView}>
             <TouchableOpacity style={styles.button} onPress={() => console.log("draft")} >
               <Text style={styles.buttonText}>Save as Draft</Text>
             </TouchableOpacity>

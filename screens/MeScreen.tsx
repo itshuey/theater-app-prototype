@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
 import { loggingOut } from '../api/firebaseMethods';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { MonoText } from '../components/StyledText';
@@ -67,10 +67,10 @@ export default function MeScreen({ navigation }) {
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
   return (
-    <ScrollView style={styles.stdContainer}>
-      <View style={styles.contentContainer}>
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.fullView}>
         <TouchableOpacity
-          style={styles.editContainer}
+          style={styles.button}
           onPress={() => navigation.navigate("Edit Profile",
             { id: currentUserUID, currentProfileURI: profileImageURL, currentName: firstName, currentBio: bio })}>
           <Ionicons name="flower-outline" size={24} color="black" />

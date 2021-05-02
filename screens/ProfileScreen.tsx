@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
 import { follow, unfollow } from '../api/firebaseMethods';
 
-import styles from '../constants/Styles';
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
 import { useUser, useUserUpdate } from '../hooks/UserContext';
 
@@ -79,14 +79,14 @@ export default function ProfileScreen({ route, navigation }) {
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png')
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.navContainer}>
+    <ScrollView style={styles.fullView}>
+      <View style={styles.navView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => isCurrentUserFollowing ? handleUnfollow() : handleFollow()}>
           {currentUserID !== userID &&
-          <View style={styles.navContainerActions}>
+          <View style={styles.icon}>
             <Ionicons
               name={isCurrentUserFollowing ? "md-person-remove-outline" : "md-person-add-outline"}
               size={24}
@@ -94,7 +94,7 @@ export default function ProfileScreen({ route, navigation }) {
           </View>}
         </TouchableOpacity>
       </View>
-      <View style={styles.contentContainer}>
+      <View style={styles.contentView}>
         <ProfileBox
           profile={profile}
           firstName={firstName}
