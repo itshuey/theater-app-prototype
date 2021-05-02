@@ -1,12 +1,12 @@
-import normalize from './methods';
-import colors from './colors';
+import { normalize } from './methods';
+import { colors } from './colors';
 
 export const shapes = {
   box: {
     borderRadius: normalize(5),
   },
   circle: {
-    borderRadius: '50%'
+    borderRadius: 100,
   },
 };
 

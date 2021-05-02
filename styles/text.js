@@ -1,4 +1,4 @@
-import normalize from './methods';
+import { normalize } from './methods';
 
 const sizes = {
   mini: {
@@ -20,10 +20,10 @@ const sizes = {
 
 const weights = {
   normal: {
-    fontWeight: 400
+    fontWeight: "400"
   },
   bold: {
-    fontWeight: 600
+    fontWeight: "600"
   },
 };
 

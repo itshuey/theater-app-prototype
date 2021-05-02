@@ -1,11 +1,7 @@
 import { Dimensions, Platform, PixelRatio } from 'react-native';
+import Layout from '../constants/Layout'
 
-import normalize from './methods';
-
-const {
-  width: SCREEN_WIDTH,
-  height: SCREEN_HEIGHT,
-} = Dimensions.get('window');
+import { normalize } from './methods';
 
 export const bg = {
   bg: {
@@ -44,13 +40,13 @@ export const containers = {
   },
   card: {
     flex: 1,
-    height: (height/3),
+    height: (Layout.window.height/3),
     margin: normalize(20),
   },
   smallCard: {
     flexDirection: 'row',
     flex: 3,
-    height: ((height/3) - normalize(20)),
+    height: ((Layout.window.height/3) - normalize(20)),
     margin: normalize(10),
   },
 };
