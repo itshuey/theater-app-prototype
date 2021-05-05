@@ -19,10 +19,11 @@ const EventPostData: EventPost[] = [
     price: "$25.00",
     tags: [ "Play", "Outdoor","Social Justice"],
     venue: "Brooklyn Botanic Garden",
-    dates: "6/1-6/10",
+    dates: ['6/1','6/10'],
     creatives: ["Aleshea Harris","Whitney White"],
     description: "A play, a ritual, and a home-going celebration that bears witness to the physical and spiritual deaths of Black people as a result of racist violence.",
-    emoji: "✨"
+    emoji: "✨",
+    image: require('../assets/images/cow.jpg')
   },
   {
     id: "e2",
@@ -31,7 +32,7 @@ const EventPostData: EventPost[] = [
     price: "$48.00",
     tags: [ "Immersive", "Indoor"],
     venue: "Daryl Roth Theatre",
-    dates: "4/2-9/5",
+    dates: ['4/2','4/9'],
     creatives: ["Simon Stephens","Walter M."],
     description: "A new adaptation of Nobel Prize-winner José Saramago’s 1995 dystopian novel by Tony Award winning playwright Simon Stephens, is a socially distanced sound narrative.",
     emoji: "⚡",
@@ -53,6 +54,7 @@ const EventPostData: EventPost[] = [
         numLikes: 1,
       },
     ],
+    image: require('../assets/images/cow.jpg')
   },
   {
     id: "e3",
@@ -61,10 +63,11 @@ const EventPostData: EventPost[] = [
     price: "$20.00",
     tags: [ "Immersive", "Indoor"],
     venue: "The Public Theater",
-    dates: "10/1-10/15",
+    dates: ['10/1','10/15'],
     creatives: ["600 HIGHWAYMEN"],
     description: "A performance built from our dependence on one another. The Fever is a public convergence for today, asking how we assemble, organize, and care for the bodies around us.",
-    emoji: "🔥"
+    emoji: "🔥",
+    image: require('../assets/images/cow.jpg')
   },
 ]
 

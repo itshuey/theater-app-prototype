@@ -1,6 +1,8 @@
 import { Dimensions, Platform, PixelRatio } from 'react-native';
 import Layout from '../constants/Layout'
 
+const { width, height } = Dimensions.get('window');
+
 import { normalize } from './methods';
 
 export const bg = {
@@ -23,7 +25,36 @@ export const containers = {
   normal: {
     flex: 1,
     margin: normalize(20),
-    alignItems: 'center',
+    alignItems: 'flex-start',
+  },
+  dyn: {
+    margin: normalize(10),
+  },
+  dyn2: {
+    marginHorizontal: normalize(20),
+  },
+  dyn3: {
+    marginHorizontal: normalize(20),
+    marginTop: normalize(10),
+  },
+  noMargin: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  ghost: {
+    paddingBottom: normalize(20),
+    alignItems: 'flex-start',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  },
+  ghost2: {
+    paddingBottom: normalize(20),
+    alignItems: 'flex-start',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  },
+  left: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   nav: {
     marginTop: normalize(5),
@@ -33,21 +64,25 @@ export const containers = {
   },
   items: {
     marginTop: normalize(5),
-    marginBottom: normalize(5),
     marginHorizontal: normalize(20),
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   card: {
-    flex: 1,
-    height: (Layout.window.height/3),
     margin: normalize(20),
+    height: height/5,
+    width: width-normalize(40),
   },
   smallCard: {
-    flexDirection: 'row',
-    flex: 3,
-    height: ((Layout.window.height/3) - normalize(20)),
-    margin: normalize(10),
+    height: width/3,
+    width: width/3,
+    marginTop: normalize(10),
+    marginHorizontal: normalize(10),
+  },
+  smallCardText: {
+    width: width/3,
   },
 };
 
@@ -61,6 +96,18 @@ export const objects = {
   image: {
     height: normalize(160),
     flex: 2,
+    overflow: 'hidden',
+  },
+  fullImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    overflow: 'hidden',
+  },
+  fullImageBack: {
+    flex: 1,
+    resizeMode: 'cover',
+    overflow: 'hidden',
+    justifyContent: 'flex-end',
   },
   smallEntry: {
     marginTop: normalize(5),
@@ -75,7 +122,13 @@ export const objects = {
 
 export const text = {
   normal: {
+
+  },
+  title: {
+    marginTop: normalize(20),
+  },
+  card: {
+    flex: 2,
     marginTop: normalize(10),
-    paddingBottom: normalize(10),
   },
 };

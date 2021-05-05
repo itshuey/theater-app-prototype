@@ -17,7 +17,7 @@ export default function Tag({text}) {
 
 const styles = StyleSheet.create({
   tag: {
-    borderColor: '#a9a9a9',
+    backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 10,
     marginHorizontal: 2,
@@ -28,6 +28,5 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: 11,
-    color: '#a9a9a9',
   },
 });

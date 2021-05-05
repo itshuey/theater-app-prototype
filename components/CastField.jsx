@@ -11,7 +11,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 import DefaultImg from '../assets/images/defaultprofile.png'
 
-export default Cast = ({cast, index, onTextUpdate}) => {
+export default CastField = ({cast, index, onTextUpdate}) => {
 
   return (
     <View style={styles.formSectionContainer}>

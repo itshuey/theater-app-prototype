@@ -2,9 +2,11 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Tag from './Tag';
 
-export default function MultiEntry({tags}) {
+import styles from '../styles/index';
+
+export default function Tags({tags}) {
   return (
-  <View style={styles.tagContainer} >
+  <View style={styles.itemView} >
   {tags.map((tag) =>
     <Tag
       text={tag}
@@ -12,11 +14,3 @@ export default function MultiEntry({tags}) {
   </View>
   );
 };
-
-const styles = StyleSheet.create({
-  tagContainer: {
-    flexDirection: 'row',
-    marginTop: 4,
-    marginBottom: 40,
-  },
-});

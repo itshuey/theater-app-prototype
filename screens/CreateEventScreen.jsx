@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
-import { createEvent } from '../api/firebaseMethods';
+import { createEvent, fetchUsers, addUserProfile, getUserProfile } from '../api/firebaseMethods';
 
 import styles from '../styles/index';
 
@@ -100,17 +100,7 @@ export default function CreateEventScreen({ navigation }) {
     })
   }
 
-  const addUserProfile = (user) => {
-    return (
-      <TouchableOpacity onPress={() => onChange(user.name, 'name')}>
-        <View style={styles.bodyText}>
-          <View>
-            <Text style={styles.titleText}>{user.firstName} {user.lastName}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    )
-  }
+
 
   return (
     <SafeAreaView style={styles.fullView}>
@@ -193,7 +183,12 @@ export default function CreateEventScreen({ navigation }) {
           </View>
 
           <View style={styles.contentView}>
-            <CastFieldList title={'Cast & Creatives'} cast={cast} onTextUpdate={onChange}/>
+            <CastFieldList
+              title={'Cast & Creatives'}
+              cast={cast}
+              onTextUpdate={onChange}
+              getUserProfile={getUserProfile}
+            />
             <TouchableOpacity onPress={() => handleAdd()} >
               <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
            </TouchableOpacity>

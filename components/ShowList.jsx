@@ -1,12 +1,20 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-export default function ShowList({title, shows}) {
+import Event from '../components/Event';
+
+export default function ShowList({shows}) {
   return (
   <View style={styles.sectionInfoContainer}>
-    <Text style={styles.containerTitleText}>{title}</Text>
     <View style={styles.savedContainer}>
-      {shows.map(show => <Image source={show} style={styles.savedImageContainer} />)}
+      {shows.map(show =>
+        <Event
+          name={show.name}
+          dates={show.dates}
+          image={show.image}
+          style={styles.savedImageContainer}
+        />
+      )}
     </View>
   </View>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Picker, Switch, Text, TextInput, Alert, ScrollView, Keyboard ,StyleSheet, SafeAreaView} from 'react-native';
+import { View, Picker, FlatList, Switch, Text, TextInput, Alert, ScrollView, Keyboard, StyleSheet, SafeAreaView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -11,12 +11,13 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import DefaultImg from '../assets/images/defaultprofile.png'
 
 import styles from '../constants/Styles';
+import CastField from '../components/CastField';
 
-export default function CastFieldList({title, cast, onTextUpdate}) {
-  const castRet = names.map((name, index) =>
+export default function CastFieldList({title, cast, onTextUpdate, getUserProfile}) {
+  const castRet = cast.map((c, index) =>
     <CastField
       key={index}
-      cast={cast}
+      cast={c}
       onTextUpdate={onTextUpdate}
     />
   );

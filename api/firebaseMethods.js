@@ -156,3 +156,47 @@ export async function unfollow(user, userToUnfollow) {
     Alert.alert('Error unfollowing!', err.message);
   }
 }
+
+const getUserProfile = (user) => {
+  return (
+    <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
+      <View style={styles.contentView}>
+        <View>
+          <Text style={styles.subtitleText}>{user.firstName} {user.lastName}</Text>
+          <Text style={styles.subtitleText}>@{user.handle}</Text>
+        </View>
+      { (!currentUserFollowing.includes(user.id) && user.id !== currentUserID) &&
+        <TouchableOpacity onPress={() => handleFollow(currentUserID, user.id)}>
+          <Ionicons name="ios-add-circle-outline" size={24} color="black" />
+        </TouchableOpacity>
+      }
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+const fetchUsers = (search) => {
+  firebase.firestore().collection('users')
+  .where('firstName','>=',search)
+  .get()
+  .then((querySnapshot) => {
+    let users = querySnapshot.docs.map(doc => {
+      const id = doc.id;
+      const data = doc.data();
+      return { id, ...data }
+    })
+    setUsers(users);
+  })
+}
+
+const addUserProfile = (user) => {
+  return (
+    <TouchableOpacity onPress={() => onChange(user.name, 'name')}>
+      <View style={styles.bodyText}>
+        <View>
+          <Text style={styles.titleText}>{user.firstName} {user.lastName}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )
+}

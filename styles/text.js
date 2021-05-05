@@ -2,40 +2,40 @@ import { normalize } from './methods';
 
 const sizes = {
   mini: {
-    fontSize: normalize(12),
+    fontSize: normalize(8),
   },
   small: {
-    fontSize: normalize(15),
+    fontSize: normalize(10),
   },
   medium: {
-    fontSize: normalize(18),
+    fontSize: normalize(12),
   },
   large: {
-    fontSize: normalize(24),
+    fontSize: normalize(18),
   },
   xlarge: {
-    fontSize: normalize(48),
+    fontSize: normalize(24),
   },
 };
 
 const weights = {
   normal: {
-    fontWeight: "400"
+    fontWeight: "400",
   },
   bold: {
-    fontWeight: "600"
+    fontWeight: "600",
   },
 };
 
 const fonts = {
   logo: {
-    fontFamily: 'Hack'
+    fontFamily: 'Hack',
   },
   sans: {
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
   },
   serif: {
-    fontFamily: 'Times'
+    fontFamily: 'Times',
   },
 };
 
@@ -43,12 +43,12 @@ export const text = {
   headline: {
     ...sizes.xlarge,
     ...weights.bold,
-    ...fonts.sans,
+    ...fonts.serif,
   },
   title: {
     ...sizes.large,
     ...weights.bold,
-    ...fonts.sans,
+    ...fonts.serif,
   },
   subtitle: {
     ...sizes.medium,
@@ -65,4 +65,14 @@ export const text = {
     ...weights.normal,
     ...fonts.sans,
   },
+  title2: {
+    ...sizes.medium,
+    ...weights.bold,
+    ...fonts.serif,
+  },
+  subtitle2: {
+    ...sizes.small,
+    ...weights.normal,
+    ...fonts.serif,
+  }
 };
