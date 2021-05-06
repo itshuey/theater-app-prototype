@@ -5,7 +5,7 @@ interface EventPost {
   price: string,
   tags: string[],
   venue: string,
-  dates: string,
+  dates: string[],
   creatives: string[],
   description: string,
   emoji: string,

@@ -53,7 +53,6 @@ export default function ExploreScreen({ navigation }) {
       renderItem={({ item, index }) => (
         <TouchableOpacity onPress={() => navigation.navigate('Show')}>
           <Event
-            title={'This Week'}
             name={item.name}
             dates={item.dates}
             image={item.image}
@@ -72,7 +71,6 @@ export default function ExploreScreen({ navigation }) {
       renderItem={({ item, index }) => (
         <TouchableOpacity onPress={() => navigation.navigate('Show')}>
           <Event
-            title={'This Week'}
             name={item.name}
             dates={item.dates}
             image={item.image}

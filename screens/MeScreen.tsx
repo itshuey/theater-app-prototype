@@ -14,6 +14,7 @@ import { useUser } from '../hooks/UserContext';
 
 import ShowList from '../components/ShowList';
 import ProfileBox from '../components/ProfileBox';
+import { EventPostData } from '../data/eventpostdata';
 
 export default function MeScreen({ navigation }) {
 
@@ -67,7 +68,7 @@ export default function MeScreen({ navigation }) {
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView style={styles.noMargin}>
       <View style={styles.fullView}>
         <TouchableOpacity
           style={styles.button}
@@ -84,8 +85,8 @@ export default function MeScreen({ navigation }) {
           numFollowing={numFollowing}
           bio={bio}
         />
-        <ShowList title={'Favorited Shows'} shows={[require('../assets/images/default.png'), require('../assets/images/default.png')]}/>
-        <ShowList title={'Watched Shows'} shows={[require('../assets/images/default.png'), require('../assets/images/default.png'), require('../assets/images/default.png')]}/>
+        <ShowList title={'Favorited Shows'} shows={EventPostData}/>
+        <ShowList title={'Watched Shows'} shows={EventPostData}/>
         <TouchableOpacity onPress={() => loggingOut()}>
           <Text> Log Out </Text>
         </TouchableOpacity>

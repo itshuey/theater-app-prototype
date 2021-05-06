@@ -11,6 +11,7 @@ import { useUser, useUserUpdate } from '../hooks/UserContext';
 
 import ShowList from '../components/ShowList';
 import ProfileBox from '../components/ProfileBox';
+import { EventPostData } from '../data/eventpostdata';
 
 export default function ProfileScreen({ route, navigation }) {
 
@@ -106,11 +107,11 @@ export default function ProfileScreen({ route, navigation }) {
         />
         <ShowList
           title={'Favorited Shows'}
-          shows={[require('../assets/images/default.png'), require('../assets/images/default.png')]}
+          shows={EventPostData}
         />
         <ShowList
           title={'Watched Shows'}
-          shows={[require('../assets/images/default.png'), require('../assets/images/default.png')]}
+          shows={EventPostData}
         />
         </View>
     </ScrollView>
