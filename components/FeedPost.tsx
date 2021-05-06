@@ -1,30 +1,21 @@
-import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
 
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
-import EmbeddedPost from './EmbeddedPost'
-import Comment from './Comment'
 import { ReviewPost } from '../data/reviewpostdata'
+
+import EmbeddedPost from './EmbeddedPost'
+import CommentList from '../components/CommentList';
 
 export default function FeedPost(
   { navigation, username, userID, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
 ) {
 
-  const commentList = comments.slice(0,1).map((comment) =>
-    <Comment
-      id={comment.id}
-      key={comment.id}
-      name={comment.name}
-      pictureUrl={comment.pictureUrl}
-      timeStamp={comment.timeStamp}
-      comment={comment.comment}
-      numLikes={comment.numLikes}
-    />
-  )
+  comments = comments.slice(0,1)
 
   return (
     <View style={styles.container}>
@@ -84,7 +75,7 @@ export default function FeedPost(
             </View>
           </View>
         </TouchableOpacity>
-        {commentList}
+        <CommentList title={''} comments={comments} />
       </View>
     </View>
   );

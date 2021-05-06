@@ -1,12 +1,14 @@
+import React from 'react';
+import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import { EventPost } from '../data/eventpostdata'
+
+import Tags from './Tags';
 
 export default function EmbeddedPost({
     name, numStars, price, tags, venue, dates, creatives, description
@@ -48,9 +50,7 @@ export default function EmbeddedPost({
               </Text>
               </View>
             </View>
-            <View style={styles.tagContainer}>
-              {tagList}
-            </View>
+            <Tags tags={tags} />
             <Text
               style={styles.infoText}
               lightColor="rgba(0,0,0,0.8)"

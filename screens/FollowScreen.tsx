@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { FlatList } from 'react-native';
+
 import * as firebase from 'firebase';
-import { StyleSheet, FlatList } from 'react-native';
 
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
-import FeedPost from '../components/FeedPost.tsx';
+import FeedPost from '../components/FeedPost';
 import LoadingScreen from './LoadingScreen.js';
-
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
 export default function FollowScreen({ navigation }) {
@@ -37,7 +38,7 @@ export default function FollowScreen({ navigation }) {
   if (loading) return <LoadingScreen />
 
   return (
-    <View style={styles.container}>
+    <View style={styles.fullView}>
       <FlatList
         data={feed}
         renderItem={({ item, index }) => (
@@ -59,11 +60,3 @@ export default function FollowScreen({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 2,
-    backgroundColor: '#fff8f7'
-  },
-});

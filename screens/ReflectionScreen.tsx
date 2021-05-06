@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
+import styles from '../styles/index';
 import { ReviewPostData } from '../data/reviewpostdata';
 import { Text, View } from '../components/Themed';
+
 import Comment from '../components/Comment';
 
 export default function ReflectionScreen({ navigation }) {
@@ -24,22 +27,22 @@ export default function ReflectionScreen({ navigation }) {
   )
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.navContainer}>
+    <ScrollView style={styles.fullView}>
+      <View style={styles.navView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
-        <View style={styles.navContainerActions}>
+        <View style={styles.icon}>
           <Ionicons name="paper-plane-outline" size={24} color="black" style={{marginHorizontal: 10}}/>
           <Ionicons name="heart-outline" size={24} color="black" />
         </View>
       </View>
-      <View style={styles.contentContainer}>
-        <Text style={styles.reviewHeaderText}>Reflection</Text>
-        <Text style={styles.titleText}>{title}</Text>
-        <Text style={styles.descriptionText}>{review}</Text>
+      <View style={styles.contentView}>
+        <Text style={styles.titleText}>Reflection</Text>
+        <Text style={styles.subtitleText}>{title}</Text>
+        <Text style={styles.bodyText}>{review}</Text>
 
-        <View style={styles.authorInfoContainer}>
+        <View style={styles.bio}>
           <Text>About the author:</Text>
           <Text>{name}</Text>
         </View>
@@ -48,50 +51,3 @@ export default function ReflectionScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white'
-  },
-  navContainer: {
-    marginTop: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
-  },
-  navContainerActions: {
-    flexDirection: 'row',
-  },
-  contentContainer: {
-    paddingTop: 10,
-    backgroundColor: 'transparent',
-    marginHorizontal: 30,
-  },
-  reviewHeaderText: {
-    marginTop: 10,
-    marginBottom: 20,
-    fontSize: 16,
-  },
-  imageContainer: {
-    borderRadius: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    height: 160,
-    flex: 2,
-  },
-  titleText: {
-    fontSize: 24,
-  },
-  descriptionText: {
-    color: 'gray',
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 40,
-  },
-  authorInfoContainer: {
-    borderTopColor: 'lightgray',
-    borderTopWidth: 0.5,
-    marginVertical: 20,
-  }
-});

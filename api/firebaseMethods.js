@@ -156,3 +156,30 @@ export async function unfollow(user, userToUnfollow) {
     Alert.alert('Error unfollowing!', err.message);
   }
 }
+
+export async function fetchUsers(query) {
+  const userDoc = await firebase.firestore().collection('users')
+  .where('firstName','>=',query)
+  .where('firstName','<=',query+"\uf8ff")
+  .get()
+
+  const users = userDoc.docs.map(doc => {
+      const id = doc.id;
+      const data = doc.data();
+      return { id, ...data }
+    })
+
+  return users;
+}
+
+const addUserProfile = (user) => {
+  return (
+    <TouchableOpacity onPress={() => onChange(user.name, 'name')}>
+      <View style={styles.bodyText}>
+        <View>
+          <Text style={styles.titleText}>{user.firstName} {user.lastName}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
-import { follow, unfollow } from '../api/firebaseMethods'
+import { follow, unfollow, fetchUsers } from '../api/firebaseMethods'
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
 import { useUser, useUserUpdate } from '../hooks/UserContext';
@@ -13,18 +13,9 @@ export default function MessagesScreen({ navigation }) {
   const currentUserFollowing = currentUserInfo.following;
   const currentUserID = currentUserInfo.id;
 
-  const fetchUsers = (search) => {
-    firebase.firestore().collection('users')
-    .where('firstName','>=',search)
-    .get()
-    .then((querySnapshot) => {
-      let users = querySnapshot.docs.map(doc => {
-        const id = doc.id;
-        const data = doc.data();
-        return { id, ...data }
-      })
-      setUsers(users);
-    })
+  const updateUsers = async (search) => {
+    const queryResult = await fetchUsers(search);
+    setUsers(queryResult);
   }
 
   function handleFollow(user, userToFollow) {
@@ -36,7 +27,7 @@ export default function MessagesScreen({ navigation }) {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
         <View style={styles.userItemContainer}>
-          <View>
+          <View style={styles.userDetailContainer}>
             <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
             <Text style={styles.userHandle}>@{user.handle}</Text>
           </View>
@@ -57,7 +48,7 @@ export default function MessagesScreen({ navigation }) {
           placeholder="Search!"
           style={styles.searchBar}
           textAlign={'center'}
-          onChangeText={(search)=>fetchUsers(search)} />
+          onChangeText={(search)=>updateUsers(search)} />
         <Text style={styles.resultsHeaderText}>Results:</Text>
         <FlatList
           style={styles.userList}
@@ -72,7 +63,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-
   },
   searchBarContainer: {
     width: '70%',
@@ -97,6 +87,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    fontSize: 100,
   },
   userName: {
     marginVertical: 1,
@@ -105,5 +96,4 @@ const styles = StyleSheet.create({
   userHandle: {
     color: 'gray',
   }
-
 });

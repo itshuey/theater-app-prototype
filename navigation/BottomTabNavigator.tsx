@@ -17,6 +17,8 @@ import CreateEventScreen from '../screens/CreateEventScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
+import colors from '../styles/colors';
+
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {

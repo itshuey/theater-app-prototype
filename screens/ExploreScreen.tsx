@@ -1,17 +1,31 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { FlatList, Image, ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import ExplorePost from '../components/ExplorePost.tsx';
+import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
 import { EventPost, EventPostData } from '../data/eventpostdata'
 
+import ExplorePost from '../components/ExplorePost';
+import ShowList from '../components/ShowList';
+import Event from '../components/Event';
+
 export default function ExploreScreen({ navigation }) {
   return (
-    <>
-    <FlatList style={styles.container}
+    <ScrollView
+      style={styles.fullView}
+      showsVerticalScrollIndicator={false}
+    >
+    <View style={styles.titleView}>
+    <Text style={styles.headlineText}>Picks for you</Text>
+    </View>
+    <FlatList styles={styles.fullView}
       data={EventPostData}
+      horizontal={true}
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
       renderItem={({ item, index }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+
           <ExplorePost
             id={item.id}
             name={item.name}
@@ -23,31 +37,55 @@ export default function ExploreScreen({ navigation }) {
             creatives={item.creatives}
             description={item.description}
             emoji={item.emoji}
+            image={item.image}
+          />
+
+      )}
+    />
+    <View style={styles.titleView}>
+    <Text style={styles.headlineText}>What's New</Text>
+    </View>
+    <FlatList styles={styles.fullView}
+      data={EventPostData}
+      horizontal={true}
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      renderItem={({ item, index }) => (
+        <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+          <Event
+            name={item.name}
+            dates={item.dates}
+            image={item.image}
           />
         </TouchableOpacity>
       )}
     />
+    <View style={styles.titleView}>
+    <Text style={styles.headlineText}>What's New</Text>
+    </View>
+    <FlatList styles={styles.fullView}
+      data={EventPostData}
+      horizontal={true}
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      renderItem={({ item, index }) => (
+        <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+          <Event
+            name={item.name}
+            dates={item.dates}
+            image={item.image}
+          />
+        </TouchableOpacity>
+      )}
+    />
+{/*
     <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
       <Image
         source={require('../assets/images/createpost.png')}
-        style={styles.createImage}
+        style={styles.button}
       />
     </TouchableOpacity>
-    </>
+*/}
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 2,
-    backgroundColor: '#f2f6fc'
-  },
-  createImage: {
-    height: 40,
-    width: 40,
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-  }
-});
