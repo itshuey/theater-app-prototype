@@ -157,36 +157,19 @@ export async function unfollow(user, userToUnfollow) {
   }
 }
 
-const getUserProfile = (user) => {
-  return (
-    <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
-      <View style={styles.contentView}>
-        <View>
-          <Text style={styles.subtitleText}>{user.firstName} {user.lastName}</Text>
-          <Text style={styles.subtitleText}>@{user.handle}</Text>
-        </View>
-      { (!currentUserFollowing.includes(user.id) && user.id !== currentUserID) &&
-        <TouchableOpacity onPress={() => handleFollow(currentUserID, user.id)}>
-          <Ionicons name="ios-add-circle-outline" size={24} color="black" />
-        </TouchableOpacity>
-      }
-      </View>
-    </TouchableOpacity>
-  )
-}
-
-const fetchUsers = (search) => {
-  firebase.firestore().collection('users')
-  .where('firstName','>=',search)
+export async function fetchUsers(query) {
+  const userDoc = await firebase.firestore().collection('users')
+  .where('firstName','>=',query)
+  .where('firstName','<=',query+"\uf8ff")
   .get()
-  .then((querySnapshot) => {
-    let users = querySnapshot.docs.map(doc => {
+
+  const users = userDoc.docs.map(doc => {
       const id = doc.id;
       const data = doc.data();
       return { id, ...data }
     })
-    setUsers(users);
-  })
+
+  return users;
 }
 
 const addUserProfile = (user) => {
