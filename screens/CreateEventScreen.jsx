@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, KeyboardAvoidingView, ScrollView, Keyboard, SafeAreaView, FlatList, Alert } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
-import * as firebase from 'firebase';
-import { createEvent, fetchUsers, addUserProfile, getUserProfile } from '../api/firebaseMethods';
-import { useUser, useUserUpdate, updateUserInfo } from '../hooks/UserContext'
-
+import { createEvent } from '../api/firebaseMethods';
 import styles from '../styles/index';
 
 import MultiEntry from '../components/MultiEntry';
@@ -20,36 +17,38 @@ export default function CreateEventScreen({ navigation }) {
 
   const [showName, setShowName] = useState('');
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState([]);
+  const [dates, setDates] = useState('');
+  const [cast, setCast] = useState([{name:'', role:''}]);
 
   const [ticketPrice, setTicketPrice] = useState('');
   const [ticketLink, setTicketLink] = useState('');
   const [intermission, setIntermission] = useState(false);
-  const toggleIntermission = () => setIntermission(previousState => !previousState);
   const [ticketRequired, setTicketRequired] = useState(false);
+  const toggleIntermission = () => setIntermission(previousState => !previousState);
   const toggleTicketRequired = () => setTicketRequired(previousState => !previousState);
 
   const [venueName, setVenueName] = useState('');
   const [venueAddress, setVenueAddress] = useState('');
   const [wheelchair, setWheelchair] = useState(false)
-  const toggleWheelchair = () => setWheelchair(previousState => !previousState);
   const [hearingAssistance, setHearingAssistance] = useState(false);
+  const toggleWheelchair = () => setWheelchair(previousState => !previousState);
   const toggleHearingAssistance = () => setHearingAssistance(previousState => !previousState);
-
-  const [cast, setCast] = useState([{name:'', role:''}]);
-  var castId = 0;
-
-  const [users, setUsers] = useState([]);
-  const currentUserInfo = useUser();
-  const updateUserInfo = useUserUpdate();
-  const currentUserFollowing = currentUserInfo.following;
-  const currentUserID = currentUserInfo.id;
 
   const emptyState = () => {
     setShowName('');
     setDescription('');
+    setTags([]);
+    setDates('');
+    setCast([{name:'',role:''}]);
+    setTicketPrice('');
+    setTicketLink('');
+    setIntermission(false);
+    setTicketRequired(false);
     setVenueName('');
     setVenueAddress('');
+    setWheelchair(false);
+    setHearingAssistance(false);
   };
 
   const handlePress = () => {
@@ -62,23 +61,34 @@ export default function CreateEventScreen({ navigation }) {
     } else if (charCount > 1000) {
       Alert.alert('Description must be less than 1000 characters.')
     } else {
-      handleAdd();
       createEvent(
         showName,
         description,
+        tags,
+        dates,
+        cast,
+        ticketPrice,
+        ticketLink,
+        intermission,
+        ticketRequired,
         venueName,
         venueAddress,
+        wheelchair,
+        hearingAssistance,
       );
       navigation.navigate('Explore');
       emptyState();
-      castId = 0;
     }
   };
 
   const onChange = (index, name, role) => {
+    console.log(cast);
+    console.log(name, role);
+    console.log(index);
     name = name === null ? cast[index].name : name;
     role = role === null ? cast[index].role : role;
-    (cast.length === index ? setCast([...cast, {name:name, role:role}]) : setCast([...(cast.slice(0,-1)), {...(cast[cast.length-1]), name:name, role:role}]));
+    const entry = {name, role};
+    setCast([...cast.slice(0, index), entry, ...cast.slice(index+1, cast.length)]);
   };
 
   const addNewCastBlock = () => {
@@ -88,19 +98,6 @@ export default function CreateEventScreen({ navigation }) {
   const removeCastBlock = () => {
     setCast(cast.slice(0,-1));
   };
-
-  const fetchUsers = (search) => {
-    firebase.firestore().collection('users')
-    .where('firstName','>=',search)
-    .get()
-    .then((querySnapshot) => {
-      let users = querySnapshot.docs.map(doc => {
-        const id = doc.id;
-        const data = doc.data();
-      })
-      setUsers(users);
-    })
-  }
 
   return (
     <SafeAreaView style={styles.fullView}>
@@ -112,14 +109,14 @@ export default function CreateEventScreen({ navigation }) {
         <Ionicons name="chevron-back" size={24} color="white" />
       </View>
       <ScrollView>
-        <View style={styles.contentStretchView}>
+        <View style={[styles.contentStretchView, {marginTop: 60}]}>
           <View style={styles.contentStretchView}>
             <MultiEntry
                 title={'Basic Information'}
-                subtitles={['Show Name']}
-                placeholders={['Enter show name']}
-                vals={[showName]}
-                onValUpdates={[setShowName]}
+                subtitles={['Show Name', 'Dates']}
+                placeholders={['Enter show name', 'Dates (ex. 4/07-4/10)']}
+                vals={[showName, dates]}
+                onValUpdates={[setShowName, setDates]}
               />
             <BlockEntry
               title={'Description'}
@@ -136,6 +133,22 @@ export default function CreateEventScreen({ navigation }) {
               val={tags}
               onValUpdate={setTags}
             />
+          </View>
+
+          <View style={styles.contentStretchView}>
+            <CastFieldList
+              title={'Cast & Creatives'}
+              cast={cast}
+              onTextUpdate={onChange}
+            />
+            <View style={styles.itemView}>
+              <TouchableOpacity onPress={() => addNewCastBlock()} >
+                <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => removeCastBlock()} >
+                  <Ionicons name="ios-remove-circle-outline" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.contentStretchView}>
@@ -182,26 +195,11 @@ export default function CreateEventScreen({ navigation }) {
             </View>
           </View>
 
-          <View style={styles.contentStretchView}>
-            <CastFieldList
-              title={'Cast & Creatives'}
-              cast={cast}
-              onTextUpdate={onChange}
-              getUserProfile={getUserProfile}
-            />
-            <View style={styles.itemView}>
-              <TouchableOpacity onPress={() => addNewCastBlock()} >
-                <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => removeCastBlock()} >
-                  <Ionicons name="ios-remove-circle-outline" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.itemView}>
-            <TouchableOpacity onPress={() => console.log(tags)} >
-              <Text style={styles.buttonText}>Create</Text>
+          <View style={{ 
+              borderColor: "purple", borderRadius: 20, borderWidth: 2, paddingVertical: 4,
+              marginHorizontal: 50, marginTop:30, marginBottom: 90, alignItems: 'center' }}>
+            <TouchableOpacity onPress={handlePress} >
+              <Text style={{fontSize: 16, color: "purple"}}>Click to Create!</Text>
              </TouchableOpacity>
            </View>
         </View>

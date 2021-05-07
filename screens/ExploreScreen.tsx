@@ -16,7 +16,7 @@ export default function ExploreScreen({ navigation }) {
     <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
       <Image
         source={require('../assets/images/createpost.png')}
-        style={styles.button}
+        style={{width: 40, height: 40, margin: 20,}}
       />
     </TouchableOpacity>
   );

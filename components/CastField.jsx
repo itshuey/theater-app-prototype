@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-export default CastField = ({name, role, index, onTextUpdate}) => {
+export default function CastField({name, role, index, onTextUpdate}) {
 
   return (
     <View style={styles.formSectionContainer}>

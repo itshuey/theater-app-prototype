@@ -25,15 +25,37 @@ export async function registration(email, password, handle, lastName, firstName)
   }
 }
 
-export async function createEvent(showName, description, venueName, venueAddress) {
+export async function createEvent(
+  showName,
+  description,
+  tags,
+  dates,
+  cast,
+  ticketPrice,
+  ticketLink,
+  intermission,
+  ticketRequired,
+  venueName,
+  venueAddress,
+  wheelchair,
+  hearingAssistance) {
   try {
     const db = firebase.firestore();
     await db.collection("events")
       .add({
         showName: showName,
         description: description,
+        tags: tags,
+        dates: dates,
+        cast: cast,
+        ticketPrice: ticketPrice,
+        ticketLink: ticketLink,
+        intermission: intermission,
+        ticketRequired: ticketRequired,
         venueName: venueName,
         venueAddress: venueAddress,
+        wheelchair: wheelchair,
+        hearingAssistance: hearingAssistance,
       });
   } catch (err) {
     Alert.alert("Issue creating event!", err.message);

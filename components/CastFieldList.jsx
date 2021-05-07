@@ -16,7 +16,7 @@ import CastField from '../components/CastField';
 export default function CastFieldList({title, cast, onTextUpdate}) {
   const castRet = cast.map((c, index) =>
     <CastField
-      key={index}
+      index={index}
       name={c.name}
       role={c.role}
       onTextUpdate={onTextUpdate}

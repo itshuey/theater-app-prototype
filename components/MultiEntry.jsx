@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Fragment, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 
 import SingleEntry from '../components/SingleEntry';
 
@@ -21,7 +21,6 @@ export default function MultiEntry({title, subtitles, placeholders, vals, onValU
 
 const styles = StyleSheet.create({
   formSectionText: {
-    marginTop: 10,
     fontSize: 16,
     fontWeight: '600',
   },
