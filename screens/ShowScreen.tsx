@@ -91,7 +91,7 @@ export default function ShowScreen({ navigation }) {
             <Text style={{color:'gray'}}>Playwright</Text>
           </View>
           <View style={styles.castBlock}>
-            <Text>Rachel Yang </Text>
+            <Text>Jasmin Liang</Text>
             <Text style={{color:'gray'}}>Actor</Text>
           </View>
           <View style={styles.castBlock}>

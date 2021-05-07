@@ -10,7 +10,7 @@ export default function WelcomeScreen ({navigation}) {
      <ImageBackground
       style={styles.background}
       source={glitch}>
-      <Text style={styles.titleText}>Brava</Text>
+      <Text style={styles.titleText}>Theatr</Text>
       <View style={styles.buttonHolder}>
         <TouchableOpacity style={[styles.mainButton, styles.button]} onPress={() => navigation.navigate('Sign Up')} >
           <Text style={styles.mainButtonText}>sign up</Text>

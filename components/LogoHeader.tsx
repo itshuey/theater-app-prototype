@@ -15,7 +15,7 @@ export default function LogoHeader( props ) {
     <View style={styles.titleContainer}>
       <View style={styles.titleTextContainer}>
         <Text style={styles.titleText}>
-        Brava
+        Theatr
         </Text>
         <Text style={styles.screenText}>
         explore.
