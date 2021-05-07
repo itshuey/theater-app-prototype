@@ -13,11 +13,12 @@ import DefaultImg from '../assets/images/defaultprofile.png'
 import styles from '../constants/Styles';
 import CastField from '../components/CastField';
 
-export default function CastFieldList({title, cast, onTextUpdate, getUserProfile}) {
+export default function CastFieldList({title, cast, onTextUpdate}) {
   const castRet = cast.map((c, index) =>
     <CastField
       key={index}
-      cast={c}
+      name={c.name}
+      role={c.role}
       onTextUpdate={onTextUpdate}
     />
   );
@@ -25,11 +26,9 @@ export default function CastFieldList({title, cast, onTextUpdate, getUserProfile
   return (
   <View style={styles.infoBlockContainer}>
     <Text style={styles.infoBlockHeaderText}>{title}</Text>
-    <FlatList
-      style={styles.userList}
-      data={castRet}
-      renderItem={({ item, index }) => getUserProfile(item)}
-    />
+    <View>
+      {castRet}
+    </View>
   </View>
   );
 };

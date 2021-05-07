@@ -29,13 +29,13 @@ const weights = {
 
 const fonts = {
   logo: {
-    fontFamily: 'Hack',
+    // fontFamily: 'Hack',
   },
   sans: {
     fontFamily: 'Helvetica',
   },
   serif: {
-    fontFamily: 'Times',
+    // fontFamily: 'Times',
   },
 };
 
@@ -49,6 +49,11 @@ export const text = {
     ...sizes.large,
     ...weights.bold,
     ...fonts.serif,
+  },
+  header: {
+    ...sizes.medium,
+    fontSize: 18,
+    ...fonts.sans,
   },
   subtitle: {
     ...sizes.medium,

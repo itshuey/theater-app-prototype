@@ -27,6 +27,11 @@ export const containers = {
     margin: normalize(20),
     alignItems: 'flex-start',
   },
+  stretch: {
+    flex: 1,
+    margin: normalize(20),
+    alignItems: 'stretch',
+  },
   dyn: {
     margin: normalize(10),
   },
@@ -57,10 +62,14 @@ export const containers = {
     justifyContent: 'flex-start',
   },
   nav: {
-    marginTop: normalize(5),
-    marginHorizontal: normalize(20),
+    paddingHorizontal: normalize(15),
+    paddingTop: normalize(50),
     flexDirection: 'row',
     justifyContent: 'space-between',
+    position: 'absolute',
+    backgroundColor: 'white',
+    zIndex: 2,
+    width: '100%' 
   },
   items: {
     marginTop: normalize(5),
@@ -130,5 +139,8 @@ export const text = {
   card: {
     flex: 2,
     marginTop: normalize(10),
+  },
+  header: {
+    paddingTop: 2,
   },
 };

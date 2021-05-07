@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Keyboard, SafeAreaView, FlatList, Alert } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ScrollView, Keyboard, SafeAreaView, FlatList, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
 import { createEvent, fetchUsers, addUserProfile, getUserProfile } from '../api/firebaseMethods';
+import { useUser, useUserUpdate, updateUserInfo } from '../hooks/UserContext'
 
 import styles from '../styles/index';
 
-import SingleEntry from '../components/SingleEntry';
 import MultiEntry from '../components/MultiEntry';
 import BlockEntry from '../components/BlockEntry';
 import CommaSeparated from '../components/CommaSeparated';
@@ -40,10 +40,10 @@ export default function CreateEventScreen({ navigation }) {
   var castId = 0;
 
   const [users, setUsers] = useState([]);
-  // const currentUserInfo = useUser();
-  // const updateUserInfo = useUserUpdate();
-  // const currentUserFollowing = currentUserInfo.following;
-  // const currentUserID = currentUserInfo.id;
+  const currentUserInfo = useUser();
+  const updateUserInfo = useUserUpdate();
+  const currentUserFollowing = currentUserInfo.following;
+  const currentUserID = currentUserInfo.id;
 
   const emptyState = () => {
     setShowName('');
@@ -81,10 +81,12 @@ export default function CreateEventScreen({ navigation }) {
     (cast.length === index ? setCast([...cast, {name:name, role:role}]) : setCast([...(cast.slice(0,-1)), {...(cast[cast.length-1]), name:name, role:role}]));
   };
 
-  const handleAdd = () => {
-    castId++;
-    console.log(cast[-1])
-    // add new cast component
+  const addNewCastBlock = () => {
+    setCast([...cast, {name:"", role:""}]);
+  };
+
+  const removeCastBlock = () => {
+    setCast(cast.slice(0,-1));
   };
 
   const fetchUsers = (search) => {
@@ -100,27 +102,25 @@ export default function CreateEventScreen({ navigation }) {
     })
   }
 
-
-
   return (
     <SafeAreaView style={styles.fullView}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.navView}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back" size={24} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Create Event</Text>
-          <Ionicons name="chevron-back" size={24} color="white" />
-        </View>
-        <View style={styles.contentView}>
-          <View style={styles.contentView}>
-            <Text style={styles.subtitleText}>Basic Information</Text>
-            <SingleEntry
-              title={'Show Name'}
-              placeholder={'Show name here'}
-              val={showName}
-              onValUpdate={setShowName}
-            />
+      <View style={styles.navView}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Create Event</Text>
+        <Ionicons name="chevron-back" size={24} color="white" />
+      </View>
+      <ScrollView>
+        <View style={styles.contentStretchView}>
+          <View style={styles.contentStretchView}>
+            <MultiEntry
+                title={'Basic Information'}
+                subtitles={['Show Name']}
+                placeholders={['Enter show name']}
+                vals={[showName]}
+                onValUpdates={[setShowName]}
+              />
             <BlockEntry
               title={'Description'}
               placeholder={'A brief description'}
@@ -138,7 +138,7 @@ export default function CreateEventScreen({ navigation }) {
             />
           </View>
 
-          <View style={styles.contentView}>
+          <View style={styles.contentStretchView}>
             <MultiEntry
               title={'Venue Information'}
               subtitles={['Venue Name', 'Venue Address']}
@@ -160,7 +160,7 @@ export default function CreateEventScreen({ navigation }) {
             </View>
           </View>
 
-          <View style={styles.contentView}>
+          <View style={styles.contentStretchView}>
             <MultiEntry
               title={'Logistical Information'}
               subtitles={['Minimum Ticket Price', 'Ticket Link']}
@@ -175,31 +175,32 @@ export default function CreateEventScreen({ navigation }) {
                 onValUpdate={toggleIntermission}
               />
               <Flipper
-                title={'Ticket Rquired?'}
+                title={'Ticket Required?'}
                 val={ticketRequired}
                 onValUpdate={toggleTicketRequired}
               />
             </View>
           </View>
 
-          <View style={styles.contentView}>
+          <View style={styles.contentStretchView}>
             <CastFieldList
               title={'Cast & Creatives'}
               cast={cast}
               onTextUpdate={onChange}
               getUserProfile={getUserProfile}
             />
-            <TouchableOpacity onPress={() => handleAdd()} >
-              <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
-           </TouchableOpacity>
+            <View style={styles.itemView}>
+              <TouchableOpacity onPress={() => addNewCastBlock()} >
+                <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => removeCastBlock()} >
+                  <Ionicons name="ios-remove-circle-outline" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.itemView}>
-            <TouchableOpacity style={styles.button} onPress={() => console.log("draft")} >
-              <Text style={styles.buttonText}>Save as Draft</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.button} onPress={() => console.log(tags)} >
+            <TouchableOpacity onPress={() => console.log(tags)} >
               <Text style={styles.buttonText}>Create</Text>
              </TouchableOpacity>
            </View>

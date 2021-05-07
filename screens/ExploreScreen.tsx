@@ -11,6 +11,16 @@ import ShowList from '../components/ShowList';
 import Event from '../components/Event';
 
 export default function ExploreScreen({ navigation }) {
+
+  const createEventButton = (
+    <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
+      <Image
+        source={require('../assets/images/createpost.png')}
+        style={styles.button}
+      />
+    </TouchableOpacity>
+  );
+
   return (
     <ScrollView
       style={styles.fullView}
@@ -78,14 +88,7 @@ export default function ExploreScreen({ navigation }) {
         </TouchableOpacity>
       )}
     />
-{/*
-    <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
-      <Image
-        source={require('../assets/images/createpost.png')}
-        style={styles.button}
-      />
-    </TouchableOpacity>
-*/}
+    {createEventButton}
     </ScrollView>
   );
 }

@@ -26,6 +26,9 @@ export default styles = StyleSheet.create({
   contentView: {
     ...Spacings.containers.normal,
   },
+  contentStretchView: {
+    ...Spacings.containers.stretch,
+  },
   dynamicView: {
     ...Spacings.containers.dyn,
     backgroundColor: 'transparent',
@@ -98,6 +101,10 @@ export default styles = StyleSheet.create({
     ...Spacings.text.normal,
     ...Text.text.headline,
     color: Colors.colors.main,
+  },
+  headerText: {
+    ...Spacings.text.header,
+    ...Text.text.header,
   },
   titleText: {
     ...Spacings.text.normal,
