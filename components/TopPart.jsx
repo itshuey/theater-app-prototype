@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
-import { useRoute } from '@react-navigation/native'
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-import Layout from '../constants/Layout';
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import { Text, View } from './Themed';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as firebase from 'firebase';
 import { useUser } from '../hooks/UserContext';
 
-import DefaultImg from '../assets/images/defaultprofile.png'
+import styles from '../styles/index';
 
-export default function LogoHeader( props ) {
+import DefaultImg from '../assets/images/defaultprofile.png'
+import Tags from '../components/Tags';
+
+const height = StatusBar.currentHeight
+
+export default function TopPart() {
   const currentUser = useUser();
   const currentUserUID = currentUser.id;
   const [firstName, setFirstName] = useState('');
@@ -63,49 +63,33 @@ export default function LogoHeader( props ) {
 
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
-  const colorScheme = useColorScheme();
-
   return (
-    <View style={styles.titleContainer}>
-      <View style={styles.titleTextContainer}>
-        <Image source={profile} style={styles.imageContainer} />
+    <View style={styles.titleView}>
+      <View style={inline.titleContainer}>
+        <Image source={profile} style={inline.imageContainer} />
+        <View style={inline.contain}>
+        <Text multiline={true} style={styles.titleText}>Your favorite genres are:</Text>
+        </View>
       </View>
-      <Ionicons style={styles.searchIcon} size={20} name='notifications-outline' color='gray'/>
+      <Tags tags={['experimental', 'musical', 'documentary']} />
     </View>
   );
 }
 
-const colorScheme='light';
-
-const styles = StyleSheet.create({
+const inline = StyleSheet.create({
   titleContainer: {
+    marginTop: 100,
+    marginBottom: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 10,
-    backgroundColor: Colors[colorScheme].header,
-    width: Layout.window.width,
-  },
-  titleTextContainer:{
-    backgroundColor: Colors[colorScheme].header,
-  },
-  titleText: {
-    fontFamily: 'wired',
-    fontSize: 24,
-    color: 'black',
-    marginBottom: -5,
-  },
-  screenText: {
-    fontSize: 14,
-    color: 'gray',
-  },
-  searchIcon: {
-    paddingTop: 8,
+    alignItems: 'flex-end',
   },
   imageContainer: {
-    borderRadius:20,
-    height: 40,
-    width: 40,
+    borderRadius: 40,
+    marginRight: 20,
+    height: 70,
+    width: 70,
   },
-});
+  contain: {
+    flex: 1,
+  }
+})

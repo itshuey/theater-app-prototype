@@ -10,6 +10,7 @@ export const bg = {
     flex: 1,
     alignItems: 'center',
     resizeMode: 'cover',
+    justifyContent: 'center'
   },
 };
 
@@ -24,8 +25,16 @@ export const containers = {
   },
   normal: {
     flex: 1,
-    margin: normalize(20),
     alignItems: 'flex-start',
+  },
+  fullCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dyn: {
     margin: normalize(10),
@@ -40,6 +49,12 @@ export const containers = {
   noMargin: {
     flex: 1,
     alignItems: 'flex-start',
+  },
+  dynBorderless: {
+    alignItems: 'flex-start',
+  },
+  dynBorderlessRight: {
+    alignItems: 'flex-end',
   },
   ghost: {
     paddingBottom: normalize(20),
@@ -70,6 +85,15 @@ export const containers = {
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
+  split: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  splitVertical: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   card: {
     margin: normalize(20),
     height: height/5,
@@ -79,18 +103,27 @@ export const containers = {
     height: width/3,
     width: width/3,
     marginTop: normalize(10),
-    marginHorizontal: normalize(10),
+  },
+  doubleSmallCard: {
+    height: width/4,
+    width: width/4,
+    marginTop: normalize(5),
   },
   smallCardText: {
     width: width/3,
+  },
+  columns: {
+    flex: 1,
+    justifyContent: 'space-around',
   },
 };
 
 export const objects = {
   small: {
     alignSelf: 'center',
-    margin: normalize(20),
-    padding: normalize(2),
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: normalize(10),
     height: normalize(40),
   },
   image: {
@@ -111,12 +144,22 @@ export const objects = {
   },
   smallEntry: {
     marginTop: normalize(5),
-    paddingBottom: normalize(5),
+    padding: normalize(10),
   },
   largeEntry: {
     marginTop: normalize(5),
     paddingBottom: normalize(5),
     height: normalize(100),
+  },
+  bottomButton: {
+    position: 'absolute',
+    bottom: normalize(20),
+    right: normalize(20),
+  },
+  bottomButton2: {
+    position: 'absolute',
+    bottom: normalize(80),
+    right: normalize(20),
   },
 };
 

@@ -10,6 +10,8 @@ import ExplorePost from '../components/ExplorePost';
 import ShowList from '../components/ShowList';
 import Event from '../components/Event';
 
+import { normalize } from '../styles/methods';
+
 export default function ExploreScreen({ navigation }) {
   return (
     <ScrollView
@@ -45,10 +47,10 @@ export default function ExploreScreen({ navigation }) {
     <View style={styles.titleView}>
     <Text style={styles.headlineText}>What's New</Text>
     </View>
+    <View style={{marginHorizontal: normalize(10)}}>
     <FlatList styles={styles.fullView}
       data={EventPostData}
       horizontal={true}
-      pagingEnabled
       showsHorizontalScrollIndicator={false}
       renderItem={({ item, index }) => (
         <TouchableOpacity onPress={() => navigation.navigate('Show')}>
@@ -60,13 +62,14 @@ export default function ExploreScreen({ navigation }) {
         </TouchableOpacity>
       )}
     />
+    </View>
     <View style={styles.titleView}>
     <Text style={styles.headlineText}>What's New</Text>
     </View>
+    <View style={{marginHorizontal: normalize(10)}}>
     <FlatList styles={styles.fullView}
       data={EventPostData}
       horizontal={true}
-      pagingEnabled
       showsHorizontalScrollIndicator={false}
       renderItem={({ item, index }) => (
         <TouchableOpacity onPress={() => navigation.navigate('Show')}>
@@ -78,6 +81,7 @@ export default function ExploreScreen({ navigation }) {
         </TouchableOpacity>
       )}
     />
+    </View>
 {/*
     <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
       <Image

@@ -8,6 +8,7 @@ interface EventPost {
   dates: string[],
   creatives: string[],
   description: string,
+  comments: {}[],
   emoji: string,
 }
 
@@ -58,6 +59,19 @@ const EventPostData: EventPost[] = [
   },
   {
     id: "e3",
+    name: "The Fever",
+    numStars: 110,
+    price: "$20.00",
+    tags: [ "Immersive", "Indoor"],
+    venue: "The Public Theater",
+    dates: ['10/1','10/15'],
+    creatives: ["600 HIGHWAYMEN"],
+    description: "A performance built from our dependence on one another. The Fever is a public convergence for today, asking how we assemble, organize, and care for the bodies around us.",
+    emoji: "🔥",
+    image: require('../assets/images/cow.jpg')
+  },
+  {
+    id: "e4",
     name: "The Fever",
     numStars: 110,
     price: "$20.00",

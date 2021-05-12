@@ -1,9 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+import { normalize } from './methods';
 
 import * as Text from './text';
 import * as Colors from './colors';
 import * as Casings from './casings';
 import * as Spacings from './spacings';
+
+const { width, height } = Dimensions.get('window');
 
 export default styles = StyleSheet.create({
   none: {
@@ -13,11 +17,18 @@ export default styles = StyleSheet.create({
     ...Spacings.containers.safe,
     backgroundColor: Colors.colors.bg,
   },
+  fullViewCenter: {
+    ...Spacings.containers.fullCenter,
+    backgroundColor: Colors.colors.bg,
+  },
   scrollView: {
     ...Spacings.containers.scroll,
   },
   navView: {
     ...Spacings.containers.nav,
+  },
+  centerView: {
+    ...Spacings.containers.center,
   },
   bg: {
     ...Spacings.bg.bg,
@@ -28,6 +39,14 @@ export default styles = StyleSheet.create({
   },
   dynamicView: {
     ...Spacings.containers.dyn,
+    backgroundColor: 'transparent',
+  },
+  dynamicViewBorderless: {
+    ...Spacings.containers.dynBorderless,
+    backgroundColor: 'transparent',
+  },
+  dynamicViewBorderlessRight: {
+    ...Spacings.containers.dynBorderlessRight,
     backgroundColor: 'transparent',
   },
   titleView: {
@@ -57,11 +76,21 @@ export default styles = StyleSheet.create({
   itemView: {
     ...Spacings.containers.items,
   },
+  splitView: {
+    ...Spacings.containers.split,
+  },
+  splitViewVertical: {
+    ...Spacings.containers.splitVertical,
+  },
+  columnView: {
+    ...Spacings.containers.columns,
+  },
   textField: {
     ...Spacings.objects.smallEntry,
     ...Text.text.body,
     ...Casings.casings.boxOutline,
     backgroundColor: Colors.colors.bg,
+    width: width-normalize(20),
   },
   boxField: {
     ...Spacings.objects.largeEntry,
@@ -89,6 +118,16 @@ export default styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5
   },
+  doubleSmallCard: {
+    ...Spacings.containers.doubleSmallCard,
+    ...Casings.casings.boxFilled,
+    backgroundColor: Colors.colors.bg2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5
+  },
   smallCardText: {
     ...Spacings.containers.smallCardText,
     ...Casings.casings.boxFilled,
@@ -105,6 +144,11 @@ export default styles = StyleSheet.create({
     color: Colors.colors.main,
   },
   subtitleText: {
+    ...Spacings.text.normal,
+    ...Text.text.subtitle,
+    color: Colors.colors.main,
+  },
+  subtitleTextAlt: {
     ...Spacings.text.normal,
     ...Text.text.subtitle,
     color: Colors.colors.accent,
@@ -152,7 +196,6 @@ export default styles = StyleSheet.create({
     ...Spacings.objects.small,
   },
   button: {
-    ...Casings.casings.circleFilled,
     ...Spacings.objects.small,
   },
   largeButton: {
@@ -161,5 +204,17 @@ export default styles = StyleSheet.create({
   },
   icon: {
     ...Spacings.objects.small,
+  },
+  filledButton: {
+    ...Spacings.objects.small,
+    ...Casings.casings.circleFilled,
+  },
+  bottomButton: {
+    ...Spacings.objects.bottomButton,
+    backgroundColor: 'transparent',
+  },
+  bottomButton2: {
+    ...Spacings.objects.bottomButton2,
+    backgroundColor: 'transparent',
   },
 });

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -15,13 +15,18 @@ import ReflectionScreen from '../screens/ReflectionScreen';
 import HomeTabNavigator from './HomeTabNavigator';
 import CreateEventScreen from '../screens/CreateEventScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import FollowingScreen from '../screens/FollowingScreen';
+import FollowersScreen from '../screens/FollowersScreen';
+import SavedWatchedPages from '../navigation/SavedWatchedPages';
+import TopPart from '../components/TopPart';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
-import colors from '../styles/colors';
+import { colors } from '../styles/colors';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
+
   const colorScheme = useColorScheme();
 
   return (
@@ -82,7 +87,7 @@ function TabOneNavigator() {
         options={{
           headerTitle: props => <LogoHeader {...props} />,
           headerStyle: {
-            backgroundColor: Colors['light'].header,
+            backgroundColor: colors.bg,
             shadowColor: 'transparent',
           },
         }}
@@ -119,12 +124,22 @@ function TabTwoNavigator() {
       <TabTwoStack.Screen
         name="Search"
         component={SearchScreen}
-        options={{ headerTitle: 'Search' }}
+        options={{ headerShown: false }}
       />
       <TabOneStack.Screen
         name="Profile"
         component={ProfileScreen}
         options={{ headerShown: false }}
+      />
+      <TabTwoStack.Screen
+        name="Following"
+        component={FollowingScreen}
+        options={{ headerTitle: 'Following' }}
+      />
+      <TabTwoStack.Screen
+        name="Followers"
+        component={FollowersScreen}
+        options={{ headerTitle: 'Followers' }}
       />
     </TabTwoStack.Navigator>
   );
@@ -136,9 +151,15 @@ function TabThreeNavigator() {
   return (
     <TabThreeStack.Navigator>
       <TabThreeStack.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={{ headerTitle: 'Favorites' }}
+        name="SavedWatched"
+        component={SavedWatchedPages}
+        options={{
+          headerTitle: () => <TopPart />,
+          headerStyle: {
+            backgroundColor: colors.bg,
+            shadowColor: 'transparent',
+          },
+        }}
       />
     </TabThreeStack.Navigator>
   );
@@ -152,12 +173,22 @@ function TabFourNavigator() {
       <TabFourStack.Screen
         name="Me"
         component={MeScreen}
-        options={{ headerTitle: 'Profile' }}
+        options={{ headerShown: false }}
       />
       <TabFourStack.Screen
         name="Edit Profile"
         component={EditProfileScreen}
-        options={{ headerTitle: 'Edit Profile' }}
+        options={{ headerShown: false }}
+      />
+      <TabTwoStack.Screen
+        name="Following"
+        component={FollowingScreen}
+        options={{ headerTitle: 'Following' }}
+      />
+      <TabTwoStack.Screen
+        name="Followers"
+        component={FollowersScreen}
+        options={{ headerTitle: 'Followers' }}
       />
     </TabFourStack.Navigator>
   );

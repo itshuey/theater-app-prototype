@@ -5,8 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default function ShareIcons() {
   return (
   <View style={styles.navContainerActions}>
-    <Ionicons name="paper-plane-outline" size={24} color="black" style={{marginHorizontal: 10}}/>
-    <Ionicons name="star-outline" size={24} color="black" />
+    <Ionicons name="paper-plane-outline" size={24} color="black" />
   </View>
   );
 };

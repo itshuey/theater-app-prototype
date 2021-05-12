@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, TextInput, FlatList, TouchableOpacity, SafeAreaView, Dimensions} from 'react-native';
 import * as firebase from 'firebase';
 import { follow, unfollow, fetchUsers } from '../api/firebaseMethods'
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
 import { useUser, useUserUpdate } from '../hooks/UserContext';
+
+import styles from '../styles/index';
+import { normalize } from '../styles/methods';
+const { width, height } = Dimensions.get('window');
+import Tags from '../components/Tags';
+import EventSmall from '../components/EventSmall';
 
 export default function MessagesScreen({ navigation }) {
   const [users, setUsers] = useState([]);
@@ -26,10 +32,10 @@ export default function MessagesScreen({ navigation }) {
   const getUserProfile = (user) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Profile', { userID: user.id })}>
-        <View style={styles.userItemContainer}>
-          <View style={styles.userDetailContainer}>
-            <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
-            <Text style={styles.userHandle}>@{user.handle}</Text>
+        <View style={styles.splitView}>
+          <View style={styles.dynamicViewBorderless}>
+            <Text style={styles.subtitleText}>{user.firstName} {user.lastName}</Text>
+            <Text style={styles.subtitleText}>@{user.handle}</Text>
           </View>
         { (!currentUserFollowing.includes(user.id) && user.id !== currentUserID) &&
           <TouchableOpacity onPress={() => handleFollow(currentUserID, user.id)}>
@@ -42,58 +48,26 @@ export default function MessagesScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBarContainer}>
+    <SafeAreaView style={styles.fullViewCenter}>
+      <View style={styles.centerView}>
         <TextInput
-          placeholder="Search!"
-          style={styles.searchBar}
+          placeholder="Ex. artist name, show name, genre"
+          style={styles.titleText}
           textAlign={'center'}
-          onChangeText={(search)=>updateUsers(search)} />
-        <Text style={styles.resultsHeaderText}>Results:</Text>
+          onChangeText={(search)=> search==='' ? updateUsers([]) : updateUsers(search)}
+        />
         <FlatList
-          style={styles.userList}
+          style={{width: width-normalize(20)}}
           data={users}
-          renderItem={({ item, index }) => getUserProfile(item)} />
+          renderItem={({ item, index }) => getUserProfile(item)}
+        />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+const inline = StyleSheet.create({
+  abs: {
+    position: 'absolute',
   },
-  searchBarContainer: {
-    width: '70%',
-    marginTop: 40,
-  },
-  resultsHeaderText: {
-    fontWeight: '400',
-    fontSize: 18,
-    marginTop: 40,
-  },
-  searchBar: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    fontSize: 18,
-  },
-  userList: {
-    marginTop: 20,
-  },
-  userItemContainer: {
-    borderRadius: 8,
-    paddingTop: 8,
-    paddingBottom: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    fontSize: 100,
-  },
-  userName: {
-    marginVertical: 1,
-    fontSize: 18,
-  },
-  userHandle: {
-    color: 'gray',
-  }
 });

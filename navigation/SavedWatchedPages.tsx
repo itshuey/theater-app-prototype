@@ -1,41 +1,49 @@
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, View, StyleSheet, Image, Text } from 'react-native';
+
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
 
+import styles from '../styles/index';
 import { colors } from '../styles/colors';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import FollowScreen from '../screens/FollowScreen';
-import ExploreScreen from '../screens/ExploreScreen';
-import { HomeTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import SavedScreen from '../screens/SavedScreen';
+import WatchedScreen from '../screens/WatchedScreen';
+import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
-const HomeTab = createMaterialTopTabNavigator<HomeTabParamList>();
+import * as firebase from 'firebase';
+import { useUser } from '../hooks/UserContext';
 
-export default function HomeTabNavigator() {
+import TopPart from '../components/TopPart';
+
+const HomeTab = createMaterialTopTabNavigator<BottomTabParamList>();
+
+export default function SavedWatchedPages({ navigation }) {
   const colorScheme = useColorScheme();
 
   return (
     <HomeTab.Navigator
-      initialRouteName="Follow"
-      style={{ backgroundColor: colors.bg,}}
+      initialRouteName="Saved"
+      style={{backgroundColor: colors.bg}}
       tabBarOptions={{
-        showLabel: false,
+        showLabel: true,
         activeTintColor: '#000',
         indicatorStyle: {
           backgroundColor: colors.accent,
         },
         tabStyle: {
-          paddingTop: 0,
+          paddingTop: 100,
           height: 0,
         }
       }}>
       <HomeTab.Screen
-        name="Follow"
+        name="Saved"
         component={TabOneNavigator}
       />
       <HomeTab.Screen
-        name="Explore"
+        name="Watched"
         component={TabTwoNavigator}
       />
     </HomeTab.Navigator>
@@ -50,8 +58,8 @@ function TabOneNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="Follow"
-        component={FollowScreen}
+        name="Saved"
+        component={SavedScreen}
         options={{ headerShown: false }}
       />
     </TabOneStack.Navigator>
@@ -64,11 +72,10 @@ function TabTwoNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="Explore"
-        component={ExploreScreen}
+        name="Watched"
+        component={WatchedScreen}
         options={{ headerShown: false }}
       />
     </TabTwoStack.Navigator>
   );
 }
-

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { ScrollView, TouchableOpacity, Alert, FlatList, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
@@ -11,6 +11,7 @@ import { useUser, useUserUpdate } from '../hooks/UserContext';
 
 import ShowList from '../components/ShowList';
 import ProfileBox from '../components/ProfileBox';
+import EventSmall from '../components/EventSmall';
 import { EventPostData } from '../data/eventpostdata';
 
 export default function ProfileScreen({ route, navigation }) {
@@ -81,22 +82,22 @@ export default function ProfileScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.fullView}>
-      <View style={styles.navView}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+      <SafeAreaView style={styles.fullView}>
+      <View style={styles.itemView}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => isCurrentUserFollowing ? handleUnfollow() : handleFollow()}>
+        <TouchableOpacity style={styles.button} onPress={() => isCurrentUserFollowing ? handleUnfollow() : handleFollow()}>
           {currentUserID !== userID &&
-          <View style={styles.icon}>
             <Ionicons
               name={isCurrentUserFollowing ? "md-person-remove-outline" : "md-person-add-outline"}
               size={24}
-              color="black" />
-          </View>}
+              color="black" />}
         </TouchableOpacity>
       </View>
-      <View style={styles.contentView}>
+      <View style={styles.itemView}>
         <ProfileBox
+          navigation={navigation}
           profile={profile}
           firstName={firstName}
           lastName={lastName}
@@ -105,15 +106,42 @@ export default function ProfileScreen({ route, navigation }) {
           numFollowing={numFollowing}
           bio={bio}
         />
-        <ShowList
-          title={'Favorited Shows'}
-          shows={EventPostData}
-        />
-        <ShowList
-          title={'Watched Shows'}
-          shows={EventPostData}
-        />
-        </View>
+      </View>
+            <View style={styles.titleView}>
+      <Text style={styles.headlineText}>Saved Shows</Text>
+      </View>
+      <FlatList style={styles.dynamicView}
+        data={EventPostData}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+            <EventSmall
+              name={item.name}
+              dates={item.dates}
+              image={item.image}
+            />
+          </TouchableOpacity>
+        )}
+      />
+      <View style={styles.titleView}>
+      <Text style={styles.headlineText}>Watched Shows</Text>
+      </View>
+      <FlatList style={styles.dynamicView}
+        data={EventPostData}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+            <EventSmall
+              name={item.name}
+              dates={item.dates}
+              image={item.image}
+            />
+          </TouchableOpacity>
+        )}
+      />
+      </SafeAreaView>
     </ScrollView>
   );
 }

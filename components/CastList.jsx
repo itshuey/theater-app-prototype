@@ -2,24 +2,15 @@ import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import CastListing from './CastListing';
+import styles from '../styles/index';
 
-export default function CastList({title, names, roles}) {
+export default function CastList({title, names, roles, images}) {
   return (
-  <View style={styles.infoBlockContainer}>
-    <Text style={styles.infoBlockHeaderText}>{title}</Text>
-    {names.map((name, index) => <CastListing key={index} name={name} role={roles[index]} />)}
+  <View style={styles.dynamicViewBorderless}>
+    <Text style={styles.titleText}>{title}</Text>
+    <View style={styles.splitView}>
+    {images.map((image, index) => <CastListing key={index} name={names[index]} role={roles[index]} image={image} num={index} />)}
+    </View>
   </View>
   );
 };
-
-const styles = StyleSheet.create({
-  infoBlockContainer: {
-    marginBottom: 20,
-    marginTop: 5
-  },
-  infoBlockHeaderText: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 10,
-  },
-});

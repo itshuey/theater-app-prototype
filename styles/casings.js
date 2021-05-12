@@ -3,7 +3,7 @@ import { colors } from './colors';
 
 export const shapes = {
   box: {
-    borderRadius: normalize(5),
+    borderRadius: 5,
   },
   circle: {
     borderRadius: 100,
@@ -12,11 +12,11 @@ export const shapes = {
 
 export const outlines = {
   normal: {
-    borderWidth: normalize(2),
+    borderWidth: 2,
     borderColor: colors.main,
   },
   accent: {
-    borderWidth: normalize(2),
+    borderWidth: 2,
     borderColor: colors.accent,
   }
 };

@@ -1,22 +1,34 @@
 import React from 'react';
-import { View, Text, Image, Fragment, StyleSheet } from 'react-native';
+import { View, Text, Image, Fragment, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function ProfileBox({profile, firstName, lastName, handle, numFollowers, numFollowing, bio}) {
+import normalize from '../styles/methods';
+
+export default function ProfileBox({navigation, currentUserUID, profile, firstName, lastName, handle, numFollowers, numFollowing, bio}) {
+  const handleName = () => {
+    firstName != '' || lastName != '' ? styles.titleText : {display: 'none'}
+  };
+
   return (
-  <React.Fragment>
+  <View style={styles.bigOne}>
   <View style={styles.titleContainer}>
     <Image source={profile} style={styles.imageContainer} />
     <View style={styles.titleInfoContainer}>
-      <Text style={styles.titleText}>{firstName}{lastName}</Text>
+      <Text style={handleName}>{firstName} {lastName}</Text>
       <Text style={styles.handleText}>@{handle}</Text>
       <View style={styles.followInfoContainer}>
         <View style={styles.followContainer}>
-          <Text style={styles.followNumberText}>{numFollowers}</Text>
-          <Text style={styles.followText}>followers</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Followers", { uid: currentUserUID })}
+          >
+            <Text style={styles.followNumberText}>{numFollowers} followers </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.followContainer}>
-          <Text style={styles.followNumberText}>{numFollowing}</Text>
-          <Text style={styles.followText}>following</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Following", { id: currentUserUID })}
+          >
+            <Text style={styles.followNumberText}>{numFollowing} following </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -26,30 +38,34 @@ export default function ProfileBox({profile, firstName, lastName, handle, numFol
       {bio}
     </Text>
   </View>
-  </React.Fragment>
+  </View>
   );
 };
 
 const styles = StyleSheet.create({
+  bigOne: {
+    flex: 1,
+  },
   titleContainer: {
-    marginTop: 30,
-    marginBottom: 5,
-    marginLeft: 10,
+    marginBottom: 10,
     flexDirection: 'row',
   },
   titleInfoContainer: {
-    marginLeft: 15,
+    marginLeft: 10,
   },
   titleText: {
     fontSize: 24,
     fontWeight: '600',
   },
+  aboutContainer: {
+    marginBottom: 20,
+  },
   handleText: {
-    marginTop: 1,
+    marginTop: 5,
     color: 'gray',
   },
   followInfoContainer: {
-    marginTop: 8,
+    marginTop: 5,
     flexDirection: 'row',
   },
   followContainer: {

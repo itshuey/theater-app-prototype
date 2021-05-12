@@ -11,10 +11,10 @@ const sizes = {
     fontSize: normalize(12),
   },
   large: {
-    fontSize: normalize(18),
+    fontSize: normalize(14),
   },
   xlarge: {
-    fontSize: normalize(24),
+    fontSize: normalize(18),
   },
 };
 
@@ -48,7 +48,7 @@ export const text = {
   title: {
     ...sizes.large,
     ...weights.bold,
-    ...fonts.serif,
+    ...fonts.sans,
   },
   subtitle: {
     ...sizes.medium,
@@ -68,11 +68,11 @@ export const text = {
   title2: {
     ...sizes.medium,
     ...weights.bold,
-    ...fonts.serif,
+    ...fonts.sans,
   },
   subtitle2: {
     ...sizes.small,
     ...weights.normal,
-    ...fonts.serif,
+    ...fonts.sans,
   }
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageBackground, View, Text, TextInput, Alert } from 'react-native';
+import { ImageBackground, View, Text, TextInput, Alert, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -28,11 +28,10 @@ export default function SignIn() {
   const sketch = require('../assets/images/sketch.png')
 
   return (
-    <ImageBackground
-     style={styles.bg}
-     source={sketch}>
-      <View style={styles.contentView}>
-        <Text style={styles.titleText}>sign me in!</Text>
+    <View style={styles.bg}>
+      <SafeAreaView style={styles.fullView}>
+      <View style={[styles.titleView, {alignItems: 'center'}]}>
+        <Text style={styles.titleText}>Sign in</Text>
         <TextInput
           style={styles.textField}
           placeholder="email:"
@@ -50,12 +49,12 @@ export default function SignIn() {
           secureTextEntry={true}
         />
         <View style={styles.enterContainer}>
-          <TouchableOpacity style={styles.largeButton} onPress={handlePress}>
-            <Text style={styles.bodyText}> submit </Text>
-            <Ionicons style={styles.icon} name="arrow-forward-sharp" size={12} color="white" />
+          <TouchableOpacity style={[styles.filledButton, {marginTop: 10}]} onPress={handlePress}>
+            <Text style={styles.subtitleText}> submit </Text>
           </TouchableOpacity>
         </View>
       </View>
-    </ImageBackground>
+      </SafeAreaView>
+    </View>
   );
 }

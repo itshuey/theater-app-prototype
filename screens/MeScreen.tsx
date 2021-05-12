@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Alert } from 'react-native';
+import { ScrollView, Alert, FlatList, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -15,6 +15,7 @@ import { useUser } from '../hooks/UserContext';
 import ShowList from '../components/ShowList';
 import ProfileBox from '../components/ProfileBox';
 import { EventPostData } from '../data/eventpostdata';
+import EventSmall from '../components/EventSmall';
 
 export default function MeScreen({ navigation }) {
 
@@ -68,15 +69,24 @@ export default function MeScreen({ navigation }) {
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
   return (
-    <ScrollView style={styles.noMargin}>
-      <View style={styles.fullView}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Edit Profile",
-            { id: currentUserUID, currentProfileURI: profileImageURL, currentName: firstName, currentBio: bio })}>
-          <Ionicons name="flower-outline" size={24} color="black" />
-        </TouchableOpacity>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.fullView}>
+      <SafeAreaView style={styles.fullView}>
+        <View style={styles.itemView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log('nice')}>
+            <Ionicons name="flower-outline" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Edit Profile",
+              { id: currentUserUID, currentProfileURI: profileImageURL, currentName: firstName, currentBio: bio })}>
+            <Ionicons name="flower-outline" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.itemView}>
         <ProfileBox
+          navigation={navigation}
           profile={profile}
           firstName={firstName}
           lastName={lastName}
@@ -85,12 +95,45 @@ export default function MeScreen({ navigation }) {
           numFollowing={numFollowing}
           bio={bio}
         />
-        <ShowList title={'Favorited Shows'} shows={EventPostData}/>
-        <ShowList title={'Watched Shows'} shows={EventPostData}/>
-        <TouchableOpacity onPress={() => loggingOut()}>
+        </View>
+      <View style={styles.titleView}>
+      <Text style={styles.headlineText}>Saved Shows</Text>
+      </View>
+      <FlatList style={styles.dynamicView}
+        data={EventPostData}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+            <EventSmall
+              name={item.name}
+              dates={item.dates}
+              image={item.image}
+            />
+          </TouchableOpacity>
+        )}
+      />
+      <View style={styles.titleView}>
+      <Text style={styles.headlineText}>Watched Shows</Text>
+      </View>
+      <FlatList style={styles.dynamicView}
+        data={EventPostData}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+            <EventSmall
+              name={item.name}
+              dates={item.dates}
+              image={item.image}
+            />
+          </TouchableOpacity>
+        )}
+      />
+        <TouchableOpacity style={styles.button} onPress={() => loggingOut()}>
           <Text> Log Out </Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }

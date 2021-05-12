@@ -1,27 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
-import { useRoute } from '@react-navigation/native'
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
-import Layout from '../constants/Layout';
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import { Text, View } from './Themed';
+import FollowButton from '../components/FollowButton';
 
 import * as firebase from 'firebase';
 import { useUser } from '../hooks/UserContext';
 
-import DefaultImg from '../assets/images/defaultprofile.png'
+import { FollowData } from '../data/followdata';
 
-export default function LogoHeader( props ) {
+export default function FollowItem({navigation, uid, fid}) {
   const currentUser = useUser();
   const currentUserUID = currentUser.id;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [handle, setHandle] = useState('');
-  const [bio, setBio] = useState('');
-  const [numFollowers, setNumFollowers] = useState(0);
-  const [numFollowing, setNumFollowing] = useState(0);
   const [profileImageURL, setProfileImageURL] = useState('');
 
   useEffect(() => {
@@ -39,9 +31,6 @@ export default function LogoHeader( props ) {
         setFirstName(dataObj.firstName)
         setLastName(dataObj.lastName)
         setHandle(dataObj.handle)
-        setBio(dataObj.bio)
-        setNumFollowers(dataObj.numFollowers)
-        setNumFollowing(dataObj.numFollowing)
       }
     }
     getUserInfo();
@@ -63,49 +52,47 @@ export default function LogoHeader( props ) {
 
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
-  const colorScheme = useColorScheme();
+  const handleName = () => {
+    firstName != '' || lastName != '' ? styles.titleText : {display: 'none'}
+  };
 
   return (
-    <View style={styles.titleContainer}>
-      <View style={styles.titleTextContainer}>
-        <Image source={profile} style={styles.imageContainer} />
+    <View style={styles.bigOne}>
+      <Image source={FollowData[fid].image} style={styles.imageContainer} />
+      <View style={styles.followBlock}>
+        <View style={styles.leftHalf}>
+          <Text style={handleName}>{FollowData[fid].firstName} {FollowData[fid].lastName}</Text>
+          <Text style={{color:'gray'}}>@{FollowData[fid].handle}</Text>
+        </View>
+        <FollowButton navigation={navigation} uid={uid} fid={fid}/>
       </View>
-      <Ionicons style={styles.searchIcon} size={20} name='notifications-outline' color='gray'/>
     </View>
   );
-}
-
-const colorScheme='light';
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  bigOne: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+    flexDirection: 'row',
+  },
+  followBlock: {
+    flex: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 10,
-    backgroundColor: Colors[colorScheme].header,
-    width: Layout.window.width,
+    alignItems: 'center',
   },
-  titleTextContainer:{
-    backgroundColor: Colors[colorScheme].header,
+  leftHalf: {
+    marginLeft: 10,
+    alignContent: 'center',
   },
   titleText: {
-    fontFamily: 'wired',
     fontSize: 24,
-    color: 'black',
-    marginBottom: -5,
-  },
-  screenText: {
-    fontSize: 14,
-    color: 'gray',
-  },
-  searchIcon: {
-    paddingTop: 8,
+    fontWeight: '600',
   },
   imageContainer: {
-    borderRadius:20,
-    height: 40,
-    width: 40,
+    borderRadius:40,
+    height: 70,
+    width: 70,
   },
 });
