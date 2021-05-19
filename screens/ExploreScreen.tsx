@@ -53,7 +53,7 @@ export default function ExploreScreen({ navigation }) {
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       renderItem={({ item, index }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
           <Event
             name={item.name}
             dates={item.dates}

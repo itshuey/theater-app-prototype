@@ -9,9 +9,8 @@ import FollowItem from '../components/FollowItem';
 import LoadingScreen from './LoadingScreen.js';
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
-export default function FollowScreen({ navigation, uid }) {
+export default function FollowingScreen({ navigation, uid }) {
   var followList;
-  const tempData = [0,1,2];
 
   useEffect(() => {
     async function getData(){
@@ -32,10 +31,10 @@ export default function FollowScreen({ navigation, uid }) {
 
   return (
     <View style={styles.fullView}>
-      { tempData === undefined
+      { followList === undefined
         ? <Text> Following nobody! </Text>
         : <FlatList
-        data={tempData}
+        data={followList}
         renderItem={({ item, index }) => (
           <FollowItem
             uid={uid}

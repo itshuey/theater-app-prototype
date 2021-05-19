@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Keyboard, SafeAreaView, FlatList, Alert } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
-import * as firebase from 'firebase';
-import { createEvent, fetchUsers, addUserProfile, getUserProfile } from '../api/firebaseMethods';
-
+import { createEvent } from '../api/firebaseMethods';
 import styles from '../styles/index';
 
-import SingleEntry from '../components/SingleEntry';
 import MultiEntry from '../components/MultiEntry';
 import BlockEntry from '../components/BlockEntry';
 import CommaSeparated from '../components/CommaSeparated';
@@ -20,36 +17,38 @@ export default function CreateEventScreen({ navigation }) {
 
   const [showName, setShowName] = useState('');
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState([]);
+  const [dates, setDates] = useState('');
+  const [cast, setCast] = useState([{name:'', role:''}]);
 
   const [ticketPrice, setTicketPrice] = useState('');
   const [ticketLink, setTicketLink] = useState('');
   const [intermission, setIntermission] = useState(false);
-  const toggleIntermission = () => setIntermission(previousState => !previousState);
   const [ticketRequired, setTicketRequired] = useState(false);
+  const toggleIntermission = () => setIntermission(previousState => !previousState);
   const toggleTicketRequired = () => setTicketRequired(previousState => !previousState);
 
   const [venueName, setVenueName] = useState('');
   const [venueAddress, setVenueAddress] = useState('');
   const [wheelchair, setWheelchair] = useState(false)
-  const toggleWheelchair = () => setWheelchair(previousState => !previousState);
   const [hearingAssistance, setHearingAssistance] = useState(false);
+  const toggleWheelchair = () => setWheelchair(previousState => !previousState);
   const toggleHearingAssistance = () => setHearingAssistance(previousState => !previousState);
-
-  const [cast, setCast] = useState([{name:'', role:''}]);
-  var castId = 0;
-
-  const [users, setUsers] = useState([]);
-  // const currentUserInfo = useUser();
-  // const updateUserInfo = useUserUpdate();
-  // const currentUserFollowing = currentUserInfo.following;
-  // const currentUserID = currentUserInfo.id;
 
   const emptyState = () => {
     setShowName('');
     setDescription('');
+    setTags([]);
+    setDates('');
+    setCast([{name:'',role:''}]);
+    setTicketPrice('');
+    setTicketLink('');
+    setIntermission(false);
+    setTicketRequired(false);
     setVenueName('');
     setVenueAddress('');
+    setWheelchair(false);
+    setHearingAssistance(false);
   };
 
   const handlePress = () => {
@@ -62,65 +61,63 @@ export default function CreateEventScreen({ navigation }) {
     } else if (charCount > 1000) {
       Alert.alert('Description must be less than 1000 characters.')
     } else {
-      handleAdd();
       createEvent(
         showName,
         description,
+        tags,
+        dates,
+        cast,
+        ticketPrice,
+        ticketLink,
+        intermission,
+        ticketRequired,
         venueName,
         venueAddress,
+        wheelchair,
+        hearingAssistance,
       );
       navigation.navigate('Explore');
       emptyState();
-      castId = 0;
     }
   };
 
   const onChange = (index, name, role) => {
+    console.log(cast);
+    console.log(name, role);
+    console.log(index);
     name = name === null ? cast[index].name : name;
     role = role === null ? cast[index].role : role;
-    (cast.length === index ? setCast([...cast, {name:name, role:role}]) : setCast([...(cast.slice(0,-1)), {...(cast[cast.length-1]), name:name, role:role}]));
+    const entry = {name, role};
+    setCast([...cast.slice(0, index), entry, ...cast.slice(index+1, cast.length)]);
   };
 
-  const handleAdd = () => {
-    castId++;
-    console.log(cast[-1])
-    // add new cast component
+  const addNewCastBlock = () => {
+    setCast([...cast, {name:"", role:""}]);
   };
 
-  const fetchUsers = (search) => {
-    firebase.firestore().collection('users')
-    .where('firstName','>=',search)
-    .get()
-    .then((querySnapshot) => {
-      let users = querySnapshot.docs.map(doc => {
-        const id = doc.id;
-        const data = doc.data();
-      })
-      setUsers(users);
-    })
-  }
-
-
+  const removeCastBlock = () => {
+    setCast(cast.slice(0,-1));
+  };
 
   return (
     <SafeAreaView style={styles.fullView}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.navView}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back" size={24} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Create Event</Text>
-          <Ionicons name="chevron-back" size={24} color="white" />
-        </View>
-        <View style={styles.contentView}>
-          <View style={styles.contentView}>
-            <Text style={styles.subtitleText}>Basic Information</Text>
-            <SingleEntry
-              title={'Show Name'}
-              placeholder={'Show name here'}
-              val={showName}
-              onValUpdate={setShowName}
-            />
+      <View style={styles.navView}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Create Event</Text>
+        <Ionicons name="chevron-back" size={24} color="white" />
+      </View>
+      <ScrollView>
+        <View style={[styles.contentStretchView, {marginTop: 60}]}>
+          <View style={styles.contentStretchView}>
+            <MultiEntry
+                title={'Basic Information'}
+                subtitles={['Show Name', 'Dates']}
+                placeholders={['Enter show name', 'Dates (ex. 4/07-4/10)']}
+                vals={[showName, dates]}
+                onValUpdates={[setShowName, setDates]}
+              />
             <BlockEntry
               title={'Description'}
               placeholder={'A brief description'}
@@ -138,7 +135,23 @@ export default function CreateEventScreen({ navigation }) {
             />
           </View>
 
-          <View style={styles.contentView}>
+          <View style={styles.contentStretchView}>
+            <CastFieldList
+              title={'Cast & Creatives'}
+              cast={cast}
+              onTextUpdate={onChange}
+            />
+            <View style={styles.itemView}>
+              <TouchableOpacity onPress={() => addNewCastBlock()} >
+                <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => removeCastBlock()} >
+                  <Ionicons name="ios-remove-circle-outline" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.contentStretchView}>
             <MultiEntry
               title={'Venue Information'}
               subtitles={['Venue Name', 'Venue Address']}
@@ -160,7 +173,7 @@ export default function CreateEventScreen({ navigation }) {
             </View>
           </View>
 
-          <View style={styles.contentView}>
+          <View style={styles.contentStretchView}>
             <MultiEntry
               title={'Logistical Information'}
               subtitles={['Minimum Ticket Price', 'Ticket Link']}
@@ -175,32 +188,18 @@ export default function CreateEventScreen({ navigation }) {
                 onValUpdate={toggleIntermission}
               />
               <Flipper
-                title={'Ticket Rquired?'}
+                title={'Ticket Required?'}
                 val={ticketRequired}
                 onValUpdate={toggleTicketRequired}
               />
             </View>
           </View>
 
-          <View style={styles.contentView}>
-            <CastFieldList
-              title={'Cast & Creatives'}
-              cast={cast}
-              onTextUpdate={onChange}
-              getUserProfile={getUserProfile}
-            />
-            <TouchableOpacity onPress={() => handleAdd()} >
-              <Ionicons name="ios-add-circle-outline" size={24} color="purple" />
-           </TouchableOpacity>
-          </View>
-
-          <View style={styles.itemView}>
-            <TouchableOpacity style={styles.button} onPress={() => console.log("draft")} >
-              <Text style={styles.buttonText}>Save as Draft</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.button} onPress={() => console.log(tags)} >
-              <Text style={styles.buttonText}>Create</Text>
+          <View style={{
+              borderColor: "purple", borderRadius: 20, borderWidth: 2, paddingVertical: 4,
+              marginHorizontal: 50, marginTop:30, marginBottom: 90, alignItems: 'center' }}>
+            <TouchableOpacity onPress={handlePress} >
+              <Text style={{fontSize: 16, color: "purple"}}>Click to Create!</Text>
              </TouchableOpacity>
            </View>
         </View>

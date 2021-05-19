@@ -107,11 +107,6 @@ function TabOneNavigator() {
         component={ReflectionScreen}
         options={{ headerShown: false }}
       />
-      <TabOneStack.Screen
-        name="Create Event"
-        component={CreateEventScreen}
-        options={{ headerShown: false }}
-      />
     </TabOneStack.Navigator>
   );
 }
@@ -189,6 +184,11 @@ function TabFourNavigator() {
         name="Followers"
         component={FollowersScreen}
         options={{ headerTitle: 'Followers' }}
+      />
+      <TabFourStack.Screen
+        name="Create Event"
+        component={CreateEventScreen}
+        options={{ headerShown: false }}
       />
     </TabFourStack.Navigator>
   );

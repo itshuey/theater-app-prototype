@@ -115,7 +115,7 @@ export default function ProfileScreen({ route, navigation }) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
             <EventSmall
               name={item.name}
               dates={item.dates}
@@ -132,7 +132,7 @@ export default function ProfileScreen({ route, navigation }) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
             <EventSmall
               name={item.name}
               dates={item.dates}

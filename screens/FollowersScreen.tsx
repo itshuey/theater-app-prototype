@@ -9,14 +9,14 @@ import FollowItem from '../components/FollowItem';
 import LoadingScreen from './LoadingScreen.js';
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
-export default function FollowScreen({ navigation, uid }) {
+export default function FollowersScreen({ navigation, uid }) {
   var followList;
 
   useEffect(() => {
     async function getData(){
       let doc = await firebase
       .firestore()
-      .collection('following')
+      .collection('followers')
       .doc(uid)
       .get();
 
@@ -32,10 +32,10 @@ export default function FollowScreen({ navigation, uid }) {
 
   return (
     <View style={styles.fullView}>
-      {typeof followList == "undefined"
-        ? <Text> Following nobody! </Text>
+      { followList === undefined
+        ? <Text> No followers :() </Text>
         : <FlatList
-        data={followList.following}
+        data={followList}
         renderItem={({ item, index }) => (
           <FollowItem
             uid={uid}

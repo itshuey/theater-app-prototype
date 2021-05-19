@@ -74,7 +74,7 @@ export default function MeScreen({ navigation }) {
         <View style={styles.itemView}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log('nice')}>
+            onPress={() => navigation.navigate("Create Event")}>
             <Ionicons name="flower-outline" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -104,7 +104,7 @@ export default function MeScreen({ navigation }) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
             <EventSmall
               name={item.name}
               dates={item.dates}
@@ -121,7 +121,7 @@ export default function MeScreen({ navigation }) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
             <EventSmall
               name={item.name}
               dates={item.dates}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, FlatList, TouchableOpacity, SafeAreaView, Dimensions} from 'react-native';
 import * as firebase from 'firebase';
-import { follow, unfollow, fetchUsers } from '../api/firebaseMethods'
+import { follow, unfollow, fetchUsers, fetchShow } from '../api/firebaseMethods'
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from '../components/Themed';
 import { useUser, useUserUpdate } from '../hooks/UserContext';
@@ -12,7 +12,8 @@ const { width, height } = Dimensions.get('window');
 import Tags from '../components/Tags';
 import EventSmall from '../components/EventSmall';
 
-export default function MessagesScreen({ navigation }) {
+export default function SearchScreen({ navigation }) {
+  const [events, setEvents] = useState([])
   const [users, setUsers] = useState([]);
   const currentUserInfo = useUser();
   const updateUserInfo = useUserUpdate();
@@ -22,6 +23,11 @@ export default function MessagesScreen({ navigation }) {
   const updateUsers = async (search) => {
     const queryResult = await fetchUsers(search);
     setUsers(queryResult);
+  }
+
+  const updateEvents = async (search) => {
+    const queryResult = await fetchShow(search);
+    setEvents(queryResult);
   }
 
   function handleFollow(user, userToFollow) {
@@ -47,6 +53,18 @@ export default function MessagesScreen({ navigation }) {
     )
   }
 
+  const getEvent = (event) => {
+    return (
+      <TouchableOpacity onPress={() => navigation.navigate('Show', { show: show })}>
+        <View style={styles.splitView}>
+          <View style={styles.dynamicViewBorderless}>
+            <Text style={styles.subtitleText}>{show.name}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.fullViewCenter}>
       <View style={styles.centerView}>
@@ -54,7 +72,7 @@ export default function MessagesScreen({ navigation }) {
           placeholder="Ex. artist name, show name, genre"
           style={styles.titleText}
           textAlign={'center'}
-          onChangeText={(search)=> search==='' ? updateUsers([]) : updateUsers(search)}
+          onChangeText={(search) => search === '' ? updateUsers([]) : updateUsers(search)}
         />
         <FlatList
           style={{width: width-normalize(20)}}

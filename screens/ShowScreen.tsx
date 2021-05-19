@@ -18,15 +18,22 @@ import AccessibilityList from '../components/AccessibilityList';
 import SaveButton from '../components/SaveButton';
 import WatchButton from '../components/WatchButton';
 
-export default function ShowScreen({ navigation }) {
+import * as firebase from 'firebase';
+import { pullShows } from '../api/firebaseMethods';
 
-  const show = EventPostData[1];
+export default function ShowScreen({ navigation, show }) {
+
   const tags = show.tags;
   const title = show.name;
   const dates = show.dates;
   const venue = show.venue;
   const description = show.description;
   const comments = show.comments;
+  const cast = show.cast;
+  const price = show.price;
+
+  const names = cast.map(c => c.name);
+  const roles = cast.map(c => c.role);
 
   return (
     <View style={styles.fullView}>
@@ -42,17 +49,17 @@ export default function ShowScreen({ navigation }) {
         <PlayInfo
           title={title}
           venue={venue}
-          dates={['Apr 2', 'Sept 10']}
+          dates={dates}
           runtime={147}
           image={require('../assets/images/cow.jpg')}
-          price={25}
+          price={price}
           description={description}
         />
         <View style={styles.titleView}>
         <CastList
           title={'Cast'}
-          names={['Eva Wang', 'Huey Sun', 'Jaden Kim', 'Rachel Yang']}
-          roles={['Director', 'Playwright', 'Actor', 'Actor']}
+          names={names}
+          roles={roles}
           images={[require('../assets/images/cow.jpg'), require('../assets/images/cow.jpg'), require('../assets/images/cow.jpg'), require('../assets/images/cow.jpg')]}
         />
         </View>

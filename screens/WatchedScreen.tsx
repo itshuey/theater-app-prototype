@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 
 import * as firebase from 'firebase';
+import { pullWatched } from '../api/firebaseMethods';
 
 import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
@@ -19,15 +20,17 @@ export default function WatchedScreen({ navigation }) {
 
   const data = { "posts": ReviewPostData };
 
+  const events = pullWatched(currentUserUID)
+
   return (
     <View style={styles.fullViewCenter}>
-      <FlatList style={styles.fullView}
-      data={EventPostData}
+      <FlatList style={[styles.fullView, {marginTop: 40}]}
+      data={events}
       numColumns={2}
       showsVerticalScrollIndicator={false}
       columnWrapperStyle={styles.columnView}
       renderItem={({ item, index }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Show')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
           <Event
             name={item.name}
             dates={item.dates}
