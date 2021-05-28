@@ -5,42 +5,28 @@ import FollowButton from '../components/FollowButton';
 
 import * as firebase from 'firebase';
 import { useUser } from '../hooks/UserContext';
+import { getUserInfo } from '../api/firebaseMethods';
 
 import { FollowData } from '../data/followdata';
 
 export default function FollowItem({navigation, uid, fid}) {
-  const currentUser = useUser();
-  const currentUserUID = currentUser.id;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [handle, setHandle] = useState('');
   const [profileImageURL, setProfileImageURL] = useState('');
 
   useEffect(() => {
-    async function getUserInfo(){
-      let doc = await firebase
-      .firestore()
-      .collection('users')
-      .doc(currentUserUID)
-      .get();
-
-      if (!doc.exists){
-        Alert.alert('No user data found!')
-      } else {
-        let dataObj = doc.data();
-        setFirstName(dataObj.firstName)
-        setLastName(dataObj.lastName)
-        setHandle(dataObj.handle)
-      }
-    }
-    getUserInfo();
+    // const { f, l, h } = getUserInfo(uid);
+    setFirstName("good");
+    setLastName("work");
+    setHandle("charlie");
   });
 
   useEffect(() => {
     async function getProfileImage(){
       await firebase
       .storage()
-      .ref('/' + currentUserUID + '.jpg')
+      .ref('/' + fid + '.jpg')
       .getDownloadURL()
       .then((url) => {
         setProfileImageURL(url);
@@ -48,7 +34,7 @@ export default function FollowItem({navigation, uid, fid}) {
       .catch((e) => console.log('getting downloadURL of image error => ', e));
     }
     getProfileImage();
-  }, [currentUser]);
+  }, [fid]);
 
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
@@ -58,11 +44,11 @@ export default function FollowItem({navigation, uid, fid}) {
 
   return (
     <View style={styles.bigOne}>
-      <Image source={FollowData[fid].image} style={styles.imageContainer} />
+      <Image source={profileImageURL} style={styles.imageContainer} />
       <View style={styles.followBlock}>
         <View style={styles.leftHalf}>
-          <Text style={handleName}>{FollowData[fid].firstName} {FollowData[fid].lastName}</Text>
-          <Text style={{color:'gray'}}>@{FollowData[fid].handle}</Text>
+          <Text style={handleName}>{firstName} {lastName}</Text>
+          <Text style={{color:'gray'}}>@{handle}</Text>
         </View>
         <FollowButton navigation={navigation} uid={uid} fid={fid}/>
       </View>

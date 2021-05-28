@@ -119,6 +119,29 @@ export async function getInitialUserContextParams(user) {
   }
 }
 
+export async function getUserInfo(user){
+  const doc = await firebase
+  .firestore()
+  .collection('users')
+  .doc(user)
+  .get();
+
+  if (!doc.exists){
+    Alert.alert('No user data found!')
+  } else {
+    const fields = doc.data();
+    const f = fields.firstName;
+    const l = fields.lastName;
+    const h = fields.handle;
+    const params = {
+      f:f,
+      l:l,
+      h:h,
+    };
+    return params;
+  }
+}
+
 // LOGIN
 
 export async function signIn(email, password) {
@@ -268,7 +291,8 @@ export async function removeFromSaved(user, event) {
 // SEARCH
 
 export async function fetchUsers(query) {
-  const userDoc = await firebase.firestore().collection('users')
+  const userDoc = await firebase.firestore()
+  .collection('users')
   .where('firstName','>=',query)
   .where('firstName','<=',query+"\uf8ff")
   .get()
@@ -283,7 +307,8 @@ export async function fetchUsers(query) {
 }
 
 export async function fetchShow(query) {
-  const showDoc = await firebase.firestore().collection('events')
+  const showDoc = await firebase.firestore()
+  .collection('events')
   .where('name','>=',query)
   .where('name','<=',query+"\uf8ff")
   .get()
@@ -298,7 +323,8 @@ export async function fetchShow(query) {
 }
 
 export async function fetchGenre(query) {
-  const genreDoc = await firebase.firestore().collection('genres')
+  const genreDoc = await firebase.firestore()
+  .collection('genres')
   .where('genre','>=',query)
   .where('genre','<=',query+"\uf8ff")
   .get()
@@ -313,7 +339,8 @@ export async function fetchGenre(query) {
 }
 
 export async function fetchWatched(query) {
-  const watchedDoc = await firebase.firestore().collection('watched')
+  const watchedDoc = await firebase.firestore()
+  .collection('watched')
   .where('name','>=',query)
   .where('name','<=',query+"\uf8ff")
   .get()
@@ -328,7 +355,8 @@ export async function fetchWatched(query) {
 }
 
 export async function fetchSaved(query) {
-  const savedDoc = await firebase.firestore().collection('saved')
+  const savedDoc = await firebase.firestore()
+  .collection('saved')
   .where('name','>=',query)
   .where('name','<=',query+"\uf8ff")
   .get()
@@ -343,7 +371,8 @@ export async function fetchSaved(query) {
 }
 
 export async function fetchReflection(query) {
-  const postDoc = await firebase.firestore().collection('posts')
+  const postDoc = await firebase.firestore()
+  .collection('posts')
   .where('name','>=',query)
   .where('name','<=',query+"\uf8ff")
   .get()
@@ -380,13 +409,13 @@ export async function pullFollowing(user) {
   .doc(user)
   .get()
 
-  const following = followingDoc.docs.map(doc => {
-      const id = doc.id;
-      const data = doc.data();
-      return { id, ...data }
-    })
-
-  return following;
+  if (!followingDoc.exists){
+    console.log('No user data found!');
+  } else {
+    const following = followingDoc.data().following;
+    console.log(following);
+    return following;
+  }
 }
 
 export async function pullShows() {

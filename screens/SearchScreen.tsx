@@ -13,7 +13,7 @@ import Tags from '../components/Tags';
 import EventSmall from '../components/EventSmall';
 
 export default function SearchScreen({ navigation }) {
-  const [events, setEvents] = useState([])
+  const [shows, setShows] = useState([])
   const [users, setUsers] = useState([]);
   const currentUserInfo = useUser();
   const updateUserInfo = useUserUpdate();
@@ -25,9 +25,9 @@ export default function SearchScreen({ navigation }) {
     setUsers(queryResult);
   }
 
-  const updateEvents = async (search) => {
+  const updateShows = async (search) => {
     const queryResult = await fetchShow(search);
-    setEvents(queryResult);
+    setShows(queryResult);
   }
 
   function handleFollow(user, userToFollow) {
@@ -53,7 +53,7 @@ export default function SearchScreen({ navigation }) {
     )
   }
 
-  const getEvent = (event) => {
+  const getShow = (show) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Show', { show: show })}>
         <View style={styles.splitView}>
@@ -65,6 +65,21 @@ export default function SearchScreen({ navigation }) {
     )
   }
 
+  function onChange(search) {
+    if (search === '') {
+      updateUsers([])
+      updateShows([])
+    } else {
+      updateUsers(search)
+      updateShows(search)
+    }
+  }
+
+  function onRender(item, index) {
+    getUserProfile(item);
+    getShow(item);
+  }
+
   return (
     <SafeAreaView style={styles.fullViewCenter}>
       <View style={styles.centerView}>
@@ -72,12 +87,12 @@ export default function SearchScreen({ navigation }) {
           placeholder="Ex. artist name, show name, genre"
           style={styles.titleText}
           textAlign={'center'}
-          onChangeText={(search) => search === '' ? updateUsers([]) : updateUsers(search)}
+          onChangeText={search => onChange(search)}
         />
         <FlatList
           style={{width: width-normalize(20)}}
           data={users}
-          renderItem={({ item, index }) => getUserProfile(item)}
+          renderItem={({ item, index }) => onRender(item, index)}
         />
       </View>
     </SafeAreaView>

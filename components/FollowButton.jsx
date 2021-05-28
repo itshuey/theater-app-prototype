@@ -19,7 +19,7 @@ export default function FollowButton({navigation, uid, fid}) {
   const handleButtonStyle = () => {following ? setButtonStyle(styles.followingButton) : setButtonStyle(styles.followButton)};
 
   function handleFollow() {
-    updateUserInfo({ following: fid });
+    updateUserInfo({ following: [...following, fid] });
     follow(currentUserID, fid);
   }
 

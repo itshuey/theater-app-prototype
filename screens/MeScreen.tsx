@@ -17,7 +17,7 @@ import ProfileBox from '../components/ProfileBox';
 import { EventPostData } from '../data/eventpostdata';
 import EventSmall from '../components/EventSmall';
 
-export default function MeScreen({ navigation }) {
+export default function MeScreen({ route, navigation }) {
 
   const currentUser = useUser();
   const currentUserUID = currentUser.id;
@@ -80,13 +80,14 @@ export default function MeScreen({ navigation }) {
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Edit Profile",
-              { id: currentUserUID, currentProfileURI: profileImageURL, currentName: firstName, currentBio: bio })}>
+              { uid: currentUserUID, currentProfileURI: profileImageURL, currentName: firstName, currentBio: bio })}>
             <Ionicons name="flower-outline" size={24} color="black" />
           </TouchableOpacity>
         </View>
         <View style={styles.itemView}>
         <ProfileBox
           navigation={navigation}
+          route={route}
           profile={profile}
           firstName={firstName}
           lastName={lastName}
@@ -94,6 +95,7 @@ export default function MeScreen({ navigation }) {
           numFollowers={numFollowers}
           numFollowing={numFollowing}
           bio={bio}
+          currentUserUID={currentUserUID}
         />
         </View>
       <View style={styles.titleView}>

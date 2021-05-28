@@ -3,7 +3,7 @@ import { View, Text, Image, Fragment, StyleSheet, TouchableOpacity } from 'react
 
 import normalize from '../styles/methods';
 
-export default function ProfileBox({navigation, currentUserUID, profile, firstName, lastName, handle, numFollowers, numFollowing, bio}) {
+export default function ProfileBox({route, navigation, currentUserUID, profile, firstName, lastName, handle, numFollowers, numFollowing, bio}) {
   const handleName = () => {
     firstName != '' || lastName != '' ? styles.titleText : {display: 'none'}
   };
@@ -25,7 +25,7 @@ export default function ProfileBox({navigation, currentUserUID, profile, firstNa
         </View>
         <View style={styles.followContainer}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Following", { id: currentUserUID })}
+            onPress={() => navigation.navigate("Following", { uid: currentUserUID })}
           >
             <Text style={styles.followNumberText}>{numFollowing} following </Text>
           </TouchableOpacity>

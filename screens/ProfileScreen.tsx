@@ -98,6 +98,7 @@ export default function ProfileScreen({ route, navigation }) {
       <View style={styles.itemView}>
         <ProfileBox
           navigation={navigation}
+          route={route}
           profile={profile}
           firstName={firstName}
           lastName={lastName}

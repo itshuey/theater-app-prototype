@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import * as firebase from 'firebase';
+import { pullFollowing } from '../api/firebaseMethods';
 
 import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
@@ -9,38 +10,29 @@ import FollowItem from '../components/FollowItem';
 import LoadingScreen from './LoadingScreen.js';
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
-export default function FollowingScreen({ navigation, uid }) {
-  var followList;
+export default function FollowingScreen({ route, navigation }) {
+  const { uid } = route.params;
+  const [followList, setFollowList] = useState([])
 
   useEffect(() => {
-    async function getData(){
-      let doc = await firebase
-      .firestore()
-      .collection('following')
-      .doc(uid)
-      .get();
-
-      if (!doc.exists){
-        Alert.alert('No user data found!')
-      } else {
-        followList = doc.data();
-      }
-    }
-    getData();
+    setFollowList(pullFollowing(uid));
   });
+
+  console.log(followList);
 
   return (
     <View style={styles.fullView}>
-      { followList === undefined
+      { followList === []
         ? <Text> Following nobody! </Text>
         : <FlatList
-        data={followList}
+        data={[followList]}
         renderItem={({ item, index }) => (
-          <FollowItem
-            uid={uid}
-            fid={index}
-            navigation={navigation}
-          />
+          // <FollowItem
+          //   uid={uid}
+          //   fid={item}
+          //   navigation={navigation}
+          // />
+          <Text>{index}</Text>
         )}
       />
       }
