@@ -119,26 +119,25 @@ export async function getInitialUserContextParams(user) {
   }
 }
 
-export async function getUserInfo(user){
+export async function getUserInfo(user, setF, setL, setH){
   const doc = await firebase
   .firestore()
   .collection('users')
   .doc(user)
   .get();
 
+  console.log(user);
+
   if (!doc.exists){
-    Alert.alert('No user data found!')
+    console.log('No user data found! Again!')
   } else {
     const fields = doc.data();
     const f = fields.firstName;
     const l = fields.lastName;
     const h = fields.handle;
-    const params = {
-      f:f,
-      l:l,
-      h:h,
-    };
-    return params;
+    setF(f);
+    setL(l);
+    setH(h);
   }
 }
 
@@ -388,22 +387,21 @@ export async function fetchReflection(query) {
 
 // FEED PULLS
 
-export async function pullFollowers(user) {
+export async function pullFollowers(user, setFun) {
   const followersDoc = await firebase.firestore()
   .collection('followers')
   .doc(user)
   .get()
 
-  const followers = followersDoc.docs.map(doc => {
-      const id = doc.id;
-      const data = doc.data();
-      return { id, ...data }
-    })
-
-  return followers;
+  if (!followersDoc.exists){
+    console.log('No user data found!');
+  } else {
+    const followers = followersDoc.data().followers;
+    setFun(followers);
+  }
 }
 
-export async function pullFollowing(user) {
+export async function pullFollowing(user, setFun) {
   const followingDoc = await firebase.firestore()
   .collection('following')
   .doc(user)
@@ -413,78 +411,56 @@ export async function pullFollowing(user) {
     console.log('No user data found!');
   } else {
     const following = followingDoc.data().following;
-    console.log(following);
-    return following;
+    setFun(following);
   }
 }
 
-export async function pullShows() {
-  const showDoc = await firebase.firestore().collection('events')
-  .get()
+export async function pullShows(setFun) {
+  const db = firebase.firestore();
+  const showsRef = db.collection('events');
+  const snapshot = await showsRef.get();
 
-  const shows = showDoc.docs.map(doc => {
-      const id = doc.id;
-      const data = doc.data();
-      return { id, ...data }
-    })
-
-  return shows;
+  var shows = [];
+  snapshot.forEach(doc => {
+    shows = [...shows, doc.data()];
+  });
+  setFun(shows);
 }
 
-export async function pullWatched(user) {
-  const getList = () => {
-    const tempDoc = firebase.firestore()
-    .collection('watched')
-    .doc(user)
-    .get()
+export async function pullShow(show, setFun) {
+  const db = firebase.firestore();
+  const showRef = db.collection('events');
+  const snapshot = await showRef.doc(show).get();
 
-    const temp = tempDoc.map(item => item.data())
-
-    return temp;
-  }
-
-  const watchedDoc = getList().map(show => {
-    firebase.firestore()
-    .collection('events')
-    .where('name', '==', show)
-    .get()
-  })
-
-  const watched = watchedDoc.docs.map(doc => {
-      const id = doc.id;
-      const data = doc.data();
-      return { id, ...data }
-    })
-
-  return watched;
+  const cShow = snapshot.data();
+  setFun(cShow);
 }
 
-export async function pullSaved(user) {
-  const getList = () => {
-    const tempDoc = firebase.firestore()
-    .collection('saved')
-    .doc(user)
-    .get()
+export async function pullWatched(user, setFun) {
+  const db = firebase.firestore();
+  const watchedRef = db.collection('watched').doc(user);
+  const snapshot = await watchedRef.get();
 
-    const temp = tempDoc.map(item => item.data())
+  const watched = snapshot.data().watched;
+  setFun(watched);
+}
 
-    return temp;
-  }
+export async function pullSaved(user, setFun) {
+  const db = firebase.firestore();
+  const savedRef = db.collection('saved').doc(user);
+  const snapshot = await savedRef.get();
 
-  const savedDoc = getList().map(show => {
-    firebase.firestore()
-    .collection('events')
-    .where('name', '==', show)
-    .get()
-  })
+  const saved = snapshot.data().saved;
+  setFun(saved);
+}
 
-  const saved = savedDoc.docs.map(doc => {
-      const id = doc.id;
-      const data = doc.data();
-      return { id, ...data }
-    })
+export async function pullFollowPosts(user, setFun) {
+  const db = firebase.firestore();
+  const postsRef = db.collection('feeds-test-0');
+  const snapshot = await postsRef.doc(user).get();
 
-  return saved;
+  const posts = snapshot.data().posts;
+  setFun(posts);
 }
 
 // ADD PROFILE

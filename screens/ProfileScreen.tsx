@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity, Alert, FlatList, SafeAreaView } from 'rea
 import { Ionicons } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
-import { follow, unfollow } from '../api/firebaseMethods';
+import { follow, unfollow, pullShows, pullSaved, pullWatched, pullShow } from '../api/firebaseMethods';
 
 import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
@@ -13,8 +13,10 @@ import ShowList from '../components/ShowList';
 import ProfileBox from '../components/ProfileBox';
 import EventSmall from '../components/EventSmall';
 import { EventPostData } from '../data/eventpostdata';
+import LoadingScreen from './LoadingScreen.js';
 
 export default function ProfileScreen({ route, navigation }) {
+  const [loading, setLoading] = React.useState(true)
 
   const { userID } = route.params;
   const updateUserInfo = useUserUpdate();
@@ -30,6 +32,16 @@ export default function ProfileScreen({ route, navigation }) {
   const [numFollowers, setNumFollowers] = useState(0);
   const [numFollowing, setNumFollowing] = useState(0);
   const [profileImageURL, setProfileImageURL] = useState('');
+
+  const [shows, setShows] = useState<any[]>([])
+  const [saved, setSaved] = useState<any[]>([])
+  const [watched, setWatched] = useState<any[]>([])
+
+  useEffect(() => {
+    pullSaved(userID, setSaved);
+    pullWatched(userID, setWatched);
+    if (loading) setLoading(false);
+  }, [])
 
   useEffect(() => {
     async function getUserInfo(){
@@ -80,6 +92,8 @@ export default function ProfileScreen({ route, navigation }) {
 
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png')
 
+  if (loading) return <LoadingScreen />
+
   return (
     <ScrollView style={styles.fullView}>
       <SafeAreaView style={styles.fullView}>
@@ -106,40 +120,37 @@ export default function ProfileScreen({ route, navigation }) {
           numFollowers={numFollowers}
           numFollowing={numFollowing}
           bio={bio}
+          currentUserUID={userID}
         />
       </View>
             <View style={styles.titleView}>
       <Text style={styles.headlineText}>Saved Shows</Text>
       </View>
       <FlatList style={styles.dynamicView}
-        data={EventPostData}
+        data={saved}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
-            <EventSmall
-              name={item.name}
-              dates={item.dates}
-              image={item.image}
-            />
-          </TouchableOpacity>
+          <EventSmall
+            navigation={navigation}
+            route={route}
+            showID={item}
+          />
         )}
       />
       <View style={styles.titleView}>
       <Text style={styles.headlineText}>Watched Shows</Text>
       </View>
       <FlatList style={styles.dynamicView}
-        data={EventPostData}
+        data={watched}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
-            <EventSmall
-              name={item.name}
-              dates={item.dates}
-              image={item.image}
-            />
-          </TouchableOpacity>
+          <EventSmall
+            navigation={navigation}
+            route={route}
+            showID={item}
+          />
         )}
       />
       </SafeAreaView>

@@ -6,9 +6,7 @@ import Colors from '../constants/Colors';
 import { Text, View } from './Themed';
 import { CommentSchema } from '../data/reviewpostdata'
 
-export default function Comment({
-  name, pictureUrl, timeStamp, comment, numLikes, review=false
-}: CommentSchema) {
+export default function Comment({ name, pictureUrl, timeStamp, comment, numLikes, review=false }) {
   return (
     <View style={review ? styles.reviewContainer : styles.container}>
       <Image source={require('../assets/images/defaultprofile.png')} style={styles.profileImageContainer} />

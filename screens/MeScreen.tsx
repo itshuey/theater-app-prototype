@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
-import { loggingOut } from '../api/firebaseMethods';
+import { loggingOut, pullShows, pullWatched, pullSaved, pullShow } from '../api/firebaseMethods';
 
 import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
@@ -16,8 +16,10 @@ import ShowList from '../components/ShowList';
 import ProfileBox from '../components/ProfileBox';
 import { EventPostData } from '../data/eventpostdata';
 import EventSmall from '../components/EventSmall';
+import LoadingScreen from './LoadingScreen.js';
 
 export default function MeScreen({ route, navigation }) {
+  const [loading, setLoading] = React.useState(true)
 
   const currentUser = useUser();
   const currentUserUID = currentUser.id;
@@ -28,6 +30,18 @@ export default function MeScreen({ route, navigation }) {
   const [numFollowers, setNumFollowers] = useState(0);
   const [numFollowing, setNumFollowing] = useState(0);
   const [profileImageURL, setProfileImageURL] = useState('');
+  const [shows, setShows] = useState<any[]>([]);
+  const [watched, setWatched] = useState<any[]>([]);
+  const [saved, setSaved] = useState<any[]>([]);
+
+  useEffect(() => {
+    pullSaved(currentUserUID, setSaved);
+    pullWatched(currentUserUID, setWatched);
+    if (loading) setLoading(false);
+  }, [])
+
+  console.log(watched);
+  console.log(saved);
 
   useEffect(() => {
     async function getUserInfo(){
@@ -68,6 +82,8 @@ export default function MeScreen({ route, navigation }) {
 
   const profile = profileImageURL ? {uri: profileImageURL} : require('../assets/images/default.png');
 
+  if (loading) return <LoadingScreen />
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.fullView}>
       <SafeAreaView style={styles.fullView}>
@@ -102,34 +118,30 @@ export default function MeScreen({ route, navigation }) {
       <Text style={styles.headlineText}>Saved Shows</Text>
       </View>
       <FlatList style={styles.dynamicView}
-        data={EventPostData}
+        data={saved}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
-            <EventSmall
-              name={item.name}
-              dates={item.dates}
-              image={item.image}
-            />
-          </TouchableOpacity>
+          <EventSmall
+            navigation={navigation}
+            route={route}
+            showID={item}
+          />
         )}
       />
       <View style={styles.titleView}>
       <Text style={styles.headlineText}>Watched Shows</Text>
       </View>
       <FlatList style={styles.dynamicView}
-        data={EventPostData}
+        data={watched}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Show', { show: item })}>
-            <EventSmall
-              name={item.name}
-              dates={item.dates}
-              image={item.image}
-            />
-          </TouchableOpacity>
+          <EventSmall
+            navigation={navigation}
+            route={route}
+            showID={item}
+          />
         )}
       />
         <TouchableOpacity style={styles.button} onPress={() => loggingOut()}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
@@ -11,11 +11,25 @@ import { ReviewPost } from '../data/reviewpostdata'
 import EmbeddedPost from './EmbeddedPost'
 import CommentList from '../components/CommentList';
 
-export default function FeedPost(
-  { navigation, username, userID, pictureUrl, timeStamp, review, event, numLikes, numComments, comments }: ReviewPost
-) {
+import { pullShow } from '../api/firebaseMethods';
 
-  comments = comments.slice(0,1)
+export default function FeedPost({ navigation, route, post }) {
+  const {
+    userID,
+    username,
+    comments,
+    timeStamp,
+    review,
+    numLikes,
+    numComments,
+    show,
+  } = post;
+
+  const [emShow, setEmShow] = useState<any>(undefined);
+
+  useEffect(() => {
+    pullShow(show, setEmShow);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -42,18 +56,11 @@ export default function FeedPost(
             darkColor="rgba(255,255,255,0.8)">
             {review}
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Show')}>
-            <EmbeddedPost
-              name={event.name}
-              numStars={event.numStars}
-              price={event.price}
-              tags={event.tags}
-              venue={event.venue}
-              dates={event.dates}
-              creatives={event.creatives}
-              description={event.description}
-            />
-          </TouchableOpacity>
+          <EmbeddedPost
+            navigation={navigation}
+            route={route}
+            show={emShow}
+          />
           <View style={styles.interactionsContainer}>
             <View style={styles.reactionContainer}>
               <Ionicons size={20} name='ios-heart-outline' color={'gray'} />

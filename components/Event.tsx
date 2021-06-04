@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
@@ -10,14 +10,20 @@ import { EventPost } from '../data/eventpostdata';
 import styles from '../styles/index';
 
 import Tags from './Tags';
+import { pullShow } from '../api/firebaseMethods';
 
-export default function Event({ name, dates, image }: EventPost){
+export default function Event({ navigation, route, show }){
+  const {
+    name,
+    dates,
+  } = show;
 
   return (
+    <TouchableOpacity onPress={() => navigation.navigate('Show', { show: show })}>
     <View style={styles.dynamicView}>
     <View style={styles.smallCard}>
         <View style={styles.contentViewLeft}>
-        <ImageBackground source={image} style={styles.fullImage} />
+        <ImageBackground source={require('../assets/images/cow.jpg')} style={styles.fullImage} />
         </View>
     </View>
     <View style={styles.smallCardText}>
@@ -27,5 +33,6 @@ export default function Event({ name, dates, image }: EventPost){
     </View>
     </View>
     </View>
+    </TouchableOpacity>
   );
 }

@@ -11,29 +11,31 @@ import LoadingScreen from './LoadingScreen.js';
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
 export default function FollowingScreen({ route, navigation }) {
+  const [loading, setLoading] = React.useState(true)
   const { uid } = route.params;
   const [followList, setFollowList] = useState([])
 
   useEffect(() => {
-    setFollowList(pullFollowing(uid));
-  });
+    pullFollowing(uid, setFollowList);
+    if (loading) setLoading(false);
+  }, []);
 
-  console.log(followList);
+  if (loading) return <LoadingScreen />
 
   return (
     <View style={styles.fullView}>
-      { followList === []
+      { followList == []
         ? <Text> Following nobody! </Text>
         : <FlatList
-        data={[followList]}
+        data={followList}
         renderItem={({ item, index }) => (
-          // <FollowItem
-          //   uid={uid}
-          //   fid={item}
-          //   navigation={navigation}
-          // />
-          <Text>{index}</Text>
+          <FollowItem
+            uid={uid}
+            fid={item}
+            navigation={navigation}
+          />
         )}
+        keyExtractor={(item, index) => item}
       />
       }
     </View>

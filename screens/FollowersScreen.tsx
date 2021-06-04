@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import * as firebase from 'firebase';
+import { pullFollowers } from '../api/firebaseMethods';
 
 import styles from '../styles/index';
 import { Text, View } from '../components/Themed';
@@ -9,31 +10,22 @@ import FollowItem from '../components/FollowItem';
 import LoadingScreen from './LoadingScreen.js';
 import { ReviewPost, ReviewPostData } from '../data/reviewpostdata';
 
-export default function FollowersScreen({ navigation, uid }) {
-  var followList;
+export default function FollowersScreen({ route, navigation }) {
+  const [loading, setLoading] = React.useState(true)
+  const { uid } = route.params;
+  const [followList, setFollowList] = useState([])
 
   useEffect(() => {
-    async function getData(){
-      let doc = await firebase
-      .firestore()
-      .collection('followers')
-      .doc(uid)
-      .get();
+    pullFollowers(uid, setFollowList);
+    if (loading) setLoading(false);
+  }, []);
 
-      if (!doc.exists){
-        Alert.alert('No user data found!')
-      } else {
-        followList = doc.data();
-        console.log('SOMETHINGSOMETHINGEJIALEJWAILWJF' + followList);
-      }
-    }
-    getData();
-  });
+  if (loading) return <LoadingScreen />
 
   return (
     <View style={styles.fullView}>
-      { followList === undefined
-        ? <Text> No followers :() </Text>
+      { followList == []
+        ? <Text> No followers! </Text>
         : <FlatList
         data={followList}
         renderItem={({ item, index }) => (
@@ -43,6 +35,7 @@ export default function FollowersScreen({ navigation, uid }) {
             navigation={navigation}
           />
         )}
+        keyExtractor={(item, index) => item}
       />
       }
     </View>

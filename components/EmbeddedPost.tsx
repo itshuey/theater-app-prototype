@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
@@ -8,24 +8,20 @@ import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import { EventPost } from '../data/eventpostdata'
 
+import { pullShow } from '../api/firebaseMethods';
+
 import Tags from './Tags';
 
-export default function EmbeddedPost({
-    name, numStars, price, tags, venue, dates, creatives, description
-  }: EventPost){
-
-  const tagList = tags.map((tag) =>
-    <View key={tag} style={styles.tag}>
-      <Text
-        style={styles.tagText}
-        lightColor="rgba(0,0,0,0.8)"
-        darkColor="rgba(255,255,255,0.8)">
-        {tag}
-      </Text>
-    </View>
-  );
+export default function EmbeddedPost({ navigation, route, show }){
+  const {
+    name,
+    tags,
+    venue,
+    creatives,
+  } = show;
 
   return (
+    <TouchableOpacity onPress={() => navigation.navigate('Show', { show: show })}>
     <View style={styles.explorePost}>
       <View style={styles.postContainer}>
         <View style={styles.mainInfoContainer}>
@@ -39,15 +35,6 @@ export default function EmbeddedPost({
                   darkColor="rgba(255,255,255,0.8)">
                   {name}
                 </Text>
-              </View>
-              <View style={styles.starContainer}>
-              <Ionicons size={14} color={'#5e5e5e'} name='ios-star-outline' />
-              <Text
-                style={styles.starText}
-                lightColor="rgba(0,0,0,0.8)"
-                darkColor="rgba(255,255,255,0.8)">
-                {numStars}
-              </Text>
               </View>
             </View>
             <Tags tags={tags} />
@@ -67,6 +54,7 @@ export default function EmbeddedPost({
         </View>
       </View>
     </View>
+    </TouchableOpacity>
   );
 }
 

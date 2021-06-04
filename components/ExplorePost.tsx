@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
@@ -11,11 +11,15 @@ import styles from '../styles/index';
 
 import Tags from './Tags';
 
-export default function ExplorePost({
-   navigation, name, numStars, price, tags, venue, dates, creatives, description, emoji, image
-  }: EventPost){
-
+export default function ExplorePost({ navigation, route, show }){
   const [style, setStyle] = React.useState([styles.ghost, styles.none])
+
+  const {
+    name,
+    dates,
+    tags,
+    description
+  } = show;
 
   const onTap = () => {
     style[0] === styles.ghost
@@ -26,7 +30,7 @@ export default function ExplorePost({
   return (
     <View style={styles.card}>
         <View style={styles.contentViewLeft}>
-        <ImageBackground source={image} style={styles.fullImageBack}>
+        <ImageBackground source={require('../assets/images/cow.jpg')} style={styles.fullImageBack}>
           <TouchableOpacity onPress={onTap}>
           <View style={style[0]}>
             <View style={styles.itemView}>

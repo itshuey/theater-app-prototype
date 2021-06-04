@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import FollowButton from '../components/FollowButton';
 
@@ -16,11 +16,8 @@ export default function FollowItem({navigation, uid, fid}) {
   const [profileImageURL, setProfileImageURL] = useState('');
 
   useEffect(() => {
-    // const { f, l, h } = getUserInfo(uid);
-    setFirstName("good");
-    setLastName("work");
-    setHandle("charlie");
-  });
+    getUserInfo(fid, setFirstName, setLastName, setHandle);
+  }, []);
 
   useEffect(() => {
     async function getProfileImage(){

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -19,18 +19,17 @@ import SaveButton from '../components/SaveButton';
 import WatchButton from '../components/WatchButton';
 
 import * as firebase from 'firebase';
-import { pullShows } from '../api/firebaseMethods';
 
-export default function ShowScreen({ navigation, show }) {
+export default function ShowScreen({ navigation, route }) {
+  const { show } = route.params;
 
   const tags = show.tags;
   const title = show.name;
   const dates = show.dates;
-  const venue = show.venue;
+  const venue = show.venueName;
   const description = show.description;
-  const comments = show.comments;
   const cast = show.cast;
-  const price = show.price;
+  const price = show.ticketPrice;
 
   const names = cast.map(c => c.name);
   const roles = cast.map(c => c.role);
@@ -67,7 +66,6 @@ export default function ShowScreen({ navigation, show }) {
         <AccessibilityList title={'Accessibility'} items={['Wheelchair Accessible', 'Penguins']} />
         </View>
         <View style={styles.titleView}>
-        <CommentList title={'Reflections'} comments={comments} />
         </View>
       </View>
       </SafeAreaView>

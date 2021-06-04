@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { colors } from '../styles/colors';
@@ -15,7 +15,7 @@ export default function WatchButton() {
   return (
   <View style={buttonStyle}>
   <TouchableOpacity onPress={handlePress}>
-    <Text>S</Text>
+    <Text>W</Text>
   </TouchableOpacity>
   </View>
   );
