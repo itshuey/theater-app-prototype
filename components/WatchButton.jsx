@@ -1,23 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { colors } from '../styles/colors';
 
 import { addToWatched, removeFromWatched } from '../api/firebaseMethods';
 
-export default function WatchButton() {
-  const [watched, setWatched] = useState(true);
-  const [buttonStyle, setButtonStyle] = useState(styles.buttonContainerNotWatched);
+export default function WatchButton({ user, show, isWatched }) {
+  const [watched, setWatched] = useState(isWatched);
+  const ibs = watched ? styles.buttonContainerWatched : styles.buttonContainerNotWatched;
+  const [buttonStyle, setButtonStyle] = useState(ibs);
 
-  const handlePress = () => {saved ? removeFromWatched : addToWatched};
-  const handleButtonStyle = () => {following ? setButtonStyle(styles.buttonContainerNotWatched) : setButtonStyle(styles.buttonContainerWatched)};
+  const handlePress = () => {
+    if (watched) {
+      removeFromWatched(user, show);
+    } else {
+      addToWatched(user, show);
+    }
+    setWatched(!watched);
+    handleButtonStyle();
+  };
+
+  const handleButtonStyle = () => {watched ? setButtonStyle(styles.buttonContainerNotWatched) : setButtonStyle(styles.buttonContainerWatched)};
 
   return (
-  <View style={buttonStyle}>
   <TouchableOpacity onPress={handlePress}>
+  <View style={buttonStyle}>
     <Text>W</Text>
-  </TouchableOpacity>
   </View>
+  </TouchableOpacity>
   );
 };
 

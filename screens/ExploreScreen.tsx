@@ -11,14 +11,25 @@ import ShowList from '../components/ShowList';
 import Event from '../components/Event';
 
 import { normalize } from '../styles/methods';
-import { pullShows } from '../api/firebaseMethods';
+import { pullShows, pullWatched, pullSaved } from '../api/firebaseMethods';
+import { useUser } from '../hooks/UserContext';
 
 export default function ExploreScreen({ navigation, route }) {
+  const currentUser = useUser();
+  const currentUserUID = currentUser.id;
+
   const [shows, setShows] = useState<any[]>([])
+  const [watched, setWatched] = useState<any[]>([]);
+  const [saved, setSaved] = useState<any[]>([]);
 
   useEffect(() => {
     pullShows(setShows);
   }, [])
+
+  useEffect(() => {
+    pullSaved(currentUserUID, setSaved);
+    pullWatched(currentUserUID, setWatched);
+  })
 
   return (
     <ScrollView
@@ -26,7 +37,7 @@ export default function ExploreScreen({ navigation, route }) {
       showsVerticalScrollIndicator={false}
     >
     <View style={styles.titleView}>
-    <Text style={styles.headlineText}>Picks for you</Text>
+    <Text style={styles.headlineText}>Picks For You</Text>
     </View>
     <FlatList styles={styles.fullView}
       data={shows}
@@ -43,7 +54,7 @@ export default function ExploreScreen({ navigation, route }) {
       )}
     />
     <View style={styles.titleView}>
-    <Text style={styles.headlineText}>What's New</Text>
+    <Text style={styles.headlineText}>Playing Now</Text>
     </View>
     <View style={{marginHorizontal: normalize(10)}}>
     <FlatList styles={styles.fullView}
@@ -55,12 +66,16 @@ export default function ExploreScreen({ navigation, route }) {
           navigation={navigation}
           route={route}
           show={item}
+          showID={item.id}
+          user={currentUserUID}
+          saved={saved}
+          watched={watched}
         />
       )}
     />
     </View>
     <View style={styles.titleView}>
-    <Text style={styles.headlineText}>What's New</Text>
+    <Text style={styles.headlineText}>Coming Soon</Text>
     </View>
     <View style={{marginHorizontal: normalize(10)}}>
     <FlatList styles={styles.fullView}
@@ -72,18 +87,14 @@ export default function ExploreScreen({ navigation, route }) {
           navigation={navigation}
           route={route}
           show={item}
+          showID={item.id}
+          user={currentUserUID}
+          saved={saved}
+          watched={watched}
         />
       )}
     />
     </View>
-{/*
-    <TouchableOpacity onPress={() => navigation.navigate('Create Event')}>
-      <Image
-        source={require('../assets/images/createpost.png')}
-        style={styles.button}
-      />
-    </TouchableOpacity>
-*/}
     </ScrollView>
   );
 }

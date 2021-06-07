@@ -9,7 +9,7 @@ import { getUserInfo } from '../api/firebaseMethods';
 
 import { FollowData } from '../data/followdata';
 
-export default function FollowItem({navigation, uid, fid}) {
+export default function FollowItem({ navigation, route, uid, fid }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [handle, setHandle] = useState('');
@@ -40,6 +40,9 @@ export default function FollowItem({navigation, uid, fid}) {
   };
 
   return (
+    <TouchableOpacity onPress={() => navigation.navigate('Profile', {
+      userID: uid,
+    })}>
     <View style={styles.bigOne}>
       <Image source={profileImageURL} style={styles.imageContainer} />
       <View style={styles.followBlock}>
@@ -50,6 +53,7 @@ export default function FollowItem({navigation, uid, fid}) {
         <FollowButton navigation={navigation} uid={uid} fid={fid}/>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 

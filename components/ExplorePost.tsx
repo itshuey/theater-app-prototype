@@ -11,7 +11,7 @@ import styles from '../styles/index';
 
 import Tags from './Tags';
 
-export default function ExplorePost({ navigation, route, show }){
+export default function ExplorePost({ navigation, route, showID, show, user, saved, watched }){
   const [style, setStyle] = React.useState([styles.ghost, styles.none])
 
   const {

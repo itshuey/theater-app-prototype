@@ -22,13 +22,12 @@ export default function FeedPost({ navigation, route, post }) {
     review,
     numLikes,
     numComments,
-    show,
   } = post;
 
   const [emShow, setEmShow] = useState<any>(undefined);
 
   useEffect(() => {
-    pullShow(show, setEmShow);
+    pullShow(post.show, setEmShow);
   }, []);
 
   return (
@@ -56,11 +55,13 @@ export default function FeedPost({ navigation, route, post }) {
             darkColor="rgba(255,255,255,0.8)">
             {review}
           </Text>
+{/*
           <EmbeddedPost
             navigation={navigation}
             route={route}
             show={emShow}
           />
+*/}
           <View style={styles.interactionsContainer}>
             <View style={styles.reactionContainer}>
               <Ionicons size={20} name='ios-heart-outline' color={'gray'} />

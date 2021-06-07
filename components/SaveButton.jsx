@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { colors } from '../styles/colors';
@@ -6,19 +6,29 @@ import { colors } from '../styles/colors';
 import * as firebase from 'firebase';
 import { addToSaved, removeFromSaved } from '../api/firebaseMethods';
 
-export default function SaveButton() {
-  const [saved, setSaved] = useState(true);
-  const [buttonStyle, setButtonStyle] = useState(styles.buttonContainerNotSaved);
+export default function SaveButton({ user, show, isSaved }) {
+  const [saved, setSaved] = useState(isSaved);
+  const ibs = saved ? styles.buttonContainerSaved : styles.buttonContainerNotSaved;
+  const [buttonStyle, setButtonStyle] = useState(ibs);
 
-  const handlePress = () => {saved ? removeFromSaved : addToSaved};
-  const handleButtonStyle = () => {following ? setButtonStyle(styles.buttonContainerNotSaved) : setButtonStyle(styles.buttonContainerSaved)};
+  const handlePress = () => {
+    if (saved) {
+      removeFromSaved(user, show);
+    } else {
+      addToSaved(user, show);
+    }
+    setSaved(!saved);
+    handleButtonStyle();
+  };
+
+  const handleButtonStyle = () => {saved ? setButtonStyle(styles.buttonContainerNotSaved) : setButtonStyle(styles.buttonContainerSaved)};
 
   return (
-  <View style={buttonStyle}>
   <TouchableOpacity onPress={handlePress}>
+  <View style={buttonStyle}>
     <Text>S</Text>
-  </TouchableOpacity>
   </View>
+  </TouchableOpacity>
   );
 };
 

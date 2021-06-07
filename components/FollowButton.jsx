@@ -6,7 +6,7 @@ import { follow, unfollow } from '../api/firebaseMethods';
 
 import * as firebase from 'firebase';
 
-export default function FollowButton({navigation, uid, fid}) {
+export default function FollowButton({navigation, route, uid, fid}) {
   const [following, setFollowing] = useState(true);
   const [buttonStyle, setButtonStyle] = useState(styles.followingButton);
   const [textStyle, setTextStyle] = useState(styles.followingText);
@@ -19,12 +19,12 @@ export default function FollowButton({navigation, uid, fid}) {
   const handleButtonStyle = () => {following ? setButtonStyle(styles.followingButton) : setButtonStyle(styles.followButton)};
 
   function handleFollow() {
-    updateUserInfo({ following: [...following, fid] });
+    // updateUserInfo({ following: [...following, fid] });
     follow(currentUserID, fid);
   }
 
   function handleUnfollow() {
-    updateUserInfo({ following: currentUserFollowing.filter((id) => id !== fid) });
+    // updateUserInfo({ following: currentUserFollowing.filter((id) => id !== fid) });
     unfollow(currentUserID, fid);
   }
 
@@ -34,11 +34,11 @@ export default function FollowButton({navigation, uid, fid}) {
   };
 
   return (
-    <View style={buttonStyle}>
     <TouchableOpacity onPress={doFollow}>
+    <View style={buttonStyle}>
       <Text style={textStyle}> {text} </Text>
-    </TouchableOpacity>
     </View>
+    </TouchableOpacity>
   );
 };
 

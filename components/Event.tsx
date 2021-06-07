@@ -12,14 +12,23 @@ import styles from '../styles/index';
 import Tags from './Tags';
 import { pullShow } from '../api/firebaseMethods';
 
-export default function Event({ navigation, route, show }){
+export default function Event({ navigation, route, showID, show, user, saved, watched }){
   const {
     name,
     dates,
   } = show;
 
+  const isSaved = saved.includes(showID);
+  const isWatched = watched.includes(showID);
+
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Show', { show: show })}>
+    <TouchableOpacity onPress={() => navigation.navigate('Show', {
+      showID: showID,
+      show: show,
+      user: user,
+      isSaved: isSaved,
+      isWatched: isWatched
+    })}>
     <View style={styles.dynamicView}>
     <View style={styles.smallCard}>
         <View style={styles.contentViewLeft}>

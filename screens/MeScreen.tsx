@@ -126,6 +126,9 @@ export default function MeScreen({ route, navigation }) {
             navigation={navigation}
             route={route}
             showID={item}
+            user={currentUserUID}
+            saved={saved}
+            watched={watched}
           />
         )}
       />
@@ -141,6 +144,9 @@ export default function MeScreen({ route, navigation }) {
             navigation={navigation}
             route={route}
             showID={item}
+            user={currentUserUID}
+            saved={saved}
+            watched={watched}
           />
         )}
       />

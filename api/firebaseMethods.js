@@ -219,12 +219,10 @@ export async function addToWatched(user, event) {
   try {
     const db = firebase.firestore();
     const addToWatched = firebase.firestore.FieldValue.arrayUnion(event);
-
     const watchedRef = db.collection("watched").doc(user);
 
     const batch = db.batch();
     batch.set(watchedRef, { watched: addToWatched }, { merge: true });
-
     await batch.commit();
 
   } catch (err) {
@@ -236,12 +234,10 @@ export async function removeFromWatched(user, event) {
   try {
     const db = firebase.firestore();
     const removeFromWatched = firebase.firestore.FieldValue.arrayRemove(event);
-
     const watchedRef = db.collection("watched").doc(user);
 
     const batch = db.batch();
-    batch.set(watchedRef, { following: removeFromWatched }, { merge: true });
-
+    batch.set(watchedRef, { watched: removeFromWatched }, { merge: true });
     await batch.commit();
 
   } catch (err) {
@@ -253,12 +249,10 @@ export async function addToSaved(user, event) {
   try {
     const db = firebase.firestore();
     const addToSaved = firebase.firestore.FieldValue.arrayUnion(event);
-
     const savedRef = db.collection("saved").doc(user);
 
     const batch = db.batch();
-    batch.set(savedRef, { watched: addToSaved }, { merge: true });
-
+    batch.set(savedRef, { saved: addToSaved }, { merge: true });
     await batch.commit();
 
   } catch (err) {
@@ -270,12 +264,10 @@ export async function removeFromSaved(user, event) {
   try {
     const db = firebase.firestore();
     const removeFromSaved = firebase.firestore.FieldValue.arrayRemove(event);
-
     const savedRef = db.collection("saved").doc(user);
 
     const batch = db.batch();
-    batch.set(savedRef, { following: removeFromSaved }, { merge: true });
-
+    batch.set(savedRef, { saved: removeFromSaved }, { merge: true });
     await batch.commit();
 
   } catch (err) {

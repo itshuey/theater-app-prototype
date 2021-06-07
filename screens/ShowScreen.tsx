@@ -21,7 +21,7 @@ import WatchButton from '../components/WatchButton';
 import * as firebase from 'firebase';
 
 export default function ShowScreen({ navigation, route }) {
-  const { show } = route.params;
+  const { showID, show, user, isSaved, isWatched } = route.params;
 
   const tags = show.tags;
   const title = show.name;
@@ -71,10 +71,10 @@ export default function ShowScreen({ navigation, route }) {
       </SafeAreaView>
     </ScrollView>
     <View style={styles.bottomButton}>
-        <WatchButton />
+        <WatchButton user={user} show={showID} isWatched={isWatched} />
       </View>
       <View style={styles.bottomButton2}>
-        <SaveButton />
+        <SaveButton user={user} show={showID} isSaved={isSaved} />
     </View>
     </View>
   );

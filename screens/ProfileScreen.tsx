@@ -81,12 +81,10 @@ export default function ProfileScreen({ route, navigation }) {
   })
 
   function handleFollow() {
-    updateUserInfo({ following: userID });
     follow(currentUserID, userID);
   }
 
   function handleUnfollow() {
-    updateUserInfo({ following: currentUserFollowing.filter((id) => id !== userID) });
     unfollow(currentUserID, userID);
   }
 
@@ -135,6 +133,9 @@ export default function ProfileScreen({ route, navigation }) {
             navigation={navigation}
             route={route}
             showID={item}
+            user={currentUserUID}
+            saved={saved}
+            watched={watched}
           />
         )}
       />
@@ -150,6 +151,9 @@ export default function ProfileScreen({ route, navigation }) {
             navigation={navigation}
             route={route}
             showID={item}
+            user={currentUserUID}
+            saved={saved}
+            watched={watched}
           />
         )}
       />
